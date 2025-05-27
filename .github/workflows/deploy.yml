@@ -1,12 +1,15 @@
-# .github/workflows/deploy.yml (toujours sur develop pour l'instant)
-name: Keylity – Deploy frontend Nuxt to Netlify (prod)
+name: Keylity – Deploy Nuxt to Netlify
 
 on:
+  push:
+    branches:
+      - main
+      - develop
   workflow_dispatch:
 
 jobs:
-  release:
-    name: Manual Release to Netlify (prod)
+  deploy:
+    name: Deploy Nuxt app to Netlify
     runs-on: ubuntu-latest
 
     steps:
@@ -19,17 +22,21 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: |
-          npm ci
+        run: npm ci
 
       - name: Build Nuxt app
-        run: |
-          npm run build
+        run: npm run build
 
-      - name: Deploy to Netlify (prod)
+      - name: Deploy to Netlify
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_PROD }}
         run: |
           npm install -g netlify-cli
-          netlify deploy --dir=.output/public --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN --prod
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            SITE_ID=${{ secrets.NETLIFY_SITE_ID_PROD }}
+            netlify deploy --prod --dir=.output/public --site=$SITE_ID --auth=$NETLIFY_AUTH_TOKEN
+          elif [ "${{ github.ref }}" = "refs/heads/develop" ]; then
+            SITE_ID=${{ secrets.NETLIFY_SITE_ID_DEV }}
+            netlify deploy --dir=.output/public --site=$SITE_ID --auth=$NETLIFY_AUTH_TOKEN
+          fi
