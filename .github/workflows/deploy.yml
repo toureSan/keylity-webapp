@@ -24,6 +24,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build static site
+        run: npx nuxi generate
+
       - name: Deploy to Netlify
         run: |
           npm install -g netlify-cli
