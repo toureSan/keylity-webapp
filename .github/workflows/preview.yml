@@ -1,11 +1,14 @@
 name: Keylity – Deploy Nuxt preview to Netlify
 
 on:
+  push:
+    branches:
+      - develop
   workflow_dispatch:
 
 jobs:
   preview:
-    name: Manual Preview Deploy to Netlify
+    name: Preview Deploy to Netlify
     runs-on: ubuntu-latest
 
     steps:
