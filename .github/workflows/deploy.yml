@@ -1,15 +1,12 @@
-# .github/workflows/preview.yml (branche develop)
-name: Keylity – Deploy Nuxt preview to Netlify
+# .github/workflows/deploy.yml (toujours sur develop pour l'instant)
+name: Keylity – Deploy frontend Nuxt to Netlify (prod)
 
 on:
-  push:
-    branches:
-      - develop
   workflow_dispatch:
 
 jobs:
-  preview:
-    name: Preview Deploy to Netlify
+  release:
+    name: Manual Release to Netlify (prod)
     runs-on: ubuntu-latest
 
     steps:
@@ -29,10 +26,10 @@ jobs:
         run: |
           npm run build
 
-      - name: Deploy to Netlify (Preview)
+      - name: Deploy to Netlify (prod)
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_DEV }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_PROD }}
         run: |
           npm install -g netlify-cli
-          netlify deploy --dir=.output/public --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN
+          netlify deploy --dir=.output/public --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN --prod
