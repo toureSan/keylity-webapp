@@ -12,8 +12,7 @@ module.exports = {
       fontFamily: {
         'bricolage': ['"Bricolage Grotesque"', 'sans-serif'],
       },
-    },
-    colors: {
+      colors: {
         primary: {
           50: '#f0f9ff',
           100: '#e0f2fe',
@@ -30,4 +29,4 @@ module.exports = {
     },
   },
   plugins: [],
-} 
+}

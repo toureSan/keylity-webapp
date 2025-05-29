@@ -26,10 +26,10 @@
         </div>
         <!-- Bloc droite : boutons -->
         <div class="hidden md:flex items-center gap-2 md:gap-4">
-          <button class="text-gray-600 hover:text-blue-600 font-medium">
+          <button class="text-gray-600 cursor-pointer hover:text-blue-600 font-medium">
             S'identifier
           </button>
-          <button class="bg-black text-white px-6 py-3.5 rounded-lg hover:bg-purple-100 font-semibold flex items-center gap-2 transition-colors duration-200">
+          <button class="bg-black text-white px-6 py-3.5 rounded-lg hover:bg-blue-500 cursor-pointer font-semibold flex items-center gap-2 transition-colors duration-200">
             Nous contacter
             <span class="inline-block bg-white text-black rounded p-1 ml-8">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
