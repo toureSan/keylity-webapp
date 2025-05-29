@@ -1,5 +1,11 @@
 <template>
-  <div class="bg-blue-500 text-white p-4">
-    Frontend KEYLITY test avec jira
-  </div>
+  <NuxtPage />
 </template>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+</style>
