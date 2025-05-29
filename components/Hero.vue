@@ -1,6 +1,6 @@
 <template>
-  <section class="hero-gradient py-44 md:py-34 rounded-3xl">
-    <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+  <section class="hero-gradient py-44 md:py-44 rounded-3xl">
+    <div class="container mx-auto px-4 sm:px-24 flex flex-col md:flex-row items-center justify-between">
       <!-- Colonne gauche : texte -->
       <div class="flex-1 flex flex-col items-start justify-center max-w-xl w-full">
         <h1 class="fluid-title mb-6">
@@ -16,7 +16,7 @@
               <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
               <circle cx="12" cy="9" r="2.5" />
             </svg>
-            <input type="text" placeholder="Location"
+            <input type="text" placeholder="Genève, routes des acacias 12"
               class="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400" />
           </div>
           <!-- Dropdown Property Type -->

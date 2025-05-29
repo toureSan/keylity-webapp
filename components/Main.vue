@@ -194,11 +194,10 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
+import { gsap } from 'gsap'; 
+import { ScrollTrigger } from 'gsap/scrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
-
+gsap.registerPlugin(ScrollTrigger)
 
 onMounted(() => {
   const sections = document.querySelectorAll('section')
