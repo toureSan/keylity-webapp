@@ -14,7 +14,8 @@
           <!-- Texte à droite -->
           <div class="flex-1 flex flex-col justify-center">
             <h2 class="text-5xl md:text-5xl font-extrabold fluid-title mt-2">
-              <span class="font-extrabold text-purple-500">Keylity</span> <span class="font-normal">en quelques</span><br>
+              <span class="font-extrabold text-purple-500">Keylity</span> <span class="font-normal">en
+                quelques</span><br>
               <span class="font-normal">mots ✨</span>
             </h2>
             <p class="mt-6 text-gray-500 text-xl leading-relaxed">
@@ -143,7 +144,7 @@
     </section>
 
 
-    <section ref="section3" class="my-24">
+    <section ref=" animatedSections" class="my-24">
       <div class="container mx-auto px-5 flex flex-col md:flex-row items-stretch gap-x-12">
         <!-- Image à gauche -->
 
@@ -168,7 +169,7 @@
     </section>
 
 
-    <section ref="section4" class="my-24">
+    <section ref="animatedSections" class="my-24">
       <div class="container mx-auto px-6 flex flex-col md:flex-row items-stretch gap-x-12">
         <!-- Image à gauche -->
         <div class="flex-1 flex justify-center items-center">
@@ -177,8 +178,7 @@
         <!-- Texte à droite -->
         <div class="flex-1 flex flex-col justify-center">
           <h2 class="text-4xl md:text-5xl font-extrabold fluid-title">
-            <span class="text-blue-400">Postule</span> et consulte en 🤓 <br> temps réel <span
-              class="text-blue-400">la
+            <span class="text-blue-400">Postule</span> et consulte en 🤓 <br> temps réel <span class="text-blue-400">la
               progression de ton dossier</span>
           </h2>
           <p class="mt-6 text-gray-500 text-xl leading-relaxed">
@@ -193,21 +193,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import gsap from 'gsap'
-import ScrollTrigger from 'gsap/ScrollTrigger'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const animatedSections = ref([])
-
 onMounted(() => {
-
-
-  // Animation au scroll pour les autres sections
   const sections = document.querySelectorAll('section')
   sections.forEach((section, i) => {
-    if (i === 0) return // on saute le premier
+    if (i === 0) return
     gsap.from(section, {
       opacity: 0,
       y: 60,
