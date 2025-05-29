@@ -5,8 +5,8 @@
         <!-- Bloc gauche : logo + menu -->
         <div class="flex items-center gap-4 md:gap-12">
           <!-- Logo -->
-          <NuxtLink to="/" class="font-keylity-subtitle text-5xl font-bold text-gray-900 whitespace-nowrap">
-            Keylity
+          <NuxtLink to="/" class="flex items-center">
+            <img src="@/assets/images/logo-complet.png" alt="Keylity" class="h-12 w-auto" />
           </NuxtLink>
           <!-- Menu -->
           <div class="hidden md:flex items-center gap-4 md:gap-8">
