@@ -3,13 +3,13 @@
     <div class="container mx-auto px-4 sm:px-24 flex flex-col md:flex-row items-center justify-between">
       <!-- Colonne gauche : texte -->
       <div class="flex-1 flex flex-col items-start justify-center max-w-xl w-full">
-        <h1 class="fluid-title mb-6">
+        <h1 class="fluid-title mb-6 hero-anim">
           Simplifiez votre expérience immobilière avec <span class="text-purple-500">Keylity</span> 🔑
         </h1>
-        <p class="fluid-subtitle text-gray-700 mb-10">
+        <p class="fluid-subtitle text-gray-700 mb-10 hero-anim">
           La plateforme immobilière intelligente qui révolutionne la recherche et la gestion de vos biens en Suisse
         </p>
-        <div class="w-full flex flex-col sm:flex-row bg-white rounded-xl shadow-lg overflow-hidden mt-4">
+        <div class="hero-anim w-full flex flex-col sm:flex-row bg-white rounded-xl shadow-lg overflow-hidden mt-4">
           <!-- Input Location -->
           <div class="flex items-center gap-2 px-4 py-3 w-full sm:w-1/3">
             <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -44,14 +44,28 @@
       </div>
       <!-- Colonne droite : illustration -->
       <div class="flex-1 flex justify-center items-center h-full mt-8 md:mt-0">
-        <img src="@/assets/images/person.png" alt="Illustration Keylity" class="w-full max-w-3xl h-auto" />
+        <img class="w-full max-w-3xl h-auto hero-anim" src="@/assets/images/person.png" alt="Illustration Keylity" />
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-// Plus besoin d'importer person1
+import { onMounted } from 'vue'
+import { gsap } from 'gsap'
+
+onMounted(() => {
+  const items = document.querySelectorAll('.hero-anim')
+  items.forEach((item, i) => {
+    gsap.from(item, {
+      opacity: 0,
+      y: 40,
+      duration: 0.8,
+      delay: 0.2 + i * 0.15,
+      ease: 'power2.out'
+    })
+  })
+})
 </script>
 
 <style scoped>
