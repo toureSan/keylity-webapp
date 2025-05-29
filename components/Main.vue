@@ -168,7 +168,7 @@
           </div>
 
           <!-- Image sur desktop -->
-          <div class="flex-1 flex justify-center items-center hidden md:flex">
+          <div class="flex-1 justify-center items-center hidden md:flex">
             <img src="@/assets/images/plateforme.png" alt="Tenders illustration" class="w-full max-w-2xl h-auto" />
           </div>
         </div>
@@ -179,20 +179,25 @@
     <section ref="animatedSections" class="my-24">
       <div class="container mx-auto px-6 flex flex-col md:flex-row items-stretch gap-x-12">
         <!-- Image à gauche -->
-        <div class="flex-1 flex justify-center items-center">
-          <img src="@/assets/images/plateforme2.png" alt="Tenders illustration" class="w-full max-w-2xl h-auto" />
-        </div>
-        <!-- Texte à droite -->
-        <div class="flex-1 flex flex-col justify-center">
-          <h2 class="text-4xl md:text-5xl font-extrabold fluid-title">
-            <span class="text-blue-400">Postule</span> et consulte en 🤓 <br> temps réel <span class="text-blue-400">la
-              progression de ton dossier</span>
-          </h2>
-          <p class="mt-6 text-gray-500 text-xl leading-relaxed">
-            Construit ton dossier en introduisant tous les information necessaire et postule de manière simple et
-            rapide. Par la suite nous t'enverons des notifications de l'avancement de ton dossier.
-          </p>
-        </div>
+        <div class="flex justify-center items-center relative">
+          <!-- Fond décoratif derrière -->
+          <div class="absolute w-72 h-72 bg-purple-300 rounded-2xl -z-10 transform"></div>
+
+          <!-- Image NON tournée -->
+          <img src="@/assets/images/plateforme2.png" alt="Tenders illustration"
+            class="relative z-10 w-full max-w-md h-auto" />
+      </div>
+      <!-- Texte à droite -->
+      <div class="flex-1 flex flex-col justify-center">
+        <h2 class="text-4xl md:text-5xl font-extrabold fluid-title">
+          <span class="text-blue-400">Postule</span> et consulte en 🤓 <br> temps réel <span class="text-blue-400">la
+            progression de ton dossier</span>
+        </h2>
+        <p class="mt-6 text-gray-500 text-xl leading-relaxed">
+          Construit ton dossier en introduisant tous les information necessaire et postule de manière simple et
+          rapide. Par la suite nous t'enverons des notifications de l'avancement de ton dossier.
+        </p>
+      </div>
       </div>
     </section>
 
