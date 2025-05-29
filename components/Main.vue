@@ -145,25 +145,32 @@
 
 
     <section ref=" animatedSections" class="my-24">
-      <div class="container mx-auto px-5 flex flex-col md:flex-row items-stretch gap-x-12">
-        <!-- Image à gauche -->
-
-        <!-- Texte à droite -->
-        <div class="flex-1 flex flex-col justify-center">
-          <div class="relative w-full flex items-start">
-            <h2 class="text-4xl md:text-5xl font-extrabold fluid-title mt-2 flex-1">
-              Trouve des <span class="text-pink-500">biens</span> qui te <span class="text-pink-600"> correspondent 🏡
-              </span>
-            </h2>
-
-          </div>
-          <p class="mt-6 text-gray-500 text-xl leading-relaxed mb-4">
-            Cherche parmi des centaine de biens, et trouve la perle rare. Grace à notre algorithme nous selectionnons
-            pour toi le bien qui te correspondant.
-          </p>
-        </div>
-        <div class="flex-1 flex justify-center items-center">
+      <div class="container mx-auto px-5">
+        <!-- Image en haut sur mobile -->
+        <div class="flex-1 flex justify-center items-center mb-8 md:hidden">
           <img src="@/assets/images/plateforme.png" alt="Tenders illustration" class="w-full max-w-2xl h-auto" />
+        </div>
+
+        <!-- Contenu principal -->
+        <div class="flex flex-col md:flex-row items-stretch gap-x-12">
+          <!-- Texte -->
+          <div class="flex-1 flex flex-col justify-center">
+            <div class="relative w-full flex items-start">
+              <h2 class="text-4xl md:text-5xl font-extrabold fluid-title mt-2 flex-1">
+                Trouve des <span class="text-pink-500">biens</span> qui te <span class="text-pink-600"> correspondent 🏡
+                </span>
+              </h2>
+            </div>
+            <p class="mt-6 text-gray-500 text-xl leading-relaxed mb-4">
+              Cherche parmi des centaine de biens, et trouve la perle rare. Grace à notre algorithme nous selectionnons
+              pour toi le bien qui te correspondant.
+            </p>
+          </div>
+
+          <!-- Image sur desktop -->
+          <div class="flex-1 flex justify-center items-center hidden md:flex">
+            <img src="@/assets/images/plateforme.png" alt="Tenders illustration" class="w-full max-w-2xl h-auto" />
+          </div>
         </div>
       </div>
     </section>
