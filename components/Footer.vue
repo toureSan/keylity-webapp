@@ -57,7 +57,7 @@
       </div>
 
       <!-- Copyright -->
-      <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+      <div class="border-t border-gray-800 mt-12 pt-8 text-left text-white">
         <p>&copy; 2024 Keylity. Tous droits réservés.</p>
       </div>
     </div>
