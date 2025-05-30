@@ -3,13 +3,12 @@
     <!-- Hero Section -->
     <!-- New Section -->
     <main>
-      <!-- Hero Section -->
-      <!-- New Section -->
+
       <section class="my-24">
         <div class="container mx-auto px-5 flex flex-col md:flex-row items-stretch gap-x-12">
           <!-- Image à gauche -->
           <div class="flex-1 flex justify-center items-center">
-            <img src="@/assets/images/person2.png" alt="Tenders illustration" class="w-full max-w-2xl h-auto" />
+            <img src="@/assets/images/person2.png" alt="keylity illustration" class="w-full max-w-2xl h-auto" />
           </div>
           <!-- Texte à droite -->
           <div class="flex-1 flex flex-col justify-center">
@@ -148,7 +147,7 @@
       <div class="container mx-auto px-5">
         <!-- Image en haut sur mobile -->
         <div class="flex-1 flex justify-center items-center mb-8 md:hidden">
-          <img src="@/assets/images/plateforme.png" alt="Tenders illustration" class="w-full max-w-2xl h-auto" />
+          <img src="@/assets/images/plateforme.png" alt="keylity illustration" class="w-full max-w-2xl h-auto" />
         </div>
 
         <!-- Contenu principal -->
@@ -157,7 +156,8 @@
           <div class="flex-1 flex flex-col justify-center">
             <div class="relative w-full flex items-start">
               <h2 class="text-4xl md:text-5xl font-extrabold fluid-title mt-2 flex-1">
-                Trouve des <span class="text-pink-500">biens</span> qui te <span class="text-pink-600"> correspondent 🏡
+                Trouve des <span class="text-pink-500">biens</span><span class="text-pink-600"> qui <br
+                    class="hidden md:block" /> te correspondent 🏡
                 </span>
               </h2>
             </div>
@@ -168,9 +168,17 @@
           </div>
 
           <!-- Image sur desktop -->
-          <div class="flex-1 justify-center items-center hidden md:flex">
-            <img src="@/assets/images/plateforme.png" alt="Tenders illustration" class="w-full max-w-2xl h-auto" />
+          <!-- Conteneur relatif -->
+          <div class=" hidden sm:block flex justify-center items-center relative">
+            <!-- Fond violet caché sur mobile, visible dès sm (≥ 640px) -->
+            <div class=" absolute -bottom-8 -right-12 w-172 h-100 bg-blue-300 rounded-2xl z-0"></div>
+
+            <!-- Image au-dessus -->
+            <img src="@/assets/images/plateforme.png" alt="keylity illustration"
+              class="w-full max-w-2xl h-auto relative z-10" />
           </div>
+
+
         </div>
       </div>
     </section>
@@ -181,27 +189,70 @@
         <!-- Image à gauche -->
         <div class="flex justify-center items-center relative">
           <!-- Fond décoratif derrière -->
-          <div class="absolute w-72 h-72 bg-purple-300 rounded-2xl -z-10 transform"></div>
+          <div class="hidden sm:block absolute w-150 h-102 bg-purple-300 rounded-2xl -z-10 transform"></div>
 
           <!-- Image NON tournée -->
-          <img src="@/assets/images/plateforme2.png" alt="Tenders illustration"
-            class="relative z-10 w-full max-w-md h-auto" />
-      </div>
-      <!-- Texte à droite -->
-      <div class="flex-1 flex flex-col justify-center">
-        <h2 class="text-4xl md:text-5xl font-extrabold fluid-title">
-          <span class="text-blue-400">Postule</span> et consulte en 🤓 <br> temps réel <span class="text-blue-400">la
-            progression de ton dossier</span>
-        </h2>
-        <p class="mt-6 text-gray-500 text-xl leading-relaxed">
-          Construit ton dossier en introduisant tous les information necessaire et postule de manière simple et
-          rapide. Par la suite nous t'enverons des notifications de l'avancement de ton dossier.
-        </p>
-      </div>
+          <img src="@/assets/images/plateforme2.png" alt="keylity illustration"
+            class="relative z-10 w-full max-w-2xl h-auto" />
+        </div>
+        <!-- Texte à droite -->
+        <div class="flex-1 flex flex-col justify-center mt-10 sm:mt-0">
+          <h2 class="text-4xl md:text-5xl font-extrabold fluid-title">
+            <span class="text-blue-400">Postule</span> et consulte en temps réel <br class="hidden md:block" /> <span
+              class="text-blue-400">la
+              progression de ton dossie 🤓 </span>
+          </h2>
+          <p class="mt-10 sm:mt-6 text-gray-500 text-xl leading-relaxed">
+            Construit ton dossier en introduisant tous les information necessaire et postule de manière simple et
+            rapide. Par la suite nous t'enverons des notifications de l'avancement de ton dossier.
+          </p>
+        </div>
       </div>
     </section>
 
+
+    <section ref=" animatedSections" class="my-24">
+      <div class="container mx-auto px-5">
+        <!-- Image en haut sur mobile -->
+        <div class="flex-1 flex justify-center items-center mb-8 md:hidden">
+          <img src="@/assets/images/calendar.png" alt="keylity illustration" class="w-full max-w-2xl h-auto" />
+        </div>
+
+        <!-- Contenu principal -->
+        <div class="flex flex-col md:flex-row items-stretch gap-x-12">
+          <!-- Texte -->
+          <div class="flex-1 flex flex-col justify-center">
+            <div class="relative w-full flex items-start">
+              <h2 class="font-extrabold fluid-title mt-2 flex-1 max-w-2xl"> Un accompagnement <span class="text-orange-500">100% digitalisé </span>
+              </h2>
+            </div>
+            <p class="mt-6 text-gray-500 text-xl leading-relaxed mb-4">
+              Cherche parmi des centaine de biens, et trouve la perle rare. Grace à notre algorithme nous selectionnons
+              pour toi le bien qui te correspondant.
+            </p>
+          </div>
+
+          <!-- Image sur desktop -->
+          <!-- Conteneur relatif -->
+          <div class=" hidden sm:block flex justify-center items-center relative">
+            <!-- Fond violet caché sur mobile, visible dès sm (≥ 640px) -->
+            <div class=" absolute -bottom-8 -right-12 w-172 h-100 bg-orange-300 rounded-2xl z-0"></div>
+
+            <!-- Image au-dessus -->
+            <img src="@/assets/images/calendar.png" alt="keylity illustration"
+              class="w-full max-w-2xl h-auto relative z-10" />
+          </div>
+
+
+        </div>
+      </div>
+    </section>
+
+
   </main>
+
+
+
 </template>
 
 <script setup>
