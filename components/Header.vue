@@ -6,21 +6,21 @@
         <div class="flex items-center gap-4 md:gap-12">
           <!-- Logo -->
           <NuxtLink to="/" class="flex items-center">
-            <img src="@/assets/images/logo-complet.png" alt="Keylity" class="h-12 w-auto" />
+            <img :src="logoImage" alt="Keylity" class="h-12 w-auto" />
           </NuxtLink>
           <!-- Menu -->
           <div class="hidden md:flex items-center gap-4 md:gap-8">
             <NuxtLink to="/solutions" class="text-gray-600 hover:text-blue-600 font-medium">
-              Solutions
+              Recherche
             </NuxtLink>
             <NuxtLink to="/tarifs" class="text-gray-600 hover:text-blue-600 font-medium">
-              Tarifs
+              Outils
             </NuxtLink>
             <NuxtLink to="/ressources" class="text-gray-600 hover:text-blue-600 font-medium">
-              Ressources
+              Blog
             </NuxtLink>
             <NuxtLink to="/a-propos" class="text-gray-600 hover:text-blue-600 font-medium">
-              À propos
+              Gestion locative
             </NuxtLink>
           </div>
         </div>
@@ -29,14 +29,14 @@
           <button class="text-gray-600 cursor-pointer hover:text-blue-600 font-medium">
             S'identifier
           </button>
-          <button class="bg-black text-white px-6 py-3.5 rounded-lg hover:bg-blue-500 cursor-pointer font-semibold flex items-center gap-2 transition-colors duration-200">
-            Nous contacter
+          <NuxtLink to="/login" class="bg-black text-white px-6 py-3.5 rounded-lg hover:bg-blue-500 cursor-pointer font-semibold flex items-center gap-2 transition-colors duration-200">
+   Se connecter
             <span class="inline-block bg-white text-black rounded p-1 ml-8">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </span>
-          </button>
+          </NuxtLink>
         </div>
         <!-- Mobile menu button -->
         <div class="md:hidden">
@@ -66,7 +66,7 @@
           S'identifier
         </button>
         <button class="block w-full text-left px-3 py-2 bg-black text-white rounded-lg font-semibold mt-2">
-          Nous contacter
+Se connecter
         </button>
       </div>
     </nav>
@@ -75,6 +75,8 @@
 </template>
 
 <script setup>
+import logoImage from '~/assets/images/logo-complet.png'
+
 const isScrolled = ref(false)
 const isMenuOpen = ref(false)
 
