@@ -9,7 +9,7 @@
     <div class=" mt-20">
       <div class="relative  overflow-hidden w-full min-h-[400px] flex items-center">
         <img src="@/assets/images/maison.png" alt="Maison" class="absolute inset-0 w-full h-full object-cover" />
-        <div class="relative inset-0 bg-black bg-opacity-50"></div>
+        <div class=" mx-auto container relative inset-0 bg-black bg-opacity-50"></div>
         <div class="relative z-10 flex flex-col items-start justify-center h-full p-8 md:p-16 max-w-xl">
           <span class="text-white text-xl md:text-2xl font-semibold mt-40">N'attendez plus</span>
           <h1 class="text-white font-bold md:text-6xl leading-tight mb-6">Commencez maintenant</h1>

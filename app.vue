@@ -1,5 +1,7 @@
 <template>
-  <NuxtPage />
+  <NuxtLayout> <!-- <-- C'est ici que Nuxt charge le layout actif -->
+    <NuxtPage />
+  </NuxtLayout>>
 </template>
 
 <style>
