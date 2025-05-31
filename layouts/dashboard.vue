@@ -224,18 +224,18 @@
                                                       <Icon name="heroicons:home" class="h-5 w-5" />
                                                       <span v-if="!isCollapsed">Accueil</span>
                                              </NuxtLink>
-                                             <a href="#"
+                                             <NuxtLink to="/dashboard/properties"
                                                       class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
-                                                      :class="{ 'justify-center': isCollapsed }">
+                                                      :class="{ 'justify-center': isCollapsed, 'text-blue-600 bg-blue-50': $route.path === '/dashboard/properties' }">
                                                       <Icon name="heroicons:building-office-2" class="h-5 w-5" />
                                                       <span v-if="!isCollapsed">Mes biens</span>
-                                             </a>
-                                             <a href="#"
+                                             </NuxtLink>
+                                             <NuxtLink to="/dashboard/schedule"
                                                       class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
-                                                      :class="{ 'justify-center': isCollapsed }">
+                                                      :class="{ 'justify-center': isCollapsed, 'text-blue-600 bg-blue-50': $route.path === '/dashboard/schedule' }">
                                                       <Icon name="heroicons:calendar" class="h-5 w-5" />
                                                       <span v-if="!isCollapsed">Planifications</span>
-                                             </a>
+                                             </NuxtLink>
                                              <a href="#"
                                                       class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
                                                       :class="{ 'justify-center': isCollapsed }">
