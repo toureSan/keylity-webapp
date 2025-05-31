@@ -3,8 +3,11 @@
     <!-- Profile Section -->
     <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
       <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
-        <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg" alt="Profile"
-          class="w-24 h-24 rounded-full object-cover">
+        <img
+          src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg"
+          alt="Profile"
+          class="w-24 h-24 rounded-full object-cover"
+        />
         <div>
           <h1 class="text-2xl font-bold mb-2">Thibaut Languin</h1>
           <p class="text-gray-600 mb-4">Gérant • Medan, Sumatera Utara - ID</p>
@@ -19,7 +22,9 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
       <div class="bg-white rounded-xl shadow-sm p-6">
         <div class="flex items-center justify-between mb-4">
-          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+          <div
+            class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center"
+          >
             <Icon name="heroicons:eye" class="h-6 w-6 text-blue-600" />
           </div>
           <span class="text-3xl font-bold">102</span>
@@ -29,7 +34,9 @@
 
       <div class="bg-white rounded-xl shadow-sm p-6">
         <div class="flex items-center justify-between mb-4">
-          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+          <div
+            class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center"
+          >
             <Icon name="heroicons:document" class="h-6 w-6 text-blue-600" />
           </div>
           <span class="text-3xl font-bold">32</span>
@@ -39,8 +46,13 @@
 
       <div class="bg-white rounded-xl shadow-sm p-6">
         <div class="flex items-center justify-between mb-4">
-          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-            <Icon name="heroicons:magnifying-glass" class="h-6 w-6 text-blue-600" />
+          <div
+            class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center"
+          >
+            <Icon
+              name="heroicons:magnifying-glass"
+              class="h-6 w-6 text-blue-600"
+            />
           </div>
           <span class="text-3xl font-bold">143</span>
         </div>
@@ -49,7 +61,9 @@
 
       <div class="bg-white rounded-xl shadow-sm p-6">
         <div class="flex items-center justify-between mb-4">
-          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+          <div
+            class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center"
+          >
             <Icon name="heroicons:home" class="h-6 w-6 text-blue-600" />
           </div>
           <span class="text-3xl font-bold">0</span>
@@ -79,6 +93,6 @@
 
 <script setup>
 definePageMeta({
-  layout: 'dashboard'
-})
+  layout: "dashboard",
+});
 </script>
