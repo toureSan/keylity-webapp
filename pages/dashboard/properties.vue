@@ -12,7 +12,7 @@
         <div
           class="grid md:grid-cols-3 gap-4 overflow-y-auto max-h-[calc(100vh-120px)]"
         >
-          <!-- Property Card -->
+
           <div
             v-for="(bien, index) in biens"
             :key="index"
@@ -114,6 +114,7 @@
 <script setup>
 definePageMeta({
   layout: "dashboard",
+         middleware: ["auth"]
 });
 
 const biens = [

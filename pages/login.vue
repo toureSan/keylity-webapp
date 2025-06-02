@@ -336,24 +336,39 @@
 </style>
 <script setup>
 import logoImage from "~/assets/images/logo-complet.png";
+import { useAuthStore } from "~/stores/auth";
+import { useRouter } from "vue-router";
+const auth = useAuthStore()
 
+
+const loading = ref(false)
 const email = ref("");
 const password = ref("");
 const rememberMe = ref(false);
 const showPassword = ref(false);
-
-const handleLogin = async () => {
+const router = useRouter();
+const error = ref('')
+async function handleLogin() {
   try {
-    // TODO: Implémenter la logique de connexion
-    console.log("Login attempt with:", {
+    loading.value = true
+    error.value = ''
+
+    await auth.login({
       email: email.value,
-      password: password.value,
-      rememberMe: rememberMe.value,
-    });
-  } catch (error) {
-    console.error("Login error:", error);
+      password: password.value
+    
+    })
+    console.log('User après login:', auth.user)
+
+    // Redirection vers le dashboard après connexion réussie
+    router.push('/dashboard')
+  } catch (err) {
+    error.value = err.message || 'Une erreur est survenue lors de la connexion'
+  } finally {
+    loading.value = false
   }
-};
+}
+
 
 const handleGoogleLogin = async () => {
   try {

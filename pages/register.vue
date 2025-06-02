@@ -40,6 +40,46 @@
           <form @submit.prevent="handleRegister" class="space-y-6">
             <div class="group">
               <label
+                for="firstName"
+                class="block text-sm/6 font-medium text-gray-900"
+                >Prénom</label
+              >
+              <div class="mt-2 relative">
+                <input
+                  v-model="firstName"
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  autocomplete="given-name"
+                  required
+                  class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
+                  placeholder="John"
+                />
+              </div>
+            </div>
+
+            <div class="group">
+              <label
+                for="lastName"
+                class="block text-sm/6 font-medium text-gray-900"
+                >Nom</label
+              >
+              <div class="mt-2 relative">
+                <input
+                  v-model="lastName"
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  autocomplete="family-name"
+                  required
+                  class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
+                  placeholder="Doe"
+                />
+              </div>
+            </div>
+
+            <div class="group">
+              <label
                 for="email"
                 class="block text-sm/6 font-medium text-gray-900"
                 >Adresse email</label
@@ -295,20 +335,36 @@
 </style>
 <script setup>
 import logoImage from "~/assets/images/logo-complet.png";
+import { useAuthStore } from "~/stores/auth";
+import { useRouter } from "vue-router";
 
 const email = ref("");
 const password = ref("");
 const confirmPassword = ref("");
+const firstName = ref("");
+const lastName = ref("");
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
+const router = useRouter();
 
 const handleRegister = async () => {
   if (password.value !== confirmPassword.value) {
     alert("Les mots de passe ne correspondent pas.");
     return;
   }
-  // TODO: Envoyer les données d'inscription à l'API
-  alert("Inscription réussie !");
+  try {
+    const authStore = useAuthStore()
+    await authStore.register(
+      email.value,
+      password.value,
+      firstName.value,
+      lastName.value
+    )
+    router.push('/auth/confirm-email-sent')
+  } catch (error) {
+    console.error("Register error:", error)
+    alert(error instanceof Error ? error.message : 'Une erreur est survenue')
+  }
 };
 
 const handleGoogleLogin = async () => {

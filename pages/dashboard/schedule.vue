@@ -132,6 +132,7 @@ import "@vuepic/vue-datepicker/dist/main.css";
 
 definePageMeta({
   layout: "dashboard",
+  middleware: ["auth"]
 });
 
 const selectedDate = ref(new Date());
