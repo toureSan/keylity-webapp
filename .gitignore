@@ -5,7 +5,6 @@
 .nitro
 .cache
 dist
-dist-ssr
 
 # Node dependencies
 node_modules
@@ -13,11 +12,6 @@ node_modules
 # Logs
 logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
 # Misc
 .DS_Store
@@ -28,19 +22,3 @@ lerna-debug.log*
 .env
 .env.*
 !.env.example
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Cypress directories and files
-/cypress/videos/
-/cypress/screenshots/
-
-# Coverage
-coverage

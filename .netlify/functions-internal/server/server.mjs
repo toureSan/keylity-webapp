@@ -5,11 +5,6 @@ export const config = {
   path: "/*",
   nodeBundler: "none",
   includedFiles: ["**"],
-  excludedPath: [
-    "/.netlify/*",
-    "/_nuxt/builds/meta/*",
-    "/_nuxt/builds/*",
-    "/_nuxt/*",
-  ],
+  excludedPath: ["/.netlify/*","/_nuxt/builds/meta/*","/_nuxt/builds/*","/_nuxt/*"],
   preferStatic: true,
 };
