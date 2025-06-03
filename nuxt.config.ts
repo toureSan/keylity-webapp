@@ -1,8 +1,15 @@
 export default defineNuxtConfig({
+<<<<<<< HEAD
+  compatibilityDate: '2025-05-15',
+  devtools: { enabled: true },
+  css: ['~/assets/css/main.css'],
+  modules: ['@nuxtjs/tailwindcss', 'nuxt-icon', '@nuxtjs/color-mode'],
+=======
   compatibilityDate: "2025-05-15",
   devtools: { enabled: process.env.NODE_ENV === 'development' },
   
   modules: ["@nuxtjs/tailwindcss", "nuxt-icon", "@nuxtjs/color-mode", "@pinia/nuxt"],
+>>>>>>> 4eb96a77bc7294c004e3e2e0e313b5017de23e04
   vite: {
     optimizeDeps: {
       include: ["gsap"],

@@ -1,8 +1,13 @@
 <template>
+<<<<<<< HEAD
+  <section class="hero-gradient sm:py-12 py-44 md:py-44 rounded-3xl">
+    <div class="container mx-auto px-4 sm:px-24 flex flex-col md:flex-row items-center justify-between">
+=======
   <section class="hero-gradient py-44 md:py-44 rounded-3xl">
     <div
       class="container mx-auto px-4 sm:px-24 flex flex-col md:flex-row items-center justify-between"
     >
+>>>>>>> 4eb96a77bc7294c004e3e2e0e313b5017de23e04
       <!-- Colonne gauche : texte -->
       <div
         class="flex-1 flex flex-col items-start justify-center max-w-xl w-full"
