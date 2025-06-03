@@ -2,13 +2,10 @@
   <header class="fixed w-full bg-white z-50">
     <nav class="w-full px-4 md:px-8">
       <div class="flex justify-between items-center h-20 max-w-7xl mx-auto">
-        <!-- Bloc gauche : logo + menu -->
         <div class="flex items-center gap-4 md:gap-12">
-          <!-- Logo -->
           <NuxtLink to="/" class="flex items-center">
             <img :src="logoImage" alt="Keylity" class="h-12 w-auto" />
           </NuxtLink>
-          <!-- Menu -->
           <div class="hidden md:flex items-center gap-4 md:gap-8">
             <NuxtLink to="/solutions" class="text-gray-600 hover:text-blue-600 font-medium">
               Recherche

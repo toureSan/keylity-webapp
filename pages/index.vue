@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header />
+    <HeaderSearch />
 
     <Hero />
     <Main />
@@ -33,6 +33,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 const isScrolled = ref(false)
 import maison  from '@/assets/images/maison.png'
+import HeaderSearch from '../components/HeaderSearch.vue'
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 10
 }
