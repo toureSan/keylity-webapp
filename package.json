@@ -17,18 +17,24 @@
     "@nuxtjs/color-mode": "^3.3.2",
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/tailwindcss": "^6.11.0",
+    "@pinia/nuxt": "^0.11.0",
+    "@vuepic/vue-datepicker": "^11.0.2",
     "@vueuse/core": "^13.3.0",
+    "date-fn": "^0.0.2",
     "gsap": "^3.13.0",
     "nuxt": "^3.17.4",
     "nuxt-icon": "^0.6.0",
+    "pinia": "^3.0.2",
     "vite-imagetools": "^7.1.0",
     "vue": "^3.5.15",
+    "vue-date-fns": "^2.0.2",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^7.0.0-beta.0",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",
+    "prettier": "^3.5.3",
     "tailwindcss": "^4.1.7"
   }
 }
