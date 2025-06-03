@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="min-h-screen bg-gray-50">
     <HeaderSearch />
     
@@ -207,3 +208,11 @@ const properties = [
   }
 ]
 </script>
+=======
+  <div class="min-h-screen flex items-center justify-center">
+    <h1 class="text-3xl font-bold text-gray-700">
+      Page À propos en construction
+    </h1>
+  </div>
+</template>
+>>>>>>> 4eb96a77bc7294c004e3e2e0e313b5017de23e04
