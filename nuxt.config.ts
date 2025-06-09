@@ -22,7 +22,6 @@ export default defineNuxtConfig({
         { name: "viewport", content: "width=device-width, initial-scale=1" },
         { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
         { name: 'format-detection', content: 'telephone=no' },
-        // Sécurité
         { 'http-equiv': 'X-Content-Type-Options', content: 'nosniff' },
         { 'http-equiv': 'X-Frame-Options', content: 'DENY' },
         { 'http-equiv': 'X-XSS-Protection', content: '1; mode=block' },
