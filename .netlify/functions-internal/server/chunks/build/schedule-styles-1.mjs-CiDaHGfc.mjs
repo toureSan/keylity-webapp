@@ -1,4 +1,0 @@
-const schedule_vue_vue_type_style_index_0_lang = ".calendar-custom{width:100%;--dp-border-radius:.5rem;--dp-cell-border-radius:.375rem;--dp-primary-color:#0284c7;--dp-secondary-color:#0ea5e9;--dp-menu-min-width:100%}.calendar-custom .dp__calendar_header{border-bottom:1px solid #e5e7eb;padding:1rem}.calendar-custom .dp__calendar{padding:1rem}.day-content{align-items:center;display:flex;flex-direction:column;gap:.25rem;padding:.25rem}.events-dots{display:flex;gap:.125rem}.event-dot{border-radius:50%;height:.375rem;width:.375rem}@media (max-width:768px){.calendar-custom{--dp-menu-min-width: calc(100vw - 2rem) }.calendar-custom .dp__calendar,.calendar-custom .dp__calendar_header{padding:.5rem}}";
-
-export { schedule_vue_vue_type_style_index_0_lang as s };
-//# sourceMappingURL=schedule-styles-1.mjs-CiDaHGfc.mjs.map

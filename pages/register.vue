@@ -270,75 +270,75 @@
         style="filter: blur(2px)"
       />
 
-      <!-- Overlay léger pour assombrir un peu -->
-      <div
-        class="absolute inset-0 bg-gradient-to-b from-gray-900/20 to-gray-900/40"
-      ></div>
+                           <!-- Overlay léger pour assombrir un peu -->
+                           <div class="absolute inset-0 bg-gradient-to-b from-gray-900/20 to-gray-900/40"></div>
 
-      <!-- Texte net en bas à gauche -->
-      <div class="absolute bottom-2 left-6 text-white max-w-xl z-10">
-        <h2 class="fluid-title animate-fade-in-up">Bienvenue chez Keylity</h2>
-        <p
-          class="mt-0 fluid-subtitle text-white/90 drop-shadow-sm animate-fade-in-up animation-delay-200"
-        >
-          Simplifiez vos démarches administratives
-        </p>
-      </div>
-    </div>
-  </div>
+                           <!-- Texte net en bas à gauche -->
+                           <div class="absolute bottom-2 left-6 text-white max-w-xl z-10">
+                                    <h2 class="fluid-title animate-fade-in-up">Bienvenue chez Keylity</h2>
+                                    <p
+                                             class="mt-0 fluid-subtitle text-white/90 drop-shadow-sm animate-fade-in-up animation-delay-200">
+                                             Simplifiez vos démarches administratives
+                                    </p>
+                           </div>
+                  </div>
+
+
+
+         </div>
 </template>
 
 <style scoped>
 .fluid-title {
-  font-size: clamp(2.3rem, 2.5vw, 8rem);
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-weight: 700;
+         font-size: clamp(2.3rem, 2.5vw, 8rem);
+         font-family: 'Bricolage Grotesque', sans-serif;
+         font-weight: 700;
 }
 
 .fluid-title-blur {
-  font-size: clamp(2.3rem, 2vw, 8rem);
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-weight: 700;
+         font-size: clamp(2.3rem, 2vw, 8rem);
+         font-family: 'Bricolage Grotesque', sans-serif;
+         font-weight: 700;
 }
 
 .fluid-subtitle {
-  font-size: clamp(1.5rem, 1vw, 8rem);
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-weight: 300;
+         font-size: clamp(1.5rem, 1vw, 8rem);
+         font-family: 'Bricolage Grotesque', sans-serif;
+         font-weight: 300;
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.5s ease-out;
+         animation: fadeIn 0.5s ease-out;
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.5s ease-out;
+         animation: fadeInUp 0.5s ease-out;
 }
 
 .animation-delay-200 {
-  animation-delay: 200ms;
+         animation-delay: 200ms;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
+         from {
+                  opacity: 0;
+         }
 
-  to {
-    opacity: 1;
-  }
+         to {
+                  opacity: 1;
+         }
 }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
+         from {
+                  opacity: 0;
+                  transform: translateY(20px);
+         }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+         to {
+                  opacity: 1;
+                  transform: translateY(0);
+         }
 }
 </style>
 
@@ -438,20 +438,20 @@ const resetFieldError = (field) => {
 };
 
 const handleGoogleLogin = async () => {
-  try {
-    // TODO: Implémenter la connexion Google
-    console.log("Google login attempt");
-  } catch (error) {
-    console.error("Google login error:", error);
-  }
-};
+         try {
+                  // TODO: Implémenter la connexion Google
+                  console.log('Google login attempt')
+         } catch (error) {
+                  console.error('Google login error:', error)
+         }
+}
 
 const handleLinkedInLogin = async () => {
-  try {
-    // TODO: Implémenter la connexion LinkedIn
-    console.log("LinkedIn login attempt");
-  } catch (error) {
-    console.error("LinkedIn login error:", error);
-  }
-};
+         try {
+                  // TODO: Implémenter la connexion LinkedIn
+                  console.log('LinkedIn login attempt')
+         } catch (error) {
+                  console.error('LinkedIn login error:', error)
+         }
+}
 </script>

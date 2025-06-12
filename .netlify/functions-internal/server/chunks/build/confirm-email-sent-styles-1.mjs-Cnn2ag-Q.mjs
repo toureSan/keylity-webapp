@@ -1,4 +1,0 @@
-const confirmEmailSent_vue_vue_type_style_index_0_scoped_6d83ea77_lang = ".fluid-title[data-v-6d83ea77]{font-size:clamp(2.3rem,2.5vw,8rem);font-weight:700}.fluid-subtitle[data-v-6d83ea77],.fluid-title[data-v-6d83ea77]{font-family:Bricolage Grotesque,sans-serif}.fluid-subtitle[data-v-6d83ea77]{font-size:clamp(1.5rem,1vw,8rem);font-weight:300}.animate-fade-in[data-v-6d83ea77]{animation:fadeIn-6d83ea77 .5s ease-out}.animate-fade-in-up[data-v-6d83ea77]{animation:fadeInUp-6d83ea77 .5s ease-out}.animation-delay-200[data-v-6d83ea77]{animation-delay:.2s}@keyframes fadeIn-6d83ea77{0%{opacity:0}to{opacity:1}}@keyframes fadeInUp-6d83ea77{0%{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}";
-
-export { confirmEmailSent_vue_vue_type_style_index_0_scoped_6d83ea77_lang as c };
-//# sourceMappingURL=confirm-email-sent-styles-1.mjs-Cnn2ag-Q.mjs.map
