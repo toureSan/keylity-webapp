@@ -1,12 +1,4 @@
 <template>
-  <!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-white">
-    <body class="h-full">
-    ```
-  -->
 
   <div class="flex min-h-screen">
     <div
@@ -26,7 +18,7 @@
           </h2>
           <p class="mt-2 text-sm/6 text-gray-500">
             Déjà un compte ?
-            {{ " " }}
+
             <NuxtLink
               to="/login"
               class="font-semibold text-blue-600 hover:text-blue-500 transition-colors duration-300"
@@ -37,7 +29,20 @@
         </div>
 
         <div class="mt-10">
-          <form @submit.prevent="handleRegister" class="space-y-6">
+          <form @submit="onSubmit" class="space-y-6">
+            <div v-if="serverError" class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm text-red-700">{{ serverError }}</p>
+                </div>
+              </div>
+            </div>
+
             <div class="group">
               <label
                 for="firstName"
@@ -53,8 +58,13 @@
                   autocomplete="given-name"
                   required
                   class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
+                  :class="{
+                    'ring-red-500': firstNameTouched && firstNameError,
+                    'ring-green-500': firstNameTouched && !firstNameError && firstName
+                  }"
                   placeholder="John"
                 />
+                <span v-if="firstNameTouched && firstNameError" class="text-red-500 text-sm mt-1 block">{{ firstNameError }}</span>
               </div>
             </div>
 
@@ -73,8 +83,13 @@
                   autocomplete="family-name"
                   required
                   class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
+                  :class="{
+                    'ring-red-500': lastNameTouched && lastNameError,
+                    'ring-green-500': lastNameTouched && !lastNameError && lastName
+                  }"
                   placeholder="Doe"
                 />
+                <span v-if="lastNameTouched && lastNameError" class="text-red-500 text-sm mt-1 block">{{ lastNameError }}</span>
               </div>
             </div>
 
@@ -93,25 +108,13 @@
                   autocomplete="email"
                   required
                   class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
+                  :class="{
+                    'ring-red-500': emailTouched && emailError,
+                    'ring-green-500': emailTouched && !emailError && email
+                  }"
                   placeholder="exemple@email.com"
                 />
-                <div
-                  class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
-                >
-                  <svg
-                    class="h-5 w-5 text-gray-400"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
-                    />
-                    <path
-                      d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
-                    />
-                  </svg>
-                </div>
+                <span v-if="emailTouched && emailError" class="text-red-500 text-sm mt-1 block">{{ emailError }}</span>
               </div>
             </div>
 
@@ -130,8 +133,13 @@
                   autocomplete="new-password"
                   required
                   class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
+                  :class="{
+                    'ring-red-500': passwordTouched && passwordError,
+                    'ring-green-500': passwordTouched && !passwordError && password
+                  }"
                   placeholder="••••••••"
                 />
+                <span v-if="passwordTouched && passwordError" class="text-red-500 text-sm mt-1 block">{{ passwordError }}</span>
                 <button
                   type="button"
                   @click="showPassword = !showPassword"
@@ -186,8 +194,13 @@
                   autocomplete="new-password"
                   required
                   class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
+                  :class="{
+                    'ring-red-500': confirmPasswordTouched && confirmPasswordError,
+                    'ring-green-500': confirmPasswordTouched && !confirmPasswordError && confirmPassword
+                  }"
                   placeholder="••••••••"
                 />
+                <span v-if="confirmPasswordTouched && confirmPasswordError" class="text-red-500 text-sm mt-1 block">{{ confirmPasswordError }}</span>
                 <button
                   type="button"
                   @click="showConfirmPassword = !showConfirmPassword"
@@ -230,22 +243,17 @@
             <div>
               <button
                 type="submit"
-                class="group flex w-full justify-center rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-sm/6 font-semibold text-white shadow-sm transition-all duration-300 hover:from-blue-500 hover:to-indigo-500 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
+                :disabled="loading"
+                class="group flex w-full justify-center rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-sm/6 font-semibold text-white shadow-sm transition-all duration-300 hover:from-blue-500 hover:to-indigo-500 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <span class="flex items-center">
-                  Créer un compte
-                  <svg
-                    class="ml-2 h-5 w-5 transform transition-transform duration-300 group-hover:translate-x-1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+                  <span v-if="loading" class="mr-2">
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  </span>
+                  {{ loading ? 'Création en cours...' : 'Créer un compte' }}
                 </span>
               </button>
             </div>
@@ -333,37 +341,99 @@
   }
 }
 </style>
+
 <script setup>
 import logoImage from "~/assets/images/logo-complet.png";
 import { useAuthStore } from "~/stores/auth";
 import { useRouter } from "vue-router";
+import { useForm, useField } from 'vee-validate';
+import { defineRule } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/zod';
+import { z } from 'zod';
 
-const email = ref("");
-const password = ref("");
-const confirmPassword = ref("");
-const firstName = ref("");
-const lastName = ref("");
+const router = useRouter();
+const authStore = useAuthStore();
+
+// Définition du schéma de validation avec Zod
+const registerSchema = toTypedSchema(z.object({
+  firstName: z.string().min(1, 'Le prénom est requis'),
+  lastName: z.string().min(1, 'Le nom est requis'),
+  email: z.string().email('L\'adresse email n\'est pas valide'),
+  password: z.string()
+    .min(8, 'Le mot de passe doit contenir au moins 8 caractères')
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial'
+    ),
+  confirmPassword: z.string().min(1, 'La confirmation du mot de passe est requise')
+}).refine((data) => data.password === data.confirmPassword, {
+  message: 'Les mots de passe ne correspondent pas',
+  path: ['confirmPassword']
+}));
+
+const form = useForm({
+  validationSchema: registerSchema,
+  initialValues: {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  },
+  validateOnMount: false,
+  validateOnBlur: true,
+  validateOnInput: true,
+});
+
+const { handleSubmit, errors, values, resetForm, meta } = form;
+const serverError = ref('');
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
-const router = useRouter();
+const loading = ref(false);
 
-const handleRegister = async () => {
-  if (password.value !== confirmPassword.value) {
-    alert("Les mots de passe ne correspondent pas.");
-    return;
-  }
+const { value: firstName, errorMessage: firstNameError, touched: firstNameTouched } = useField('firstName');
+const { value: lastName, errorMessage: lastNameError, touched: lastNameTouched } = useField('lastName');
+const { value: email, errorMessage: emailError, touched: emailTouched } = useField('email');
+const { value: password, errorMessage: passwordError, touched: passwordTouched } = useField('password');
+const { value: confirmPassword, errorMessage: confirmPasswordError, touched: confirmPasswordTouched } = useField('confirmPassword');
+
+// Vérification de l'initialisation de meta
+const isFieldTouched = (field) => meta.value && meta.value.touched && meta.value.touched[field];
+
+const onSubmit = handleSubmit(async (formValues) => {
   try {
-    const authStore = useAuthStore()
+    loading.value = true;
+    serverError.value = '';
+
     await authStore.register(
-      email.value,
-      password.value,
-      firstName.value,
-      lastName.value
-    )
-    router.push('/auth/confirm-email-sent')
+      formValues.email,
+      formValues.password,
+      formValues.firstName,
+      formValues.lastName
+    );
+
+    // Réinitialisation du formulaire après succès
+    resetForm();
+    router.push('/auth/confirm-email-sent');
   } catch (error) {
-    console.error("Register error:", error)
-    alert(error instanceof Error ? error.message : 'Une erreur est survenue')
+    console.error("Register error:", error);
+    if (error.response?.data?.message) {
+      serverError.value = error.response.data.message;
+    } else {
+      serverError.value = 'Une erreur est survenue lors de l\'inscription';
+    }
+  } finally {
+    loading.value = false;
+  }
+});
+
+// Réinitialisation des erreurs lors de la modification des champs
+const resetFieldError = (field) => {
+  if (errors.value[field]) {
+    errors.value[field] = '';
+  }
+  if (serverError.value) {
+    serverError.value = '';
   }
 };
 

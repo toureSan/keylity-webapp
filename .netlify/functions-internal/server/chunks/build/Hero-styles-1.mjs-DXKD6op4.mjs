@@ -1,0 +1,4 @@
+const Hero_vue_vue_type_style_index_0_scoped_b123f7a2_lang = ".hero-gradient[data-v-b123f7a2]{background:linear-gradient(180deg,#bf74df40,#dfd7d7)!important;border-radius:2rem!important;margin-left:auto!important;margin-right:auto!important;overflow:hidden!important;width:98%!important}.font-bricolage[data-v-b123f7a2]{font-family:Bricolagegrotesque Variablefont Opsz Wdth Wght,sans-serif}.fluid-title[data-v-b123f7a2]{font-family:Bricolage Grotesque,sans-serif;font-size:clamp(2.5rem,2.5vw,8rem);font-weight:700}.fluid-subtitle[data-v-b123f7a2]{font-size:clamp(1.2rem,1.5vw,2rem);font-weight:400;line-height:1.3}.font-keylity-subtitle[data-v-b123f7a2]{font-family:Bricolage Grotesque,sans-serif;font-size:1.5rem;font-weight:700;line-height:1.5}";
+
+export { Hero_vue_vue_type_style_index_0_scoped_b123f7a2_lang as H };
+//# sourceMappingURL=Hero-styles-1.mjs-DXKD6op4.mjs.map

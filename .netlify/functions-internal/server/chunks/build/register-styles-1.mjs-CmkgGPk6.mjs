@@ -1,0 +1,4 @@
+const register_vue_vue_type_style_index_0_scoped_4a2bd05b_lang = ".fluid-title[data-v-4a2bd05b]{font-size:clamp(2.3rem,2.5vw,8rem)}.fluid-title[data-v-4a2bd05b],.fluid-title-blur[data-v-4a2bd05b]{font-family:Bricolage Grotesque,sans-serif;font-weight:700}.fluid-title-blur[data-v-4a2bd05b]{font-size:clamp(2.3rem,2vw,8rem)}.fluid-subtitle[data-v-4a2bd05b]{font-family:Bricolage Grotesque,sans-serif;font-size:clamp(1.5rem,1vw,8rem);font-weight:300}.animate-fade-in[data-v-4a2bd05b]{animation:fadeIn-4a2bd05b .5s ease-out}.animate-fade-in-up[data-v-4a2bd05b]{animation:fadeInUp-4a2bd05b .5s ease-out}.animation-delay-200[data-v-4a2bd05b]{animation-delay:.2s}@keyframes fadeIn-4a2bd05b{0%{opacity:0}to{opacity:1}}@keyframes fadeInUp-4a2bd05b{0%{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}";
+
+export { register_vue_vue_type_style_index_0_scoped_4a2bd05b_lang as r };
+//# sourceMappingURL=register-styles-1.mjs-CmkgGPk6.mjs.map

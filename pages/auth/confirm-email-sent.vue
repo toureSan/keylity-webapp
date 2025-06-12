@@ -4,12 +4,12 @@
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div class="animate-fade-in">
           <div class="flex justify-center items-center">
-
-            <NuxtLink to="/" class="cursor-pointer">
-              <img :src="logoImage" alt="Keylity"
-                class="cursor-pointer h-15 w-auto justify-center item-center transform transition-transform duration-300 hover:scale-105" />
-            </NuxtLink>
+            
           </div>
+          <NuxtLink to="/" class="cursor-pointer flex justify-center items-center">
+            <img :src="logoImage" alt="Keylity"
+              class="cursor-pointer h-15 w-auto justify-center item-center transform transition-transform duration-300 hover:scale-105" />
+          </NuxtLink>
           <div v-if="loading" class="text-center">
             <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
             <p class="mt-4 text-gray-600">Vérification de votre email en cours...</p>
