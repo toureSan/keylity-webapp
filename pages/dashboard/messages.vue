@@ -1,11 +1,11 @@
 <template>
-         <div>
-                  <MessageSection />
-         </div>
+  <div>
+    <MessageSection />
+  </div>
 </template>
 
 <script setup>
 definePageMeta({
-         layout: 'dashboard'
-})
+  layout: "dashboard",
+});
 </script>

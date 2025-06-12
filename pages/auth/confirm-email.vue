@@ -1,21 +1,20 @@
 <template>
+  Add commentMore actions
   <div class="flex min-h-screen">
     <div
       class="flex flex-1 flex-col justify-center px-0 py-0 sm:px-6 lg:flex-none lg:px-10 xl:px-44"
     >
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div class="animate-fade-in">
-          <div class="flex justify-center items-center"></div>
-          <NuxtLink
-            to="/"
-            class="cursor-pointer flex justify-center items-center"
-          >
-            <img
-              :src="logoImage"
-              alt="Keylity"
-              class="cursor-pointer h-15 w-auto justify-center item-center transform transition-transform duration-300 hover:scale-105"
-            />
-          </NuxtLink>
+          <div class="flex justify-center items-center">
+            <NuxtLink to="/" class="cursor-pointer">
+              <img
+                :src="logoImage"
+                alt="Keylity"
+                class="cursor-pointer h-15 w-auto justify-center item-center transform transition-transform duration-300 hover:scale-105"
+              />
+            </NuxtLink>
+          </div>
           <div v-if="loading" class="text-center">
             <div
               class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"
@@ -32,11 +31,9 @@
           </div>
           <div v-else class="text-center">
             <div class="text-green-500 text-xl mb-4">
-              Veuiller confirmer votre email
+              Email confirmé avec succès !
             </div>
-            <NuxtLink to="/login" class="text-blue-500 hover:text-blue-700">
-              Retourner sur la page de connexion
-            </NuxtLink>
+            <p class="text-gray-600">Redirection vers le dashboard...</p>
           </div>
         </div>
       </div>
@@ -71,18 +68,45 @@
 <script setup>
 import logoImage from "~/assets/images/logo-complet.png";
 import { useAuthStore } from "~/stores/auth.store";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const authStore = useAuthStore();
+const loading = ref(true);
+const error = ref(null);
 
-const resendEmail = async () => {
+onMounted(async () => {
   try {
-    // TODO: Implémenter la fonction de renvoi d'email
-    alert("Fonctionnalité de renvoi d'email à implémenter");
-  } catch (error) {
-    console.error("Error resending email:", error);
-    alert("Une erreur est survenue lors du renvoi de l'email");
+    let accessToken = null;
+    let type = null;
+
+    if (window.location.hash) {
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      accessToken = hashParams.get("access_token");
+      type = hashParams.get("type");
+    } else if (window.location.search) {
+      const queryParams = new URLSearchParams(window.location.search);
+      accessToken = queryParams.get("token") || queryParams.get("access_token");
+      type = queryParams.get("type");
+    }
+
+    if (!accessToken || type !== "signup") {
+      throw new Error("Token invalide ou type incorrect");
+    }
+
+    await authStore.verifyEmail(accessToken);
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await navigateTo("/dashboard");
+  } catch (err) {
+    console.error("Erreur de vérification:", err);
+    error.value =
+      err.message ||
+      "Une erreur est survenue lors de la vérification de votre email";
+  } finally {
+    loading.value = false;
   }
-};
+});
 </script>
 
 <style scoped>
@@ -90,28 +114,46 @@ const resendEmail = async () => {
   animation: fadeIn 0.5s ease-out;
 }
 
-.animate-bounce {
-  animation: bounce 1s infinite;
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
 
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(-5%);
-    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+.fluid-title {
+  font-size: clamp(2.3rem, 2.5vw, 8rem);
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 700;
+}
+
+.fluid-subtitle {
+  font-size: clamp(1.5rem, 1vw, 8rem);
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 300;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  50% {
+
+  to {
+    opacity: 1;
     transform: translateY(0);
-    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
 }
 </style>
+Add comment

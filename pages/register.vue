@@ -1,5 +1,4 @@
 <template>
-
   <div class="flex min-h-screen">
     <div
       class="flex flex-1 flex-col justify-center px-0 py-0 sm:px-6 lg:flex-none lg:px-10 xl:px-44"
@@ -30,11 +29,23 @@
 
         <div class="mt-10">
           <form @submit="onSubmit" class="space-y-6">
-            <div v-if="serverError" class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+            <div
+              v-if="serverError"
+              class="bg-red-50 border-l-4 border-red-500 p-4 mb-6"
+            >
               <div class="flex">
                 <div class="flex-shrink-0">
-                  <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                  <svg
+                    class="h-5 w-5 text-red-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clip-rule="evenodd"
+                    />
                   </svg>
                 </div>
                 <div class="ml-3">
@@ -60,11 +71,16 @@
                   class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
                   :class="{
                     'ring-red-500': firstNameTouched && firstNameError,
-                    'ring-green-500': firstNameTouched && !firstNameError && firstName
+                    'ring-green-500':
+                      firstNameTouched && !firstNameError && firstName,
                   }"
                   placeholder="John"
                 />
-                <span v-if="firstNameTouched && firstNameError" class="text-red-500 text-sm mt-1 block">{{ firstNameError }}</span>
+                <span
+                  v-if="firstNameTouched && firstNameError"
+                  class="text-red-500 text-sm mt-1 block"
+                  >{{ firstNameError }}</span
+                >
               </div>
             </div>
 
@@ -85,11 +101,16 @@
                   class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
                   :class="{
                     'ring-red-500': lastNameTouched && lastNameError,
-                    'ring-green-500': lastNameTouched && !lastNameError && lastName
+                    'ring-green-500':
+                      lastNameTouched && !lastNameError && lastName,
                   }"
                   placeholder="Doe"
                 />
-                <span v-if="lastNameTouched && lastNameError" class="text-red-500 text-sm mt-1 block">{{ lastNameError }}</span>
+                <span
+                  v-if="lastNameTouched && lastNameError"
+                  class="text-red-500 text-sm mt-1 block"
+                  >{{ lastNameError }}</span
+                >
               </div>
             </div>
 
@@ -110,11 +131,15 @@
                   class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
                   :class="{
                     'ring-red-500': emailTouched && emailError,
-                    'ring-green-500': emailTouched && !emailError && email
+                    'ring-green-500': emailTouched && !emailError && email,
                   }"
                   placeholder="exemple@email.com"
                 />
-                <span v-if="emailTouched && emailError" class="text-red-500 text-sm mt-1 block">{{ emailError }}</span>
+                <span
+                  v-if="emailTouched && emailError"
+                  class="text-red-500 text-sm mt-1 block"
+                  >{{ emailError }}</span
+                >
               </div>
             </div>
 
@@ -135,11 +160,16 @@
                   class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
                   :class="{
                     'ring-red-500': passwordTouched && passwordError,
-                    'ring-green-500': passwordTouched && !passwordError && password
+                    'ring-green-500':
+                      passwordTouched && !passwordError && password,
                   }"
                   placeholder="••••••••"
                 />
-                <span v-if="passwordTouched && passwordError" class="text-red-500 text-sm mt-1 block">{{ passwordError }}</span>
+                <span
+                  v-if="passwordTouched && passwordError"
+                  class="text-red-500 text-sm mt-1 block"
+                  >{{ passwordError }}</span
+                >
                 <button
                   type="button"
                   @click="showPassword = !showPassword"
@@ -195,12 +225,20 @@
                   required
                   class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
                   :class="{
-                    'ring-red-500': confirmPasswordTouched && confirmPasswordError,
-                    'ring-green-500': confirmPasswordTouched && !confirmPasswordError && confirmPassword
+                    'ring-red-500':
+                      confirmPasswordTouched && confirmPasswordError,
+                    'ring-green-500':
+                      confirmPasswordTouched &&
+                      !confirmPasswordError &&
+                      confirmPassword,
                   }"
                   placeholder="••••••••"
                 />
-                <span v-if="confirmPasswordTouched && confirmPasswordError" class="text-red-500 text-sm mt-1 block">{{ confirmPasswordError }}</span>
+                <span
+                  v-if="confirmPasswordTouched && confirmPasswordError"
+                  class="text-red-500 text-sm mt-1 block"
+                  >{{ confirmPasswordError }}</span
+                >
                 <button
                   type="button"
                   @click="showConfirmPassword = !showConfirmPassword"
@@ -248,12 +286,28 @@
               >
                 <span class="flex items-center">
                   <span v-if="loading" class="mr-2">
-                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <svg
+                      class="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
                     </svg>
                   </span>
-                  {{ loading ? 'Création en cours...' : 'Créer un compte' }}
+                  {{ loading ? "Création en cours..." : "Créer un compte" }}
                 </span>
               </button>
             </div>
@@ -270,115 +324,122 @@
         style="filter: blur(2px)"
       />
 
-                           <!-- Overlay léger pour assombrir un peu -->
-                           <div class="absolute inset-0 bg-gradient-to-b from-gray-900/20 to-gray-900/40"></div>
+      <!-- Overlay léger pour assombrir un peu -->
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-gray-900/20 to-gray-900/40"
+      ></div>
 
-                           <!-- Texte net en bas à gauche -->
-                           <div class="absolute bottom-2 left-6 text-white max-w-xl z-10">
-                                    <h2 class="fluid-title animate-fade-in-up">Bienvenue chez Keylity</h2>
-                                    <p
-                                             class="mt-0 fluid-subtitle text-white/90 drop-shadow-sm animate-fade-in-up animation-delay-200">
-                                             Simplifiez vos démarches administratives
-                                    </p>
-                           </div>
-                  </div>
-
-
-
-         </div>
+      <!-- Texte net en bas à gauche -->
+      <div class="absolute bottom-2 left-6 text-white max-w-xl z-10">
+        <h2 class="fluid-title animate-fade-in-up">Bienvenue chez Keylity</h2>
+        <p
+          class="mt-0 fluid-subtitle text-white/90 drop-shadow-sm animate-fade-in-up animation-delay-200"
+        >
+          Simplifiez vos démarches administratives
+        </p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
 .fluid-title {
-         font-size: clamp(2.3rem, 2.5vw, 8rem);
-         font-family: 'Bricolage Grotesque', sans-serif;
-         font-weight: 700;
+  font-size: clamp(2.3rem, 2.5vw, 8rem);
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 700;
 }
 
 .fluid-title-blur {
-         font-size: clamp(2.3rem, 2vw, 8rem);
-         font-family: 'Bricolage Grotesque', sans-serif;
-         font-weight: 700;
+  font-size: clamp(2.3rem, 2vw, 8rem);
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 700;
 }
 
 .fluid-subtitle {
-         font-size: clamp(1.5rem, 1vw, 8rem);
-         font-family: 'Bricolage Grotesque', sans-serif;
-         font-weight: 300;
+  font-size: clamp(1.5rem, 1vw, 8rem);
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 300;
 }
 
 .animate-fade-in {
-         animation: fadeIn 0.5s ease-out;
+  animation: fadeIn 0.5s ease-out;
 }
 
 .animate-fade-in-up {
-         animation: fadeInUp 0.5s ease-out;
+  animation: fadeInUp 0.5s ease-out;
 }
 
 .animation-delay-200 {
-         animation-delay: 200ms;
+  animation-delay: 200ms;
 }
 
 @keyframes fadeIn {
-         from {
-                  opacity: 0;
-         }
+  from {
+    opacity: 0;
+  }
 
-         to {
-                  opacity: 1;
-         }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeInUp {
-         from {
-                  opacity: 0;
-                  transform: translateY(20px);
-         }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 
-         to {
-                  opacity: 1;
-                  transform: translateY(0);
-         }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
 
 <script setup>
 import logoImage from "~/assets/images/logo-complet.png";
-import { useAuthStore } from "~/stores/auth";
+import { useAuthStore } from "~/stores/auth.store";
 import { useRouter } from "vue-router";
-import { useForm, useField } from 'vee-validate';
-import { defineRule } from 'vee-validate';
-import { toTypedSchema } from '@vee-validate/zod';
-import { z } from 'zod';
+import { useForm, useField } from "vee-validate";
+import { defineRule } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
+import { z } from "zod";
 
 const router = useRouter();
 const authStore = useAuthStore();
 
 // Définition du schéma de validation avec Zod
-const registerSchema = toTypedSchema(z.object({
-  firstName: z.string().min(1, 'Le prénom est requis'),
-  lastName: z.string().min(1, 'Le nom est requis'),
-  email: z.string().email('L\'adresse email n\'est pas valide'),
-  password: z.string()
-    .min(8, 'Le mot de passe doit contenir au moins 8 caractères')
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial'
-    ),
-  confirmPassword: z.string().min(1, 'La confirmation du mot de passe est requise')
-}).refine((data) => data.password === data.confirmPassword, {
-  message: 'Les mots de passe ne correspondent pas',
-  path: ['confirmPassword']
-}));
+const registerSchema = toTypedSchema(
+  z
+    .object({
+      firstName: z.string().min(1, "Le prénom est requis"),
+      lastName: z.string().min(1, "Le nom est requis"),
+      email: z.string().email("L'adresse email n'est pas valide"),
+      password: z
+        .string()
+        .min(8, "Le mot de passe doit contenir au moins 8 caractères")
+        .regex(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+          "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial",
+        ),
+      confirmPassword: z
+        .string()
+        .min(1, "La confirmation du mot de passe est requise"),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: "Les mots de passe ne correspondent pas",
+      path: ["confirmPassword"],
+    }),
+);
 
 const form = useForm({
   validationSchema: registerSchema,
   initialValues: {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   },
   validateOnMount: false,
   validateOnBlur: true,
@@ -386,41 +447,62 @@ const form = useForm({
 });
 
 const { handleSubmit, errors, values, resetForm, meta } = form;
-const serverError = ref('');
+const serverError = ref("");
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
 const loading = ref(false);
 
-const { value: firstName, errorMessage: firstNameError, touched: firstNameTouched } = useField('firstName');
-const { value: lastName, errorMessage: lastNameError, touched: lastNameTouched } = useField('lastName');
-const { value: email, errorMessage: emailError, touched: emailTouched } = useField('email');
-const { value: password, errorMessage: passwordError, touched: passwordTouched } = useField('password');
-const { value: confirmPassword, errorMessage: confirmPasswordError, touched: confirmPasswordTouched } = useField('confirmPassword');
+const {
+  value: firstName,
+  errorMessage: firstNameError,
+  touched: firstNameTouched,
+} = useField("firstName");
+const {
+  value: lastName,
+  errorMessage: lastNameError,
+  touched: lastNameTouched,
+} = useField("lastName");
+const {
+  value: email,
+  errorMessage: emailError,
+  touched: emailTouched,
+} = useField("email");
+const {
+  value: password,
+  errorMessage: passwordError,
+  touched: passwordTouched,
+} = useField("password");
+const {
+  value: confirmPassword,
+  errorMessage: confirmPasswordError,
+  touched: confirmPasswordTouched,
+} = useField("confirmPassword");
 
 // Vérification de l'initialisation de meta
-const isFieldTouched = (field) => meta.value && meta.value.touched && meta.value.touched[field];
+const isFieldTouched = (field) =>
+  meta.value && meta.value.touched && meta.value.touched[field];
 
 const onSubmit = handleSubmit(async (formValues) => {
   try {
     loading.value = true;
-    serverError.value = '';
+    serverError.value = "";
 
     await authStore.register(
       formValues.email,
       formValues.password,
       formValues.firstName,
-      formValues.lastName
+      formValues.lastName,
     );
 
     // Réinitialisation du formulaire après succès
     resetForm();
-    router.push('/auth/confirm-email-sent');
+    router.push("/auth/confirm-email-sent");
   } catch (error) {
     console.error("Register error:", error);
     if (error.response?.data?.message) {
       serverError.value = error.response.data.message;
     } else {
-      serverError.value = 'Une erreur est survenue lors de l\'inscription';
+      serverError.value = "Une erreur est survenue lors de l'inscription";
     }
   } finally {
     loading.value = false;
@@ -430,28 +512,28 @@ const onSubmit = handleSubmit(async (formValues) => {
 // Réinitialisation des erreurs lors de la modification des champs
 const resetFieldError = (field) => {
   if (errors.value[field]) {
-    errors.value[field] = '';
+    errors.value[field] = "";
   }
   if (serverError.value) {
-    serverError.value = '';
+    serverError.value = "";
   }
 };
 
 const handleGoogleLogin = async () => {
-         try {
-                  // TODO: Implémenter la connexion Google
-                  console.log('Google login attempt')
-         } catch (error) {
-                  console.error('Google login error:', error)
-         }
-}
+  try {
+    // TODO: Implémenter la connexion Google
+    console.log("Google login attempt");
+  } catch (error) {
+    console.error("Google login error:", error);
+  }
+};
 
 const handleLinkedInLogin = async () => {
-         try {
-                  // TODO: Implémenter la connexion LinkedIn
-                  console.log('LinkedIn login attempt')
-         } catch (error) {
-                  console.error('LinkedIn login error:', error)
-         }
-}
+  try {
+    // TODO: Implémenter la connexion LinkedIn
+    console.log("LinkedIn login attempt");
+  } catch (error) {
+    console.error("LinkedIn login error:", error);
+  }
+};
 </script>
