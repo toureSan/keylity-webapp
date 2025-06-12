@@ -252,7 +252,11 @@ const client_manifest = {
     "isDynamicEntry": true,
     "imports": [
       "node_modules/nuxt/dist/app/entry.js",
+<<<<<<< HEAD
       "_BjWLBQRG.js"
+=======
+      "_C0p_RJjv.js"
+>>>>>>> origin/main
     ],
     "css": []
   },

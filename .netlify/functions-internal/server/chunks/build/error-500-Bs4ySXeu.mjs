@@ -1,6 +1,11 @@
 import { mergeProps, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrInterpolate } from 'vue/server-renderer';
+<<<<<<< HEAD:.netlify/functions-internal/server/chunks/build/error-500-Bs4ySXeu.mjs
 import { _ as _export_sfc, u as useHead } from './server.mjs';
+=======
+import { _ as _export_sfc } from './server.mjs';
+import { u as useHead } from './v3-Bd6JU75o.mjs';
+>>>>>>> origin/main:.netlify/functions-internal/server/chunks/build/error-500-BwM2bVZp.mjs
 import '../nitro/nitro.mjs';
 import 'node:http';
 import 'node:https';
@@ -15,7 +20,10 @@ import 'unhead/server';
 import 'devalue';
 import 'unhead/utils';
 import 'unhead/plugins';
+<<<<<<< HEAD:.netlify/functions-internal/server/chunks/build/error-500-Bs4ySXeu.mjs
 import 'pinia';
+=======
+>>>>>>> origin/main:.netlify/functions-internal/server/chunks/build/error-500-BwM2bVZp.mjs
 import 'vue-router';
 
 const _sfc_main = {

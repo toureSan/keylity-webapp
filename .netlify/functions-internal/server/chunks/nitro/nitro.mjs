@@ -3970,7 +3970,11 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/",
+<<<<<<< HEAD
     "buildId": "03213fac-1a3d-4c67-b8ad-934f47174168",
+=======
+    "buildId": "a7145f40-b888-4416-aa61-5a68e010ba58",
+>>>>>>> origin/main
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
@@ -3979,6 +3983,7 @@ const _inlineRuntimeConfig = {
     "routeRules": {
       "/__nuxt_error": {
         "cache": false
+<<<<<<< HEAD
       },
       "/api/**": {
         "proxy": {
@@ -4003,6 +4008,8 @@ const _inlineRuntimeConfig = {
           "Referrer-Policy": "strict-origin-when-cross-origin",
           "Permissions-Policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()"
         }
+=======
+>>>>>>> origin/main
       },
       "/_nuxt/builds/meta/**": {
         "headers": {
@@ -4021,10 +4028,14 @@ const _inlineRuntimeConfig = {
       }
     }
   },
+<<<<<<< HEAD
   "public": {
     "apiBase": "http://localhost:3000/api",
     "appUrl": "http://localhost:4000"
   }
+=======
+  "public": {}
+>>>>>>> origin/main
 };
 const envOptions = {
   prefix: "NITRO_",
@@ -4419,6 +4430,7 @@ async function errorHandler(error, event) {
   // H3 will handle fallback
 }
 
+<<<<<<< HEAD
 const script = "\"use strict\";(()=>{const t=window,e=document.documentElement,c=[\"dark\",\"light\"],n=getStorageValue(\"localStorage\",\"nuxt-color-mode\")||\"system\";let i=n===\"system\"?u():n;const r=e.getAttribute(\"data-color-mode-forced\");r&&(i=r),l(i),t[\"__NUXT_COLOR_MODE__\"]={preference:n,value:i,getColorScheme:u,addColorScheme:l,removeColorScheme:d};function l(o){const s=\"\"+o+\"-mode\",a=\"\";e.classList?e.classList.add(s):e.className+=\" \"+s,a&&e.setAttribute(\"data-\"+a,o)}function d(o){const s=\"\"+o+\"-mode\",a=\"\";e.classList?e.classList.remove(s):e.className=e.className.replace(new RegExp(s,\"g\"),\"\"),a&&e.removeAttribute(\"data-\"+a)}function f(o){return t.matchMedia(\"(prefers-color-scheme\"+o+\")\")}function u(){if(t.matchMedia&&f(\"\").media!==\"not all\"){for(const o of c)if(f(\":\"+o).matches)return o}return\"light\"}})();function getStorageValue(t,e){switch(t){case\"localStorage\":return window.localStorage.getItem(e);case\"sessionStorage\":return window.sessionStorage.getItem(e);case\"cookie\":return getCookie(e);default:return null}}function getCookie(t){const c=(\"; \"+window.document.cookie).split(\"; \"+t+\"=\");if(c.length===2)return c.pop()?.split(\";\").shift()}";
 
 const _iIbZH0YOMwVwv6Lz3JYOlGAvggynmpk8oQD8V8FfKUs = (function(nitro) {
@@ -4429,6 +4441,10 @@ const _iIbZH0YOMwVwv6Lz3JYOlGAvggynmpk8oQD8V8FfKUs = (function(nitro) {
 
 const plugins = [
   _iIbZH0YOMwVwv6Lz3JYOlGAvggynmpk8oQD8V8FfKUs
+=======
+const plugins = [
+  
+>>>>>>> origin/main
 ];
 
 const _SxA8c9 = defineEventHandler(() => {});
@@ -4664,5 +4680,9 @@ function getCacheHeaders(url) {
   return {};
 }
 
+<<<<<<< HEAD
 export { $fetch as $, getResponseStatus as a, getQuery as b, createError$1 as c, defineRenderHandler as d, getRouteRules as e, useNitroApp as f, getResponseStatusText as g, hasProtocol as h, isScriptProtocol as i, joinRelativeURL as j, joinURL as k, getContext as l, createHooks as m, executeAsync as n, createRouter$1 as o, defu as p, parseQuery as q, withTrailingSlash as r, sanitizeStatusCode as s, toRouteMatcher as t, useRuntimeConfig as u, withoutTrailingSlash as v, withQuery as w, klona as x, defuFn as y, handler as z };
+=======
+export { $fetch as $, getResponseStatus as a, getQuery as b, createError$1 as c, defineRenderHandler as d, getRouteRules as e, useNitroApp as f, getResponseStatusText as g, hasProtocol as h, isScriptProtocol as i, joinRelativeURL as j, joinURL as k, getContext as l, createHooks as m, executeAsync as n, createRouter$1 as o, defu as p, parseQuery as q, withTrailingSlash as r, sanitizeStatusCode as s, toRouteMatcher as t, useRuntimeConfig as u, withoutTrailingSlash as v, withQuery as w, handler as x };
+>>>>>>> origin/main
 //# sourceMappingURL=nitro.mjs.map

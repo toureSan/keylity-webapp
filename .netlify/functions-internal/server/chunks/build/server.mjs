@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 import { defineComponent, hasInjectionContext, inject, ref, h, Suspense, toRef, isRef, getCurrentInstance, provide, shallowReactive, Fragment, createElementBlock, shallowRef, cloneVNode, defineAsyncComponent, createApp, onErrorCaptured, onServerPrefetch, unref, createVNode, resolveDynamicComponent, reactive, effectScope, isReadonly, isShallow, isReactive, toRaw, mergeProps, getCurrentScope, useSSRContext } from 'vue';
 import { h as hasProtocol, i as isScriptProtocol, k as joinURL, w as withQuery, s as sanitizeStatusCode, l as getContext, $ as $fetch$1, m as createHooks, n as executeAsync, c as createError$1, t as toRouteMatcher, o as createRouter$1, p as defu } from '../nitro/nitro.mjs';
 import { u as useHead$1, h as headSymbol, b as baseURL } from '../routes/renderer.mjs';
 import { defineStore, createPinia, setActivePinia, shouldHydrate } from 'pinia';
+=======
+import { hasInjectionContext, getCurrentInstance, defineComponent, ref, inject, h, Suspense, Fragment, createApp, provide, shallowReactive, toRef, onErrorCaptured, onServerPrefetch, unref, createVNode, resolveDynamicComponent, reactive, effectScope, shallowRef, isReadonly, isRef, isShallow, isReactive, toRaw, defineAsyncComponent, mergeProps, getCurrentScope, useSSRContext } from 'vue';
+import { h as hasProtocol, i as isScriptProtocol, k as joinURL, w as withQuery, s as sanitizeStatusCode, l as getContext, $ as $fetch, m as createHooks, n as executeAsync, c as createError$1, t as toRouteMatcher, o as createRouter$1, p as defu } from '../nitro/nitro.mjs';
+import { b as baseURL } from '../routes/renderer.mjs';
+>>>>>>> origin/main
 import { RouterView, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
 import { ssrRenderSuspense, ssrRenderComponent, ssrRenderVNode } from 'vue/server-renderer';
 import 'node:http';
@@ -18,14 +24,21 @@ import 'unhead/utils';
 import 'unhead/plugins';
 
 if (!globalThis.$fetch) {
+<<<<<<< HEAD
   globalThis.$fetch = $fetch$1.create({
+=======
+  globalThis.$fetch = $fetch.create({
+>>>>>>> origin/main
     baseURL: baseURL()
   });
 }
 if (!("global" in globalThis)) {
   globalThis.global = globalThis;
 }
+<<<<<<< HEAD
 const appLayoutTransition = false;
+=======
+>>>>>>> origin/main
 const nuxtLinkDefaults = { "componentName": "NuxtLink" };
 const appId = "nuxt-app";
 function getNuxtAppCtx(id = appId) {
@@ -363,6 +376,7 @@ const createError = (error) => {
   });
   return nuxtError;
 };
+<<<<<<< HEAD
 function injectHead(nuxtApp) {
   var _a;
   const nuxt = nuxtApp || tryUseNuxtApp();
@@ -377,6 +391,18 @@ function useHead(input, options = {}) {
   if (head) {
     return useHead$1(input, { head, ...options });
   }
+=======
+const unhead_k2P3m_ZDyjlr2mMYnoDPwavjsDN8hBlk9cFai0bbopU = /* @__PURE__ */ defineNuxtPlugin({
+  name: "nuxt:head",
+  enforce: "pre",
+  setup(nuxtApp) {
+    const head = nuxtApp.ssrContext.head;
+    nuxtApp.vueApp.use(head);
+  }
+});
+function toArray(value) {
+  return Array.isArray(value) ? value : [value];
+>>>>>>> origin/main
 }
 async function getRouteRules(arg) {
   const path = typeof arg === "string" ? arg : arg.path;
@@ -427,6 +453,7 @@ const _routes = [
   {
     name: "index",
     path: "/",
+<<<<<<< HEAD
     component: () => import('./index-CvIa7Stc.mjs')
   },
   {
@@ -509,6 +536,9 @@ const _routes = [
     name: "auth-confirm-email-sent",
     path: "/auth/confirm-email-sent",
     component: () => import('./confirm-email-sent-CFD3M4cA.mjs')
+=======
+    component: () => import('./index-HRNGVVha.mjs')
+>>>>>>> origin/main
   }
 ];
 const _wrapInTransition = (props, children) => {
@@ -639,10 +669,15 @@ const globalMiddleware = [
   validate,
   manifest_45route_45rule
 ];
+<<<<<<< HEAD
 const namedMiddleware = {
   auth: () => import('./auth-CBc6cSjk.mjs')
 };
 const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
+=======
+const namedMiddleware = {};
+const plugin = /* @__PURE__ */ defineNuxtPlugin({
+>>>>>>> origin/main
   name: "nuxt:router",
   enforce: "pre",
   async setup(nuxtApp) {
@@ -839,6 +874,14 @@ const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
       }
     });
     return { provide: { router } };
+<<<<<<< HEAD
+=======
+  }
+});
+function definePayloadReducer(name, reduce) {
+  {
+    useNuxtApp().ssrContext._payloadReducers[name] = reduce;
+>>>>>>> origin/main
   }
 });
 const reducers = [
@@ -858,6 +901,7 @@ const revive_payload_server_MVtmlZaQpj6ApFmshWfUWl5PehCebzaBf2NuRMiIbms = /* @__
     }
   }
 });
+<<<<<<< HEAD
 defineComponent({
   name: "ServerPlaceholder",
   render() {
@@ -1115,6 +1159,28 @@ const defineRouteProvider = (name = "RouteProvider") => defineComponent({
       type: Object,
       required: true
     },
+=======
+const components_plugin_z4hgvsiddfKkfXTP6M8M4zG5Cb7sGnDhcryKVM45Di4 = /* @__PURE__ */ defineNuxtPlugin({
+  name: "nuxt:global-components"
+});
+const plugins = [
+  unhead_k2P3m_ZDyjlr2mMYnoDPwavjsDN8hBlk9cFai0bbopU,
+  plugin,
+  revive_payload_server_MVtmlZaQpj6ApFmshWfUWl5PehCebzaBf2NuRMiIbms,
+  components_plugin_z4hgvsiddfKkfXTP6M8M4zG5Cb7sGnDhcryKVM45Di4
+];
+const defineRouteProvider = (name = "RouteProvider") => defineComponent({
+  name,
+  props: {
+    vnode: {
+      type: Object,
+      required: true
+    },
+    route: {
+      type: Object,
+      required: true
+    },
+>>>>>>> origin/main
     vnodeRef: Object,
     renderKey: String,
     trackRootNodes: Boolean
@@ -1227,8 +1293,13 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
+<<<<<<< HEAD
     const _Error404 = defineAsyncComponent(() => import('./error-404-DWOk6sYm.mjs'));
     const _Error = defineAsyncComponent(() => import('./error-500-Bs4ySXeu.mjs'));
+=======
+    const _Error404 = defineAsyncComponent(() => import('./error-404-DMxPFXqQ.mjs'));
+    const _Error = defineAsyncComponent(() => import('./error-500-BwM2bVZp.mjs'));
+>>>>>>> origin/main
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ statusCode: unref(statusCode), statusMessage: unref(statusMessage), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
@@ -1310,5 +1381,9 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
+<<<<<<< HEAD
 export { LayoutMetaSymbol as L, PageRouteSymbol as P, _export_sfc as _, useAuthStore as a, useNuxtApp as b, useRoute as c, appLayoutTransition as d, entry$1 as default, _wrapInTransition as e, __nuxt_component_1 as f, useRouter as g, useRuntimeConfig as h, nuxtLinkDefaults as i, useState as j, defineNuxtRouteMiddleware as k, navigateTo as n, resolveRouteObject as r, useHead as u };
+=======
+export { _export_sfc as _, useNuxtApp as a, useRuntimeConfig as b, nuxtLinkDefaults as c, entry$1 as default, navigateTo as n, resolveRouteObject as r, tryUseNuxtApp as t, useRouter as u };
+>>>>>>> origin/main
 //# sourceMappingURL=server.mjs.map

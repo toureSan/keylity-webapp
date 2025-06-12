@@ -46,8 +46,7 @@
                                              <!-- Add Property Button -->
                                              <button
                                                       class="bg-blue-500 text-white px-4 py-2 rounded-md hidden md:flex items-center gap-2">
-                                                      <svg class="text-white color-white" width="22" height="22"
-                                                               viewBox="0 0 22 22" fill="none"
+                                                      <svg class="text-white color-white" width="22" height="22" viewBox="0 0 22 22" fill="none"
                                                                xmlns="http://www.w3.org/2000/svg">
                                                                <path d="M1 11H21" stroke="#808080" stroke-width="2"
                                                                         stroke-linecap="round"
@@ -225,12 +224,12 @@
                                                       <Icon name="heroicons:home" class="h-5 w-5" />
                                                       <span v-if="!isCollapsed">Accueil</span>
                                              </NuxtLink>
-                                             <NuxtLink to="/dashboard/properties"
+                                             <a href="#"
                                                       class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
                                                       :class="{ 'justify-center': isCollapsed }">
                                                       <Icon name="heroicons:building-office-2" class="h-5 w-5" />
                                                       <span v-if="!isCollapsed">Mes biens</span>
-                                             </NuxtLink>
+                                             </a>
                                              <a href="#"
                                                       class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
                                                       :class="{ 'justify-center': isCollapsed }">
@@ -273,5 +272,51 @@
          </div>
 </template>
 
+<script setup lang="ts">
+import { ref } from 'vue'
+import { onClickOutside } from '@vueuse/core'
 
-<script></script>
+const isCollapsed = ref(false)
+const isSidebarOpen = ref(false)
+const isNotificationsOpen = ref(false)
+const isUserMenuOpen = ref(false)
+const mode = ref('candidat')
+
+const notifications = [
+         {
+                  id: 1,
+                  message: 'Votre candidature pour l\'appartement à Genève a été acceptée',
+                  time: 'Il y a 5 minutes'
+         },
+         {
+                  id: 2,
+                  message: 'Nouveau message de l\'agence immobilière',
+                  time: 'Il y a 2 heures'
+         },
+         {
+                  id: 3,
+                  message: 'Rappel: Visite programmée demain à 14h',
+                  time: 'Il y a 5 heures'
+         }
+]
+
+// Close dropdowns when clicking outside
+const notificationsRef = ref(null)
+const userMenuRef = ref(null)
+
+onClickOutside(notificationsRef, () => {
+         isNotificationsOpen.value = false
+})
+
+onClickOutside(userMenuRef, () => {
+         isUserMenuOpen.value = false
+})
+
+// Close sidebar on mobile when clicking outside
+const sidebarRef = ref(null)
+onClickOutside(sidebarRef, () => {
+         if (window.innerWidth < 768) {
+                  isSidebarOpen.value = false
+         }
+})
+</script>

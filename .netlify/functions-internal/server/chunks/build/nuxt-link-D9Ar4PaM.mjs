@@ -1,6 +1,10 @@
 import { defineComponent, shallowRef, h, resolveComponent, computed } from 'vue';
 import { q as parseQuery, h as hasProtocol, k as joinURL, r as withTrailingSlash, v as withoutTrailingSlash } from '../nitro/nitro.mjs';
+<<<<<<< HEAD:.netlify/functions-internal/server/chunks/build/nuxt-link-D9Ar4PaM.mjs
 import { g as useRouter, b as useNuxtApp, r as resolveRouteObject, h as useRuntimeConfig, n as navigateTo, i as nuxtLinkDefaults } from './server.mjs';
+=======
+import { u as useRouter, a as useNuxtApp, r as resolveRouteObject, b as useRuntimeConfig, n as navigateTo, c as nuxtLinkDefaults } from './server.mjs';
+>>>>>>> origin/main:.netlify/functions-internal/server/chunks/build/nuxt-link-BOTloxyx.mjs
 
 const firstNonUndefined = (...args) => args.find((arg) => arg !== void 0);
 // @__NO_SIDE_EFFECTS__

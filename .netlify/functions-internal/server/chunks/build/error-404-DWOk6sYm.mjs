@@ -1,7 +1,15 @@
+<<<<<<< HEAD:.netlify/functions-internal/server/chunks/build/error-404-DWOk6sYm.mjs
 import { _ as __nuxt_component_1 } from './nuxt-link-D9Ar4PaM.mjs';
 import { mergeProps, withCtx, createTextVNode, toDisplayString, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderComponent } from 'vue/server-renderer';
 import { _ as _export_sfc, u as useHead } from './server.mjs';
+=======
+import { _ as __nuxt_component_0 } from './nuxt-link-BOTloxyx.mjs';
+import { mergeProps, withCtx, createTextVNode, toDisplayString, useSSRContext } from 'vue';
+import { ssrRenderAttrs, ssrInterpolate, ssrRenderComponent } from 'vue/server-renderer';
+import { _ as _export_sfc } from './server.mjs';
+import { u as useHead } from './v3-Bd6JU75o.mjs';
+>>>>>>> origin/main:.netlify/functions-internal/server/chunks/build/error-404-DMxPFXqQ.mjs
 import '../nitro/nitro.mjs';
 import 'node:http';
 import 'node:https';
@@ -16,7 +24,10 @@ import 'unhead/server';
 import 'devalue';
 import 'unhead/utils';
 import 'unhead/plugins';
+<<<<<<< HEAD:.netlify/functions-internal/server/chunks/build/error-404-DWOk6sYm.mjs
 import 'pinia';
+=======
+>>>>>>> origin/main:.netlify/functions-internal/server/chunks/build/error-404-DMxPFXqQ.mjs
 import 'vue-router';
 
 const _sfc_main = {
@@ -64,7 +75,11 @@ const _sfc_main = {
       ]
     });
     return (_ctx, _push, _parent, _attrs) => {
+<<<<<<< HEAD:.netlify/functions-internal/server/chunks/build/error-404-DWOk6sYm.mjs
       const _component_NuxtLink = __nuxt_component_1;
+=======
+      const _component_NuxtLink = __nuxt_component_0;
+>>>>>>> origin/main:.netlify/functions-internal/server/chunks/build/error-404-DMxPFXqQ.mjs
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "antialiased bg-white dark:bg-black dark:text-white font-sans grid min-h-screen overflow-hidden place-content-center text-black" }, _attrs))} data-v-06403dcb><div class="fixed left-0 right-0 spotlight z-10" data-v-06403dcb></div><div class="max-w-520px text-center z-20" data-v-06403dcb><h1 class="font-medium mb-8 sm:text-10xl text-8xl" data-v-06403dcb>${ssrInterpolate(__props.statusCode)}</h1><p class="font-light leading-tight mb-16 px-8 sm:px-0 sm:text-4xl text-xl" data-v-06403dcb>${ssrInterpolate(__props.description)}</p><div class="flex items-center justify-center w-full" data-v-06403dcb>`);
       _push(ssrRenderComponent(_component_NuxtLink, {
         to: "/",
