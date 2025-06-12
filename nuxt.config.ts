@@ -11,7 +11,6 @@ export default defineNuxtConfig({
     head: {
       title: 'Keylity',
       meta: [
-<<<<<<< HEAD
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
         { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
@@ -21,10 +20,6 @@ export default defineNuxtConfig({
         { 'http-equiv': 'X-XSS-Protection', content: '1; mode=block' },
         { name: 'referrer', content: 'strict-origin-when-cross-origin' },
         { name: 'Content-Security-Policy', content: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' ${process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3000/api'}" }
-=======
-        { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' }
->>>>>>> origin/main
       ],
   
       link: [
@@ -39,14 +34,7 @@ export default defineNuxtConfig({
       ]
     }
   },
-<<<<<<< HEAD
   devServer: {
     port: 4000
-=======
-  css: ['~/assets/css/fonts.css'],
-  ssr: true,
-  nitro: {
-    preset: 'netlify'
->>>>>>> origin/main
   }
 })
