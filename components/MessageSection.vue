@@ -22,7 +22,6 @@
           </div>
         </div>
 
-        <!-- Conversations -->
         <div class="flex-1 overflow-y-auto">
           <div
             v-for="conversation in conversations"
@@ -174,7 +173,7 @@
               </div>
               <button
                 @click="sendMessage"
-                class="px-4 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+                class="px-4 py-3 bg-primary-500 text-white rounded-lg hover:bg-red-600 transition-colors"
               >
                 <Icon name="heroicons:paper-airplane" class="h-5 w-5" />
               </button>

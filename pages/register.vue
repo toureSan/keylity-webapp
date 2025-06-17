@@ -404,9 +404,11 @@ import { useForm, useField } from "vee-validate";
 import { defineRule } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import { z } from "zod";
+import { computed } from 'vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
+
 
 // Définition du schéma de validation avec Zod
 const registerSchema = toTypedSchema(
@@ -420,7 +422,7 @@ const registerSchema = toTypedSchema(
         .min(8, "Le mot de passe doit contenir au moins 8 caractères")
         .regex(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-          "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial",
+          "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial"
         ),
       confirmPassword: z
         .string()
@@ -452,6 +454,7 @@ const showPassword = ref(false);
 const showConfirmPassword = ref(false);
 const loading = ref(false);
 
+;
 const {
   value: firstName,
   errorMessage: firstNameError,
@@ -486,7 +489,7 @@ const onSubmit = handleSubmit(async (formValues) => {
   try {
     loading.value = true;
     serverError.value = "";
-
+    console.log("we are from register");
     await authStore.register(
       formValues.email,
       formValues.password,
@@ -494,13 +497,16 @@ const onSubmit = handleSubmit(async (formValues) => {
       formValues.lastName,
     );
 
-    // Réinitialisation du formulaire après succès
+  
     resetForm();
+    
     router.push("/auth/confirm-email-sent");
+
   } catch (error) {
     console.error("Register error:", error);
-    if (error.response?.data?.message) {
-      serverError.value = error.response.data.message;
+    console.log("Erreur serveur:", error.response);
+    if (error.response?._data?.message) {
+      serverError.value = error.response._data.message;
     } else {
       serverError.value = "Une erreur est survenue lors de l'inscription";
     }
@@ -509,7 +515,6 @@ const onSubmit = handleSubmit(async (formValues) => {
   }
 });
 
-// Réinitialisation des erreurs lors de la modification des champs
 const resetFieldError = (field) => {
   if (errors.value[field]) {
     errors.value[field] = "";
@@ -519,21 +524,15 @@ const resetFieldError = (field) => {
   }
 };
 
-const handleGoogleLogin = async () => {
-  try {
-    // TODO: Implémenter la connexion Google
-    console.log("Google login attempt");
-  } catch (error) {
-    console.error("Google login error:", error);
-  }
-};
+;
 
-const handleLinkedInLogin = async () => {
-  try {
-    // TODO: Implémenter la connexion LinkedIn
-    console.log("LinkedIn login attempt");
-  } catch (error) {
-    console.error("LinkedIn login error:", error);
-  }
-};
+const passwordCriteria = computed(() => {
+  return {
+    length: password.value.length >= 8,
+    lowercase: /[a-z]/.test(password.value),
+    uppercase: /[A-Z]/.test(password.value),
+    digit: /\d/.test(password.value),
+    special: /[@$!%*?&]/.test(password.value),
+  };
+});
 </script>

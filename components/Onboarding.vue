@@ -16,11 +16,10 @@
         Votre assistant pour simplifier toutes vos démarches administratives.
       </div>
     </div>
-    <!-- Colonne droite : formulaire -->
+
     <div
       class="flex flex-1 flex-col justify-center items-left px-20 sm:px-20 md:px-15 bg-white"
     >
-      <!-- Stepper juste au-dessus du formulaire -->
       <h2 class="fluid-title font-bold">À propos de vous</h2>
       <p class="fluid-subtitle text-gray-500 mb-10 max-w-xl">
         Nous avons besoins de quelque information afin de vous permettre de

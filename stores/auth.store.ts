@@ -28,7 +28,6 @@ export const useAuthStore = defineStore("auth", {
   }),
 
   actions: {
-    // Vérifie l'état de connexion avec le token et appelle /auth/me
     async checkAuth() {
       if (process.server) return false;
       const token = localStorage.getItem("access_token");
@@ -39,9 +38,10 @@ export const useAuthStore = defineStore("auth", {
       }
 
       try {
-        const config = useRuntimeConfig();
+        const url = useRuntimeConfig().public.appUrl + "/auth/register";
+        console.log(url)
         const response = await $fetch<ApiResponse>(
-          `${config.public.apiBase}/auth/me`,
+          url,
           {
             method: "GET",
             headers: {
@@ -61,7 +61,7 @@ export const useAuthStore = defineStore("auth", {
       }
     },
 
-    // Enregistre un nouvel utilisateur
+
     async register(
       email: string,
       password: string,
@@ -70,8 +70,10 @@ export const useAuthStore = defineStore("auth", {
     ) {
       try {
         const config = useRuntimeConfig();
-        const url = `${config.public.apiBase}/auth/register`;
-
+      
+        const url = config.public.apiBase + "/auth/register";
+     
+        
         const response = await $fetch<ApiResponse>(url, {
           method: "POST",
           body: { email, password, firstName, lastName },
@@ -83,6 +85,7 @@ export const useAuthStore = defineStore("auth", {
 
         return response;
       } catch (error: any) {
+        console.log("hello");
         console.error("Registration error:", error);
         throw error;
       }
@@ -91,7 +94,7 @@ export const useAuthStore = defineStore("auth", {
     async login(credentials: { email: string; password: string }) {
       try {
         const config = useRuntimeConfig();
-        const url = `${config.public.apiBase}/auth/login`;
+        const url = config.public.apiBase + "/auth/login";
 
         const response = await $fetch<ApiResponse>(url, {
           method: "POST",
@@ -103,10 +106,7 @@ export const useAuthStore = defineStore("auth", {
         });
 
         if (response.user && response.access_token) {
-          // Enregistre le token
           localStorage.setItem("access_token", response.access_token);
-
-          // 👇 Recharge les données utilisateur depuis le backend pour avoir le bon `isEmailVerified`
           await this.checkAuth();
 
           return response;

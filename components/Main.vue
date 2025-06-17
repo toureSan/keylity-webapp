@@ -1,7 +1,5 @@
 <template>
   <main>
-    <!-- Hero Section -->
-    <!-- New Section -->
     <main>
       <section class="my-24">
         <div
@@ -15,7 +13,6 @@
               class="w-full max-w-2xl h-auto"
             />
           </div>
-          <!-- Texte à droite -->
           <div class="flex-1 flex flex-col justify-center">
             <h2 class="text-5xl md:text-5xl font-extrabold fluid-title mt-2">
               <span class="font-extrabold text-purple-500">Keylity</span>
@@ -317,17 +314,12 @@
             </p>
           </div>
 
-          <!-- Image sur desktop -->
-          <!-- Conteneur relatif -->
           <div
             class="hidden sm:block flex justify-center items-center relative"
           >
-            <!-- Fond violet caché sur mobile, visible dès sm (≥ 640px) -->
             <div
-              class="absolute -bottom-8 -right-12 w-172 h-100 bg-orange-300 rounded-2xl z-0"
+              class="absolute -right-12 w-172 h-100 bg-orange-300 rounded-2xl z-0"
             ></div>
-
-            <!-- Image au-dessus -->
             <img
               src="@/assets/images/calendar.png"
               alt="keylity illustration"
@@ -337,6 +329,128 @@
         </div>
       </div>
     </section>
+
+    <div class="mx-auto container">
+      <h1 class="text-4xl font-bold mb-10 px-4">
+        Trouver votre bien avec <span class="text-purple-500">Keylity</span>
+      </h1>
+
+      <div class="md:hidden flex overflow-x-auto space-x-6 pl-4 pb-2">
+        <div
+          v-for="(img, i) in images"
+          :key="i"
+          class="min-w-[90vw] max-w-[90vw] h-140 relative rounded-2xl overflow-hidden flex-shrink-0"
+        >
+          <img
+            :src="img.src"
+            :alt="img.alt"
+            class="w-full h-full object-cover"
+          />
+          <div
+            class="absolute bottom-0 left-0 p-4 text-white font-bold text-2xl bg-opacity-40 rounded-bl-2xl"
+          >
+            {{ img.label }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Grille desktop -->
+      <div class="hidden md:grid grid-cols-4 grid-rows-3 gap-4">
+        <!-- Genève (grande image) -->
+        <div class="col-span-2 row-span-1 relative rounded-2xl overflow-hidden">
+          <img
+            src="@/assets/images/geneve.jpg"
+            alt="Genève"
+            class="w-full h-74 object-cover hover:brightness-80 transition-all duration-300 cursor-pointer"
+          />
+          <div
+            class="absolute bottom-0 left-0 p-4 text-white font-bold text-lg bg-opacity-40 rounded-bl-2xl"
+          >
+            Genève
+          </div>
+        </div>
+        <!-- Sion -->
+        <div class="col-span-1 row-span-1 relative rounded-2xl overflow-hidden">
+          <img
+            src="@/assets/images/sion.jpg"
+            alt="Sion"
+            class="w-full h-74 object-cover hover:brightness-80 transition-all duration-300 cursor-pointer"
+          />
+          <div
+            class="absolute bottom-0 left-0 p-4 text-white font-bold text-lg bg-opacity-40 rounded-bl-2xl"
+          >
+            Sion
+          </div>
+        </div>
+        <!-- Nyon -->
+        <div class="col-span-1 row-span-1 relative rounded-2xl overflow-hidden">
+          <img
+            src="@/assets/images/nyon.jpg"
+            alt="Nyon"
+            class="w-full h-74 object-cover hover:brightness-80 transition-all duration-300 cursor-pointer"
+          />
+          <div
+            class="absolute bottom-0 left-0 p-4 text-white font-bold text-lg bg-opacity-40 rounded-bl-2xl"
+          >
+            Nyon
+          </div>
+        </div>
+
+        <!-- Vevey -->
+        <div class="col-span-1 row-span-1 relative rounded-2xl overflow-hidden">
+          <img
+            src="@/assets/images/vevey.jpg"
+            alt="Vevey"
+            class="w-full h-74 object-cover hover:brightness-80 transition-all duration-300 cursor-pointer"
+          />
+          <div
+            class="absolute bottom-0 left-0 p-4 text-white font-bold text-lg bg-opacity-40 rounded-bl-2xl"
+          >
+            Vevey
+          </div>
+        </div>
+        <!-- Montreux -->
+        <div class="col-span-1 row-span-1 relative rounded-2xl overflow-hidden">
+          <img
+            src="@/assets/images/montreux.jpg"
+            alt="Montreux"
+            class="w-full h-74 object-cover hover:brightness-80 transition-all duration-300 cursor-pointer"
+          />
+          <div
+            class="absolute bottom-0 left-0 p-4 text-white font-bold text-lg bg-opacity-40 rounded-bl-2xl"
+          >
+            Montreux
+          </div>
+        </div>
+
+        <!-- Lausanne (grande image) -->
+        <div class="col-span-2 row-span-2 relative rounded-2xl overflow-hidden">
+          <img
+            src="@/assets/images/lausanne.jpg"
+            alt="Lausanne"
+            class="w-full h-full min-h-[220px] object-cover hover:brightness-80 transition-all duration-300 cursor-pointer"
+          />
+          <div
+            class="absolute bottom-0 left-0 p-4 text-white font-bold text-xl bg-opacity-40 rounded-bl-2xl"
+          >
+            Lausanne
+          </div>
+        </div>
+
+        <div class="col-span-2 row-span-1 relative rounded-2xl overflow-hidden">
+          <img
+            src="@/assets/images/neuchatel.jpg"
+            alt="Neuchâtel"
+            class="w-full h-74 object-cover hover:brightness-80 transition-all duration-300 cursor-pointer"
+          />
+          <div
+            class="absolute bottom-0 left-0 p-4 text-white font-bold text-lg bg-opacity-40 rounded-bl-2xl"
+          >
+            Neuchâtel
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 
@@ -344,6 +458,13 @@
 import { onMounted } from "vue";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import geneve from "@/assets/images/geneve.jpg";
+import sion from "@/assets/images/sion.jpg";
+import nyon from "@/assets/images/nyon.jpg";
+import vevey from "@/assets/images/vevey.jpg";
+import montreux from "@/assets/images/montreux.jpg";
+import lausanne from "@/assets/images/lausanne.jpg";
+import neuchatel from "@/assets/images/neuchatel.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -364,6 +485,16 @@ onMounted(() => {
     });
   });
 });
+
+const images = ref([
+  { src: geneve, alt: "Genève", label: "Genève" },
+  { src: sion, alt: "Sion", label: "Sion" },
+  { src: nyon, alt: "Nyon", label: "Nyon" },
+  { src: vevey, alt: "Vevey", label: "Vevey" },
+  { src: montreux, alt: "Montreux", label: "Montreux" },
+  { src: lausanne, alt: "Lausanne", label: "Lausanne" },
+  { src: neuchatel, alt: "Neuchâtel", label: "Neuchâtel" },
+]);
 </script>
 
 <style scoped>

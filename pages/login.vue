@@ -39,6 +39,20 @@
         <div class="mt-10">
           <div>
             <form @submit.prevent="handleLogin" class="space-y-6">
+              <div v-if="serverError" class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+                <div class="flex">
+                  <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94l-1.72-1.72z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div class="ml-3">
+                    <p class="text-sm font-medium text-red-800">
+                      {{ serverError }}
+                    </p>
+                  </div>
+                </div>
+              </div>
               <div class="group">
                 <label
                   for="email"
@@ -336,40 +350,32 @@
 </style>
 <script setup>
 import logoImage from "~/assets/images/logo-complet.png";
+import { useAuthStore } from '~/stores/auth.store';
+import { useRouter } from 'vue-router';
 
+const authStore = useAuthStore();
+const router = useRouter();
 const email = ref("");
 const password = ref("");
 const rememberMe = ref(false);
 const showPassword = ref(false);
+const serverError = ref("");
 
 const handleLogin = async () => {
   try {
-    // TODO: Implémenter la logique de connexion
-    console.log("Login attempt with:", {
+    const response = await authStore.login({
       email: email.value,
       password: password.value,
-      rememberMe: rememberMe.value,
     });
+    router.push("/dashboard");
   } catch (error) {
     console.error("Login error:", error);
+    if (error.response?._data?.message) {
+      serverError.value = error.response._data.message;
+    } else {
+      serverError.value = "Une erreur est survenue lors de la connexion";
+    }
   }
 };
 
-const handleGoogleLogin = async () => {
-  try {
-    // TODO: Implémenter la connexion Google
-    console.log("Google login attempt");
-  } catch (error) {
-    console.error("Google login error:", error);
-  }
-};
-
-const handleLinkedInLogin = async () => {
-  try {
-    // TODO: Implémenter la connexion LinkedIn
-    console.log("LinkedIn login attempt");
-  } catch (error) {
-    console.error("LinkedIn login error:", error);
-  }
-};
 </script>
