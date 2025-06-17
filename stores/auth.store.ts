@@ -73,7 +73,7 @@ export const useAuthStore = defineStore("auth", {
       
         const url = config.public.apiBase + "/auth/register";
      
-        
+        console.log(url);
         const response = await $fetch<ApiResponse>(url, {
           method: "POST",
           body: { email, password, firstName, lastName },

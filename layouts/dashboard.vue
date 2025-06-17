@@ -19,23 +19,10 @@
             <Icon name="heroicons:bars-3" class="h-6 w-6 text-gray-600" />
           </button>
           <div class="flex items-center">
-            <span class="text-xl font-bold"
-              ><span class="text-blue-600">Key</span
-              ><span class="text-secondary-600">lity</span></span
-            >
+            <img src="~/assets/images/logo-complet.png" class="h-8 w-auto" alt="">
           </div>
           <div class="relative hidden md:flex items-center gap-4">
-            <div class="relative">
-              <input
-                type="text"
-                placeholder="Rechercher..."
-                class="w-64 pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-              <Icon
-                name="heroicons:magnifying-glass"
-                class="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"
-              />
-            </div>
+           
             <!-- Mode Toggle Switch -->
             <div class="flex items-center bg-gray-100 rounded-full p-1">
               <button

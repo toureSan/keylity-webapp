@@ -367,6 +367,8 @@ const handleLogin = async () => {
       email: email.value,
       password: password.value,
     });
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     router.push("/dashboard");
   } catch (error) {
     console.error("Login error:", error);
