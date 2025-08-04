@@ -1,5 +1,5 @@
 <template>
-  Add commentMore actions
+
   <div class="flex min-h-screen">
     <div
       class="flex flex-1 flex-col justify-center px-0 py-0 sm:px-6 lg:flex-none lg:px-10 xl:px-44"
@@ -96,8 +96,8 @@ onMounted(async () => {
 
     await authStore.verifyEmail(accessToken);
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    await navigateTo("/dashboard");
+
+    navigateTo('/dashboard');
   } catch (err) {
     console.error("Erreur de vérification:", err);
     error.value =

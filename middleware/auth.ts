@@ -31,6 +31,4 @@ export default defineNuxtRouteMiddleware(async (to) => {
   ) {
     return navigateTo("/auth/confirm-email");
   }
-
-  // 4. Laisser passer sinon
 });
