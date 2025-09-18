@@ -11,7 +11,6 @@
           >
             <Icon name="heroicons:bars-3" class="h-6 w-6 text-gray-600" />
           </button>
-          <!-- Desktop Sidebar Toggle -->
           <button
             @click="isCollapsed = !isCollapsed"
             class="p-2 rounded-lg hover:bg-gray-100 hidden md:block"
