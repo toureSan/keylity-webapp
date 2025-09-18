@@ -1,32 +1,29 @@
 <template>
   <main>
-    <!-- Hero Section -->
-    <!-- New Section -->
     <main>
-
       <section class="my-24">
         <div class="container mx-auto px-5 flex flex-col md:flex-row items-stretch gap-x-12">
           <!-- Image à gauche -->
           <div class="flex-1 flex justify-center items-center">
-            <img src="@/assets/images/person2.png" alt="keylity illustration" class="w-full max-w-2xl h-auto" />
+            <img src="@/assets/images/image2.png" alt="keylity illustration" class="w-full max-w-2xl h-auto" />
           </div>
-          <!-- Texte à droite -->
           <div class="flex-1 flex flex-col justify-center">
             <h2 class="text-5xl md:text-5xl font-extrabold fluid-title mt-2">
-              <span class="font-extrabold text-purple-500">Keylity</span> <span class="font-normal">en
-                quelques</span><br>
+              <span class="font-extrabold text-purple-500">Keylity</span>
+              <span class="font-normal">en quelques</span><br />
               <span class="font-normal">mots ✨</span>
             </h2>
             <p class="mt-6 text-gray-500 text-xl leading-relaxed">
-              La location en Suisse, c'est souvent compliqué, cher, et pas très clair.
-              Keylity change la donne.
-              On vous aide à louer plus facilement, à proposer votre bien simplement, et même à avancer vers l'achat si
-              c'est votre projet.
-              <br><br>
-              Moins de stress, plus de clarté, et des solutions qui s'adaptent à vous.
-              <br><br>
+              La location en Suisse, c'est souvent compliqué, cher, et pas très
+              clair. Keylity change la donne. On vous aide à louer plus
+              facilement, à proposer votre bien simplement, et même à avancer
+              vers l'achat si c'est votre projet.
+              <br /><br />
+              Moins de stress, plus de clarté, et des solutions qui s'adaptent à
+              vous.
+              <br /><br />
               <strong>Keylity</strong>, une autre façon de louer.
-              <br>
+              <br />
               Plus simple. Plus intelligente. Plus humaine.
             </p>
           </div>
@@ -36,13 +33,14 @@
 
     <!-- Solutions Section -->
     <section ref="section2" class="py-24 bg-white">
-      <div class="container  mx-auto px-5">
+      <div class="container mx-auto px-5">
         <div class="text-center mb-16">
-          <h2 class=" fluid-title font-bold text-gray-900 mb-4">
+          <h2 class="fluid-title font-bold text-gray-900 mb-4">
             Une plateforme pensée pour vous !
           </h2>
           <p class="text-2xl text-gray-500 max-w-3xl mx-auto">
-            Découvrez comment Keylity transforme l'expérience immobilière pour les locataires, propriétaires et agences
+            Découvrez comment Keylity transforme l'expérience immobilière pour
+            les locataires, propriétaires et agences
           </p>
         </div>
 
@@ -55,18 +53,15 @@
                   d="M29.6763 9.72184C29.0506 8.12845 27.9031 5.82941 25.9899 3.92536C24.0836 2.02787 21.8089 0.913182 20.2364 0.31213C18.51 -0.347692 16.5482 0.0682047 15.2387 1.37162L10.6368 5.95187C9.27272 7.30954 8.87956 9.39864 9.65844 11.1503C9.89996 11.6936 10.1626 12.225 10.4433 12.7384L0.343241 22.8384C0.123457 23.0581 0 23.3562 0 23.667V28.8233C0 29.4705 0.524646 29.9951 1.17187 29.9951H6.3281C6.97532 29.9951 7.49997 29.4705 7.49997 28.8233V26.7139L9.60934 26.7138C10.2566 26.7138 10.7812 26.1892 10.7812 25.542V23.4327H12.8906C13.5378 23.4327 14.0624 22.908 14.0624 22.2608C14.0624 21.6136 13.5378 21.0889 12.8906 21.0889H9.60934C8.96211 21.0889 8.43747 21.6136 8.43747 22.2608V24.3701L6.3281 24.3702C5.68088 24.3702 5.15623 24.8948 5.15623 25.542V27.6514H2.34374V24.1524L12.7356 13.7606C13.1174 13.3788 13.1889 12.7857 12.9089 12.3241C12.5028 11.6547 12.1297 10.9394 11.8001 10.198C11.4135 9.32844 11.6105 8.28964 12.2903 7.61294L16.8921 3.03274C17.5491 2.3789 18.5334 2.17036 19.3998 2.50142C20.7604 3.02149 22.7215 3.9788 24.3366 5.58648C25.9617 7.2039 26.9511 9.19391 27.4948 10.5785C27.8342 11.4426 27.628 12.4243 26.9695 13.0797L22.3122 17.7152C21.634 18.3902 20.6217 18.5875 19.7331 18.218C19.0003 17.9132 18.2906 17.551 17.6238 17.1418C17.0722 16.8032 16.3506 16.976 16.012 17.5276C15.6735 18.0792 15.8461 18.8008 16.3977 19.1393C17.1684 19.6123 17.9877 20.0304 18.833 20.3819C20.5991 21.1166 22.6138 20.7218 23.9655 19.3764L28.6229 14.7409C29.9439 13.4261 30.3574 11.456 29.6763 9.72184Z"
                   fill="#6FB4E1" />
               </svg>
-
             </div>
             <h3 class="text-lg font-bold mb-2">Locataire</h3>
-            <p class="text-gray-500 mb-6">Lorem ipsum dolor sit amet, <br> <br> consectetur adipiscing elit. Ut
-              imperdiet mollis
-              ante ac eleifend. Fusce mollis hendrerit mauris et aliquet.
-              <br> <br>
-              ante ac eleifend. Fusce mollis hendrerit mauris et aliquet.
-              <br><br>
-              ante ac eleifend. Fusce mollis hendrerit mauris et aliquet.
+            <p class="text-gray-500 mb-6">
+              oubliez les démarches compliquées et les dossiers papier. Créez votre profil en ligne, téléversez vos
+              documents une seule fois et postulez en quelques clics aux biens qui vous intéressent. <br> <br>
+              Suivez en temps réel l’avancement de votre candidature et recevez des recommandations personnalisées selon
+              vos critères et votre budget.
             </p>
-            <a href="#" class="text-blue-600 font-semibold flex items-center mt-auto group">
+            <a href="/login" class="text-blue-600 font-semibold flex items-center mt-auto group">
               Commencer
               <span class="ml-2 transition-transform group-hover:translate-x-1">→</span>
             </a>
@@ -89,19 +84,15 @@
                   </clipPath>
                 </defs>
               </svg>
-
-
             </div>
             <h3 class="text-lg font-bold mb-2">Propriétaire</h3>
-            <p class="text-gray-500 mb-6">Lorem ipsum dolor sit amet, <br> <br> consectetur adipiscing elit. Ut
-              imperdiet mollis
-              ante ac eleifend. Fusce mollis hendrerit mauris et aliquet.
-              <br> <br>
-              ante ac eleifend. Fusce mollis hendrerit mauris et aliquet.
-              <br><br>
-              ante ac eleifend. Fusce mollis hendrerit mauris et aliquet.
+            <p class="text-gray-500 mb-6">
+              Proposez votre logement en quelques minutes sur Keylity. Nous vous aidons à trouver des locataires sérieux
+              rapidement grâce à notre base de candidats déjà qualifiés. <br>
+              Suivez et gérez les candidatures directement depuis votre espace propriétaire, sans perdre de temps avec
+              les démarches traditionnelles.
             </p>
-            <a href="#" class="text-blue-600 font-semibold flex items-center mt-auto group">
+            <a href="/login" class="text-blue-600 font-semibold flex items-center mt-auto group">
               Commencer
               <span class="ml-2 transition-transform group-hover:translate-x-1">→</span>
             </a>
@@ -121,27 +112,24 @@
                   </clipPath>
                 </defs>
               </svg>
-
-
             </div>
-            <h3 class="text-lg font-bold mb-2">Agence et courtier immobilier</h3>
-            <p class="text-gray-500 mb-6">Lorem ipsum dolor sit amet, <br> <br> consectetur adipiscing elit. Ut
-              imperdiet mollis
-              ante ac eleifend. Fusce mollis hendrerit mauris et aliquet.
-              <br> <br>
-              ante ac eleifend. Fusce mollis hendrerit mauris et aliquet.
-              <br><br>
-              ante ac eleifend. Fusce mollis hendrerit mauris et aliquet.
+            <h3 class="text-lg font-bold mb-2">
+              Agence et courtier immobilier
+            </h3>
+            <p class="text-gray-500 mb-6">
+              Optimisez votre temps et maximisez vos chances de louer rapidement grâce à Keylity. Publiez vos biens,
+              suivez les candidatures et accédez à des profils vérifiés depuis une seule interface.
+              Notre technologie vous aide à sélectionner les candidats les plus adaptés à vos critères, tout en
+              simplifiant la gestion administrative.
             </p>
-            <a href="#" class="text-blue-600 font-semibold flex items-center mt-auto group">
-              Commencer
-              <span class="ml-2 transition-transform group-hover:translate-x-1">→</span>
-            </a>
+              <a href="/login" class="text-blue-600 font-semibold flex items-center mt-auto group">
+                Commencer
+                <span class="ml-2 transition-transform group-hover:translate-x-1">→</span>
+              </a>
           </div>
         </div>
       </div>
     </section>
-
 
     <section ref=" animatedSections" class="my-24">
       <div class="container mx-auto px-5">
@@ -156,33 +144,27 @@
           <div class="flex-1 flex flex-col justify-center">
             <div class="relative w-full flex items-start">
               <h2 class="text-4xl md:text-5xl font-extrabold fluid-title mt-2 flex-1">
-                Trouve des <span class="text-pink-500">biens</span><span class="text-pink-600"> qui <br
-                    class="hidden md:block" /> te correspondent 🏡
+                Trouve des <span class="text-pink-500">biens</span><span class="text-pink-600">
+                  qui <br class="hidden md:block" />
+                  te correspondent 🏡
                 </span>
               </h2>
             </div>
             <p class="mt-6 text-gray-500 text-xl leading-relaxed mb-4">
-              Cherche parmi des centaine de biens, et trouve la perle rare. Grace à notre algorithme nous selectionnons
-              pour toi le bien qui te correspondant.
+              Cherche parmi des centaine de biens, et trouve la perle rare.
+              Grace à notre algorithme nous selectionnons pour toi le bien qui
+              te correspondant.
             </p>
           </div>
-
-          <!-- Image sur desktop -->
-          <!-- Conteneur relatif -->
-          <div class=" hidden sm:block flex justify-center items-center relative">
-            <!-- Fond violet caché sur mobile, visible dès sm (≥ 640px) -->
-            <div class=" absolute -bottom-8 -right-12 w-172 h-100 bg-blue-300 rounded-2xl z-0"></div>
-
-            <!-- Image au-dessus -->
+    
+          <div class="hidden sm:block flex justify-center items-center relative">
+            <div class="absolute -bottom-8 -right-12 w-172 h-100 bg-blue-300 rounded-2xl z-0"></div>
             <img src="@/assets/images/plateforme.png" alt="keylity illustration"
               class="w-full max-w-2xl h-auto relative z-10" />
           </div>
-
-
         </div>
       </div>
     </section>
-
 
     <section ref="animatedSections" class="my-24">
       <div class="container mx-auto px-6 flex flex-col md:flex-row items-stretch gap-x-12">
@@ -198,18 +180,18 @@
         <!-- Texte à droite -->
         <div class="flex-1 flex flex-col justify-center mt-10 sm:mt-0">
           <h2 class="text-4xl md:text-5xl font-extrabold fluid-title">
-            <span class="text-blue-400">Postule</span> et consulte en temps réel <br class="hidden md:block" /> <span
-              class="text-blue-400">la
-              progression de ton dossie 🤓 </span>
+            <span class="text-blue-400">Postule</span> et consulte en temps réel
+            <br class="hidden md:block" />
+            <span class="text-blue-400">la progression de ton dossie 🤓 </span>
           </h2>
           <p class="mt-10 sm:mt-6 text-gray-500 text-xl leading-relaxed">
-            Construit ton dossier en introduisant tous les information necessaire et postule de manière simple et
-            rapide. Par la suite nous t'enverons des notifications de l'avancement de ton dossier.
+            Construit ton dossier en introduisant tous les information
+            necessaire et postule de manière simple et rapide. Par la suite nous
+            t'enverons des notifications de l'avancement de ton dossier.
           </p>
         </div>
       </div>
     </section>
-
 
     <section ref=" animatedSections" class="my-24">
       <div class="container mx-auto px-5">
@@ -223,78 +205,164 @@
           <!-- Texte -->
           <div class="flex-1 flex flex-col justify-center">
             <div class="relative w-full flex items-start">
-              <h2 class="font-extrabold fluid-title mt-2 flex-1 max-w-2xl"> Un accompagnement <span class="text-orange-500">100% digitalisé </span>
+              <h2 class="font-extrabold fluid-title mt-2 flex-1 max-w-2xl">
+                Un accompagnement
+                <span class="text-orange-500">100% digitalisé </span>
               </h2>
             </div>
             <p class="mt-6 text-gray-500 text-xl leading-relaxed mb-4">
-              Cherche parmi des centaine de biens, et trouve la perle rare. Grace à notre algorithme nous selectionnons
-              pour toi le bien qui te correspondant.
+              Cherche parmi des centaine de biens, et trouve la perle rare.
+              Grace à notre algorithme nous selectionnons pour toi le bien qui
+              te correspondant.
             </p>
           </div>
 
-          <!-- Image sur desktop -->
-          <!-- Conteneur relatif -->
-          <div class=" hidden sm:block flex justify-center items-center relative">
-            <!-- Fond violet caché sur mobile, visible dès sm (≥ 640px) -->
-            <div class=" absolute -bottom-8 -right-12 w-172 h-100 bg-orange-300 rounded-2xl z-0"></div>
-
-            <!-- Image au-dessus -->
+          <div class="hidden sm:block flex justify-center items-center relative">
+            <div class="absolute -right-12 w-172 h-100 bg-orange-300 rounded-2xl z-0"></div>
             <img src="@/assets/images/calendar.png" alt="keylity illustration"
               class="w-full max-w-2xl h-auto relative z-10" />
           </div>
-
-
         </div>
       </div>
     </section>
 
+    <div class="mx-auto container">
+      <h1 class="text-4xl font-bold mb-10 px-4">
+        Trouver votre bien avec <span class="text-purple-500">Keylity</span>
+      </h1>
 
+      <div class="md:hidden flex overflow-x-auto space-x-6 pl-4 pb-2">
+        <div v-for="(img, i) in images" :key="i"
+          class="min-w-[90vw] max-w-[90vw] h-140 relative rounded-2xl overflow-hidden flex-shrink-0">
+          <img :src="img.src" :alt="img.alt" class="w-full h-full object-cover" />
+          <div class="absolute bottom-0 left-0 p-4 text-white font-bold text-2xl bg-opacity-40 rounded-bl-2xl">
+            {{ img.label }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Grille desktop -->
+      <div class="hidden md:grid grid-cols-4 grid-rows-3 gap-4">
+        <!-- Genève (grande image) -->
+        <div class="col-span-2 row-span-1 relative rounded-2xl overflow-hidden">
+          <img src="@/assets/images/geneve.jpg" alt="Genève"
+            class="w-full h-74 object-cover hover:brightness-80 transition-all duration-300 cursor-pointer" />
+          <div class="absolute bottom-0 left-0 p-4 text-white font-bold text-lg bg-opacity-40 rounded-bl-2xl">
+            Genève
+          </div>
+        </div>
+        <!-- Sion -->
+        <div class="col-span-1 row-span-1 relative rounded-2xl overflow-hidden">
+          <img src="@/assets/images/sion.jpg" alt="Sion"
+            class="w-full h-74 object-cover hover:brightness-80 transition-all duration-300 cursor-pointer" />
+          <div class="absolute bottom-0 left-0 p-4 text-white font-bold text-lg bg-opacity-40 rounded-bl-2xl">
+            Sion
+          </div>
+        </div>
+        <!-- Nyon -->
+        <div class="col-span-1 row-span-1 relative rounded-2xl overflow-hidden">
+          <img src="@/assets/images/nyon.jpg" alt="Nyon"
+            class="w-full h-74 object-cover hover:brightness-80 transition-all duration-300 cursor-pointer" />
+          <div class="absolute bottom-0 left-0 p-4 text-white font-bold text-lg bg-opacity-40 rounded-bl-2xl">
+            Nyon
+          </div>
+        </div>
+
+        <!-- Vevey -->
+        <div class="col-span-1 row-span-1 relative rounded-2xl overflow-hidden">
+          <img src="@/assets/images/vevey.jpg" alt="Vevey"
+            class="w-full h-74 object-cover hover:brightness-80 transition-all duration-300 cursor-pointer" />
+          <div class="absolute bottom-0 left-0 p-4 text-white font-bold text-lg bg-opacity-40 rounded-bl-2xl">
+            Vevey
+          </div>
+        </div>
+        <!-- Montreux -->
+        <div class="col-span-1 row-span-1 relative rounded-2xl overflow-hidden">
+          <img src="@/assets/images/montreux.jpg" alt="Montreux"
+            class="w-full h-74 object-cover hover:brightness-80 transition-all duration-300 cursor-pointer" />
+          <div class="absolute bottom-0 left-0 p-4 text-white font-bold text-lg bg-opacity-40 rounded-bl-2xl">
+            Montreux
+          </div>
+        </div>
+
+        <!-- Lausanne (grande image) -->
+        <div class="col-span-2 row-span-2 relative rounded-2xl overflow-hidden">
+          <img src="@/assets/images/lausanne.jpg" alt="Lausanne"
+            class="w-full h-full min-h-[220px] object-cover hover:brightness-80 transition-all duration-300 cursor-pointer" />
+          <div class="absolute bottom-0 left-0 p-4 text-white font-bold text-xl bg-opacity-40 rounded-bl-2xl">
+            Lausanne
+          </div>
+        </div>
+
+        <div class="col-span-2 row-span-1 relative rounded-2xl overflow-hidden">
+          <img src="@/assets/images/neuchatel.jpg" alt="Neuchâtel"
+            class="w-full h-74 object-cover hover:brightness-80 transition-all duration-300 cursor-pointer" />
+          <div class="absolute bottom-0 left-0 p-4 text-white font-bold text-lg bg-opacity-40 rounded-bl-2xl">
+            Neuchâtel
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
-
-
-
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
-import { gsap } from 'gsap'; 
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { onMounted } from "vue";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import geneve from "@/assets/images/geneve.jpg";
+import sion from "@/assets/images/sion.jpg";
+import nyon from "@/assets/images/nyon.jpg";
+import vevey from "@/assets/images/vevey.jpg";
+import montreux from "@/assets/images/montreux.jpg";
+import lausanne from "@/assets/images/lausanne.jpg";
+import neuchatel from "@/assets/images/neuchatel.jpg";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 onMounted(() => {
-  const sections = document.querySelectorAll('section')
+  const sections = document.querySelectorAll("section");
   sections.forEach((section, i) => {
-    if (i === 0) return
+    if (i === 0) return;
     gsap.from(section, {
       opacity: 0,
       y: 60,
       duration: 0.8,
-      ease: 'power2.out',
+      ease: "power2.out",
       scrollTrigger: {
         trigger: section,
-        start: 'top 80%',
-        toggleActions: 'play none none none'
-      }
-    })
-  })
-})
+        start: "top 80%",
+        toggleActions: "play none none none",
+      },
+    });
+  });
+});
+
+const images = ref([
+  { src: geneve, alt: "Genève", label: "Genève" },
+  { src: sion, alt: "Sion", label: "Sion" },
+  { src: nyon, alt: "Nyon", label: "Nyon" },
+  { src: vevey, alt: "Vevey", label: "Vevey" },
+  { src: montreux, alt: "Montreux", label: "Montreux" },
+  { src: lausanne, alt: "Lausanne", label: "Lausanne" },
+  { src: neuchatel, alt: "Neuchâtel", label: "Neuchâtel" },
+]);
 </script>
 
 <style scoped>
 .main-block {
   /* Optionnel : pour un effet carte flottante */
-  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 .fluid-title {
   font-size: clamp(2.3rem, 2.5vw, 8rem);
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: "Bricolage Grotesque", sans-serif;
   font-weight: 700;
 }
 
 .fluid-subtitle {
   font-size: clamp(1.5rem, 1vw, 8rem);
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: "Bricolage Grotesque", sans-serif;
   font-weight: 700;
 }
-</style> 
+</style>

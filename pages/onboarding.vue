@@ -3,8 +3,5 @@
 </template>
 
 <script setup>
-import Onboarding from '@/components/Onboarding.vue'
-
-
-
-</script> 
+import Onboarding from "@/components/Onboarding.vue";
+</script>
