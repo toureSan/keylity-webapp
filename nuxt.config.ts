@@ -21,8 +21,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3000/api',
-      appUrl: process.env.NUXT_PUBLIC_APP_URL || 'http://localhost:4000',
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || (process.env.NODE_ENV === 'production' ? 'https://keylity-backend-api-production.up.railway.app/api' : 'http://localhost:3000/api'),
+      appUrl: process.env.NUXT_PUBLIC_APP_URL || (process.env.NODE_ENV === 'production' ? 'https://keylity.ch' : 'http://localhost:4000'),
     },
   },
   app: {
@@ -53,7 +53,7 @@ export default defineNuxtConfig({
     routeRules: {
       "/api/**": {
         proxy:
-          (process.env.NUXT_PUBLIC_API_BASE || "http://localhost:3000/api") +
+          (process.env.NUXT_PUBLIC_API_BASE || (process.env.NODE_ENV === 'production' ? 'https://keylity-backend-api-production.up.railway.app/api' : 'http://localhost:3000/api')) +
           "/**",
         cors: true,
         headers: {
