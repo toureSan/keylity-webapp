@@ -38,36 +38,6 @@
               </div>
             </div>
 
-            <div class="group">
-              <label for="firstName" class="block text-sm/6 font-medium text-gray-900">Prénom</label>
-              <div class="mt-2 relative">
-                <input v-model="firstName" type="text" name="firstName" id="firstName" autocomplete="given-name"
-                  required
-                  class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
-                  :class="{
-                    'ring-red-500': firstNameTouched && firstNameError,
-                    'ring-green-500':
-                      firstNameTouched && !firstNameError && firstName,
-                  }" placeholder="John" />
-                <span v-if="firstNameTouched && firstNameError"
-                  class="text-red-500 text-sm mt-1 block">{{ firstNameError }}</span>
-              </div>
-            </div>
-
-            <div class="group">
-              <label for="lastName" class="block text-sm/6 font-medium text-gray-900">Nom</label>
-              <div class="mt-2 relative">
-                <input v-model="lastName" type="text" name="lastName" id="lastName" autocomplete="family-name" required
-                  class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
-                  :class="{
-                    'ring-red-500': lastNameTouched && lastNameError,
-                    'ring-green-500':
-                      lastNameTouched && !lastNameError && lastName,
-                  }" placeholder="Doe" />
-                <span v-if="lastNameTouched && lastNameError"
-                  class="text-red-500 text-sm mt-1 block">{{ lastNameError }}</span>
-              </div>
-            </div>
 
             <div class="group">
               <label for="email" class="block text-sm/6 font-medium text-gray-900">Adresse email</label>
@@ -95,8 +65,8 @@
                   }" placeholder="••••••••" />
                 <button type="button" @click="showPassword = !showPassword"
                   class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 transition-colors duration-300">
-                  <svg v-if="!showPassword" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20" fill="currentColor">
+                  <svg v-if="!showPassword" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                    fill="currentColor">
                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                     <path fill-rule="evenodd"
                       d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
@@ -281,8 +251,6 @@ const authStore = useAuthStore();
 const registerSchema = toTypedSchema(
   z
     .object({
-      firstName: z.string().min(1, "Le prénom est requis"),
-      lastName: z.string().min(1, "Le nom est requis"),
       email: z.string().email("L'adresse email n'est pas valide"),
       password: z
         .string()
@@ -304,8 +272,6 @@ const registerSchema = toTypedSchema(
 const form = useForm({
   validationSchema: registerSchema,
   initialValues: {
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -321,17 +287,6 @@ const showPassword = ref(false);
 const showConfirmPassword = ref(false);
 const loading = ref(false);
 
-;
-const {
-  value: firstName,
-  errorMessage: firstNameError,
-  touched: firstNameTouched,
-} = useField("firstName");
-const {
-  value: lastName,
-  errorMessage: lastNameError,
-  touched: lastNameTouched,
-} = useField("lastName");
 const {
   value: email,
   errorMessage: emailError,
@@ -360,10 +315,7 @@ const onSubmit = handleSubmit(async (formValues) => {
     await authStore.register(
       formValues.email,
       formValues.password,
-      formValues.firstName,
-      formValues.lastName,
     );
-
 
     resetForm();
 

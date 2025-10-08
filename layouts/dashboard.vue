@@ -410,7 +410,7 @@ const notifications = [
   },
 ];
 
-// Close dropdowns when clicking outside
+
 const notificationsRef = ref(null);
 const userMenuRef = ref(null);
 

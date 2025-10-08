@@ -65,8 +65,6 @@ export const useAuthStore = defineStore("auth", {
     async register(
       email: string,
       password: string,
-      firstName: string,
-      lastName: string,
     ) {
       try {
         const config = useRuntimeConfig();
@@ -76,7 +74,7 @@ export const useAuthStore = defineStore("auth", {
         console.log(url);
         const response = await $fetch<ApiResponse>(url, {
           method: "POST",
-          body: { email, password, firstName, lastName },
+          body: { email, password },
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
