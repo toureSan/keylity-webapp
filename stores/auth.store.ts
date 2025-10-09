@@ -6,6 +6,7 @@ interface User {
   firstName?: string;
   lastName?: string;
   isEmailVerified?: boolean;
+  is_email_verified?: boolean;
   role?: string;
   profile?: Record<string, any>;
 }
@@ -38,8 +39,9 @@ export const useAuthStore = defineStore("auth", {
       }
 
       try {
-        const url = useRuntimeConfig().public.appUrl + "/auth/register";
-        console.log(url)
+        const config = useRuntimeConfig();
+        const url = config.public.apiBase + "/user-profile/me";
+        
         const response = await $fetch<ApiResponse>(
           url,
           {
@@ -57,6 +59,7 @@ export const useAuthStore = defineStore("auth", {
         console.error("checkAuth error:", error);
         this.user = null;
         this.isAuthenticated = false;
+        localStorage.removeItem("access_token");
         return false;
       }
     },
@@ -68,10 +71,7 @@ export const useAuthStore = defineStore("auth", {
     ) {
       try {
         const config = useRuntimeConfig();
-      
         const url = config.public.apiBase + "/auth/register";
-
-        console.log(url);
         const response = await $fetch<ApiResponse>(url, {
           method: "POST",
           body: { email, password },
@@ -83,7 +83,6 @@ export const useAuthStore = defineStore("auth", {
 
         return response;
       } catch (error: any) {
-        console.log("hello");
         console.error("Registration error:", error);
         throw error;
       }

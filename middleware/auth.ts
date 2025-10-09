@@ -4,14 +4,13 @@ import { useAuthStore } from "../stores/auth.store";
 export default defineNuxtRouteMiddleware(async (to) => {
   const auth = useAuthStore();
 
-  // Éviter les appels multiples à checkAuth si déjà authentifié
   if (!auth.isAuthenticated) {
     await auth.checkAuth();
   }
 
   const isAuthenticated = auth.isAuthenticated;
-  const isEmailVerified = Boolean(auth.user?.isEmailVerified);
-  const isAuthPage = ["/login", "/auth/register"].includes(to.path);
+  const isEmailVerified = Boolean(auth.user?.isEmailVerified || auth.user?.is_email_verified);
+  const isAuthPage = ["/login", "/register"].includes(to.path);
   const isDashboardPage = to.path.startsWith("/dashboard");
   const isConfirmEmailPage = to.path === "/auth/confirm-email";
 

@@ -1,16 +1,49 @@
-export function useAuth() {
-  function isLoggedIn() {
-    if (typeof window !== "undefined") {
-      return !!localStorage.getItem("user");
+import { useAuthStore } from '~/stores/auth.store'
+
+export const useAuth = () => {
+  const authStore = useAuthStore()
+
+  const login = async (credentials) => {
+    try {
+      const response = await authStore.login(credentials)
+      return { success: true, user: response.user }
+    } catch (error) {
+      return { 
+        success: false, 
+        error: error.response?._data?.message || error.message || 'Une erreur est survenue lors de la connexion'
+      }
     }
-    return false; // côté serveur, on suppose que l'utilisateur n'est pas connecté
   }
 
-  function redirectToLogin() {
-    if (typeof window !== "undefined") {
-      window.location.href = "/login";
+  const register = async (userData) => {
+    try {
+      const response = await authStore.register(userData.email, userData.password)
+      return { success: true, message: response.message }
+    } catch (error) {
+      return { 
+        success: false, 
+        error: error.response?._data?.message || error.message || 'Une erreur est survenue lors de l\'inscription'
+      }
     }
   }
 
-  return { isLoggedIn, redirectToLogin };
+  const logout = () => {
+    authStore.logout()
+  }
+
+  const checkAuth = async () => {
+    return await authStore.checkAuth()
+  }
+
+  const isAuthenticated = computed(() => authStore.isAuthenticated)
+  const user = computed(() => authStore.user)
+
+  return {
+    login,
+    register,
+    logout,
+    checkAuth,
+    isAuthenticated,
+    user
+  }
 }

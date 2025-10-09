@@ -25,9 +25,14 @@
           </div>
           <div v-else-if="error" class="text-center">
             <div class="text-red-500 text-xl mb-4">{{ error }}</div>
-            <NuxtLink to="/login" class="text-blue-500 hover:text-blue-700">
-              Retour à la page de connexion
-            </NuxtLink>
+            <div class="space-y-4">
+              <NuxtLink to="/login" class="block text-blue-500 hover:text-blue-700">
+                Retour à la page de connexion
+              </NuxtLink>
+              <NuxtLink to="/register" class="block text-green-500 hover:text-green-700">
+                Créer un nouveau compte
+              </NuxtLink>
+            </div>
           </div>
           <div v-else class="text-center">
             <div class="text-green-500 text-xl mb-4">
@@ -79,27 +84,44 @@ onMounted(async () => {
   try {
     let accessToken = null;
     let type = null;
+    let errorParam = null;
+    let errorCode = null;
+    let errorDescription = null;
 
     if (window.location.hash) {
       const hashParams = new URLSearchParams(window.location.hash.substring(1));
       accessToken = hashParams.get("access_token");
       type = hashParams.get("type");
+      errorParam = hashParams.get("error");
+      errorCode = hashParams.get("error_code");
+      errorDescription = hashParams.get("error_description");
     } else if (window.location.search) {
       const queryParams = new URLSearchParams(window.location.search);
       accessToken = queryParams.get("token") || queryParams.get("access_token");
       type = queryParams.get("type");
+      errorParam = queryParams.get("error");
+      errorCode = queryParams.get("error_code");
+      errorDescription = queryParams.get("error_description");
     }
 
-    if (!accessToken || type !== "signup") {
-      throw new Error("Token invalide ou type incorrect");
+    if (errorParam) {
+      if (errorCode === "otp_expired") {
+        throw new Error("Le lien de confirmation a expiré. Veuillez demander un nouveau lien de confirmation.");
+      } else if (errorCode === "access_denied") {
+        throw new Error("Accès refusé. Le lien de confirmation n'est pas valide.");
+      } else {
+        throw new Error(`Erreur de confirmation: ${errorDescription || errorParam}`);
+      }
+    }
+
+    if (!accessToken) {
+      throw new Error("Token d'accès manquant. Le lien de confirmation semble invalide.");
     }
 
     await authStore.verifyEmail(accessToken);
-
-
-    navigateTo('/dashboard');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    await navigateTo('/dashboard');
   } catch (err) {
-    console.error("Erreur de vérification:", err);
     error.value =
       err.message ||
       "Une erreur est survenue lors de la vérification de votre email";

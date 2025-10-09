@@ -311,7 +311,6 @@ const onSubmit = handleSubmit(async (formValues) => {
   try {
     loading.value = true;
     serverError.value = "";
-    console.log("we are from register");
     await authStore.register(
       formValues.email,
       formValues.password,
@@ -322,8 +321,6 @@ const onSubmit = handleSubmit(async (formValues) => {
     router.push("/auth/confirm-email-sent");
 
   } catch (error) {
-    console.error("Register error:", error);
-    console.log("Erreur serveur:", error.response);
     if (error.response?._data?.message) {
       serverError.value = error.response._data.message;
     } else {
