@@ -56,7 +56,6 @@ export const useAuthStore = defineStore("auth", {
         this.isAuthenticated = true;
         return true;
       } catch (error) {
-        console.error("checkAuth error:", error);
         this.user = null;
         this.isAuthenticated = false;
         localStorage.removeItem("access_token");

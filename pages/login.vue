@@ -343,9 +343,10 @@
 }
 </style>
 <script setup>
-// Utiliser le layout auth (sans Header)
+// Utiliser le layout auth (sans Header) et empêcher l'accès si déjà connecté
 definePageMeta({
-  layout: 'auth'
+  layout: 'auth',
+  middleware: 'guest'
 });
 
 import logoImage from "~/assets/images/logo-complet.png";

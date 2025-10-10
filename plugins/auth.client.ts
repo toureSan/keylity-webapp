@@ -3,6 +3,9 @@ export default defineNuxtPlugin(async () => {
   
   // Vérifier l'authentification au démarrage de l'application
   if (process.client) {
-    await authStore.checkAuth();
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      await authStore.checkAuth();
+    }
   }
 });
