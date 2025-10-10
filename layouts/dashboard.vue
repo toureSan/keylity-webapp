@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="h-screen bg-gray-50 flex flex-col">
     <!-- Top Navigation -->
-    <header class="bg-white shadow-sm">
+    <header class="bg-white shadow-sm sticky top-0 z-40">
       <div class="flex items-center justify-between px-4 py-4">
         <div class="flex items-center gap-4">
           <!-- Toggle Sidebar -->
@@ -295,10 +295,10 @@
       </div>
     </header>
 
-    <div class="flex">
+    <div class="flex flex-1">
       <!-- Sidebar -->
       <aside
-        class="fixed md:static inset-y-0 left-0 transform md:transform-none transition-all duration-200 ease-in-out z-30 bg-white h-[calc(100vh-4rem)] shadow-sm overflow-y-auto"
+        class="fixed md:static inset-y-0 left-0 transform md:transform-none transition-all duration-200 ease-in-out z-30 bg-white h-full shadow-sm overflow-y-auto"
         :class="[
           isCollapsed ? 'w-20' : 'w-64',
           isSidebarOpen
@@ -362,7 +362,7 @@
       ></div>
 
       <!-- Main Content -->
-      <main class="flex-1 p-6">
+      <main class="flex-1 p-6 overflow-y-auto">
         <slot />
       </main>
     </div>

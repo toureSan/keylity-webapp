@@ -937,14 +937,14 @@ const requiredDocumentsTenant = [
     name: 'Pièce d\'identité ou passeport',
     description: 'Document d\'identité officiel',
     icon: 'heroicons:identification',
-    accept: '.pdf,.jpg,.jpeg,.png'
+    accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp'
   },
   {
     id: 'salary-slips',
     name: '3 dernières fiches de salaire',
     description: 'Bulletins de salaire récents',
     icon: 'heroicons:banknotes',
-    accept: '.pdf',
+    accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp',
     multiple: true,
     maxFiles: 3
   },
@@ -953,14 +953,14 @@ const requiredDocumentsTenant = [
     name: 'Attestation de l\'employeur',
     description: 'Certificat de travail ou attestation',
     icon: 'heroicons:document-text',
-    accept: '.pdf'
+    accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp'
   },
   {
     id: 'bank-statements',
     name: '3 derniers relevés bancaires',
     description: 'Relevés de compte récents',
     icon: 'heroicons:credit-card',
-    accept: '.pdf',
+    accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp',
     multiple: true,
     maxFiles: 3
   },
@@ -969,7 +969,7 @@ const requiredDocumentsTenant = [
     name: 'Attestation de non-poursuite',
     description: 'Office des poursuites en Suisse',
     icon: 'heroicons:shield-check',
-    accept: '.pdf'
+    accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp'
   }
 ]
 
@@ -980,21 +980,21 @@ const requiredDocumentsOwnerIndividual = [
     name: 'Pièce d\'identité',
     description: 'Document d\'identité officiel',
     icon: 'heroicons:identification',
-    accept: '.pdf,.jpg,.jpeg,.png'
+    accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp'
   },
   {
     id: 'property-proof',
     name: 'Preuve de propriété',
     description: 'Extrait RF, acte notarié, etc.',
     icon: 'heroicons:home',
-    accept: '.pdf'
+    accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp'
   },
   {
     id: 'subletting-agreement',
     name: 'Accord écrit du propriétaire',
     description: 'En cas de sous-location',
     icon: 'heroicons:document-text',
-    accept: '.pdf',
+    accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp',
     conditional: true
   }
 ]
@@ -1006,21 +1006,21 @@ const requiredDocumentsAgency = [
     name: 'Extrait du registre du commerce',
     description: 'Document officiel de l\'entreprise',
     icon: 'heroicons:building-office-2',
-    accept: '.pdf'
+    accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp'
   },
   {
     id: 'professional-insurance',
     name: 'Assurance responsabilité professionnelle',
     description: 'Police d\'assurance RC professionnelle',
     icon: 'heroicons:shield-check',
-    accept: '.pdf'
+    accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp'
   },
   {
     id: 'management-mandate',
     name: 'Mandat de gestion',
     description: 'Autorisation de gestion des biens',
     icon: 'heroicons:document-text',
-    accept: '.pdf'
+    accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp'
   }
 ]
 

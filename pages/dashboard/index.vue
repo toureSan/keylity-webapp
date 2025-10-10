@@ -164,7 +164,7 @@
     <!-- Documents Uploadés -->
     <div class="bg-white rounded-xl shadow-sm p-6">
       <h2 class="text-lg font-semibold mb-4">Documents uploadés</h2>
-      
+      <p class="text-sm text-gray-500 mb-4">Ces documents serons transmis à la regie ou au propriétaire lors de la soumission de votre candidature à une a une annonce</p>
       <!-- Candidat Documents -->
       <div v-if="userRole === 'candidat'" class="space-y-4">
         <!-- Pièce d'identité -->
@@ -559,32 +559,32 @@ const editDocument = (documentType) => {
   const documentConfig = {
     'identity': {
       title: 'Modifier la pièce d\'identité',
-      accept: '.pdf,.jpg,.jpeg,.png',
+      accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp',
       multiple: false
     },
     'salary-slips': {
       title: 'Modifier les fiches de salaire',
-      accept: '.pdf',
+      accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp',
       multiple: true
     },
     'employer-certificate': {
       title: 'Modifier l\'attestation employeur',
-      accept: '.pdf',
+      accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp',
       multiple: false
     },
     'bank-statements': {
       title: 'Modifier les relevés bancaires',
-      accept: '.pdf',
+      accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp',
       multiple: true
     },
     'debt-certificate': {
       title: 'Modifier l\'attestation de non-poursuite',
-      accept: '.pdf',
+      accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp',
       multiple: false
     },
     'guarantor-documents': {
       title: 'Modifier les documents de garant',
-      accept: '.pdf',
+      accept: '.pdf,.jpg,.jpeg,.png,.gif,.webp',
       multiple: true
     }
   }

@@ -273,23 +273,18 @@
       <!-- Image floutée -->
       <img
         class="absolute inset-0 w-full h-full object-cover"
-        src="@/assets/images/famille.png"
+        src="@/assets/images/geneve.jpg"
         alt=""
-        style="filter: blur(2px)"
       />
 
-      <!-- Overlay léger pour assombrir un peu -->
-      <div
-        class="absolute inset-0 bg-gradient-to-b from-gray-900/20 to-gray-900/40"
-      ></div>
 
       <!-- Texte net en bas à gauche -->
-      <div class="absolute bottom-2 left-6 text-white max-w-xl z-10">
-        <h2 class="fluid-title animate-fade-in-up">Bienvenue chez Keylity</h2>
+      <div class="absolute bottom-2 left-6 max-w-xl z-10">
+        <h2 class="fluid-title text-white animate-fade-in-up">Bienvenue sur Keylity</h2>
         <p
           class="mt-0 fluid-subtitle text-white/90 drop-shadow-sm animate-fade-in-up animation-delay-200"
         >
-          Simplifiez vos démarches administratives
+          La plateforme immobilière qui révolutionne la recherche et la gestion de vos biens en Suisse
         </p>
       </div>
     </div>

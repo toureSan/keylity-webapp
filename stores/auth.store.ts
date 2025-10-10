@@ -42,7 +42,7 @@ export const useAuthStore = defineStore("auth", {
         const config = useRuntimeConfig();
         const url = config.public.apiBase + "/user-profile/me";
         
-        const response = await $fetch<any>(
+        const response = await $fetch<ApiResponse>(
           url,
           {
             method: "GET",
@@ -52,11 +52,11 @@ export const useAuthStore = defineStore("auth", {
           },
         );
 
-        // Le backend retourne { user: userInfo, roles, profile: filteredProfile }
-        this.user = response.user || response;
+        this.user = response.user;
         this.isAuthenticated = true;
         return true;
       } catch (error) {
+        console.error("checkAuth error:", error);
         this.user = null;
         this.isAuthenticated = false;
         localStorage.removeItem("access_token");
@@ -64,58 +64,6 @@ export const useAuthStore = defineStore("auth", {
       }
     },
 
-    async getUserProfile() {
-      const token = localStorage.getItem("access_token");
-      if (!token) {
-        throw new Error("No token found");
-      }
-
-      try {
-        const config = useRuntimeConfig();
-        const url = config.public.apiBase + "/user-profile/me";
-        
-        const response = await $fetch<any>(
-          url,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-
-        // Le backend retourne { user: userInfo, roles, profile: filteredProfile }
-        return response;
-      } catch (error) {
-        throw error;
-      }
-    },
-
-    async getFullUserProfile() {
-      const token = localStorage.getItem("access_token");
-      if (!token) {
-        throw new Error("No token found");
-      }
-
-      try {
-        const config = useRuntimeConfig();
-        const url = config.public.apiBase + "/user-profile/me";
-        
-        const response = await $fetch<any>(
-          url,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-
-        return response;
-      } catch (error) {
-        throw error;
-      }
-    },
 
     async register(
       email: string,
@@ -135,6 +83,7 @@ export const useAuthStore = defineStore("auth", {
 
         return response;
       } catch (error: any) {
+        console.error("Registration error:", error);
         throw error;
       }
     },
@@ -162,6 +111,7 @@ export const useAuthStore = defineStore("auth", {
 
         throw new Error("Identifiants invalides ou réponse incomplète");
       } catch (error: any) {
+        console.error("Login error:", error);
         throw error;
       }
     },
@@ -194,6 +144,7 @@ export const useAuthStore = defineStore("auth", {
 
         throw new Error("Vérification échouée ou réponse incomplète");
       } catch (error: any) {
+        console.error("Email verification error:", error);
         this.verificationStatus.error =
           error.message ||
           "Une erreur est survenue lors de la vérification de l'email";
@@ -220,48 +171,6 @@ export const useAuthStore = defineStore("auth", {
           Authorization: `Bearer ${token}`,
         },
       });
-    },
-
-    // Récupération de mot de passe
-    async forgotPassword(email: string) {
-      try {
-        const config = useRuntimeConfig();
-        const response = await $fetch(`${config.public.apiBase}/auth/forgot-password`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: { email },
-        });
-
-        return { success: true, message: response.message };
-      } catch (error: any) {
-        return { 
-          success: false, 
-          error: error.response?._data?.message || "Une erreur est survenue lors de l'envoi de l'email de réinitialisation"
-        };
-      }
-    },
-
-    // Réinitialisation de mot de passe
-    async resetPassword(token: string, newPassword: string) {
-      try {
-        const config = useRuntimeConfig();
-        const response = await $fetch(`${config.public.apiBase}/auth/reset-password`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: { token, newPassword },
-        });
-
-        return { success: true, message: response.message };
-      } catch (error: any) {
-        return { 
-          success: false, 
-          error: error.response?._data?.message || "Une erreur est survenue lors de la réinitialisation du mot de passe"
-        };
-      }
     },
 
     // Déconnexion

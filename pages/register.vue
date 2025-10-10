@@ -57,7 +57,7 @@
               <div class="mt-2 relative">
                 <input v-model="password" :type="showPassword ? 'text' : 'password'" name="password" id="password"
                   autocomplete="new-password" required
-                  class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
+                  class="block w-full rounded-lg bg-white px-4 py-3 pr-12 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
                   :class="{
                     'ring-red-500': passwordTouched && passwordError,
                     'ring-green-500':
@@ -65,8 +65,8 @@
                   }" placeholder="••••••••" />
                 <button type="button" @click="showPassword = !showPassword"
                   class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 transition-colors duration-300">
-                  <svg v-if="!showPassword" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                    fill="currentColor">
+                  <svg v-if="!showPassword" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20" fill="currentColor">
                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                     <path fill-rule="evenodd"
                       d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
@@ -81,24 +81,24 @@
                       d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z" />
                   </svg>
                 </button>
-                <ul class="mt-2 text-xs text-gray-600 space-y-1">
-                  <li :class="passwordCriteria.length ? 'text-green-600' : 'text-gray-600'">
-                    • Au moins 8 caractères
-                  </li>
-                  <li :class="passwordCriteria.lowercase ? 'text-green-600' : 'text-gray-600'">
-                    • Une minuscule
-                  </li>
-                  <li :class="passwordCriteria.uppercase ? 'text-green-600' : 'text-gray-600'">
-                    • Une majuscule
-                  </li>
-                  <li :class="passwordCriteria.digit ? 'text-green-600' : 'text-gray-600'">
-                    • Un chiffre
-                  </li>
-                  <li :class="passwordCriteria.special ? 'text-green-600' : 'text-gray-600'">
-                    • Un caractère spécial (@$!%*?&)
-                  </li>
-                </ul>
               </div>
+              <ul class="mt-2 text-xs text-gray-600 space-y-1">
+                <li :class="passwordCriteria.length ? 'text-green-600' : 'text-gray-600'">
+                  • Au moins 8 caractères
+                </li>
+                <li :class="passwordCriteria.lowercase ? 'text-green-600' : 'text-gray-600'">
+                  • Une minuscule
+                </li>
+                <li :class="passwordCriteria.uppercase ? 'text-green-600' : 'text-gray-600'">
+                  • Une majuscule
+                </li>
+                <li :class="passwordCriteria.digit ? 'text-green-600' : 'text-gray-600'">
+                  • Un chiffre
+                </li>
+                <li :class="passwordCriteria.special ? 'text-green-600' : 'text-gray-600'">
+                  • Un caractère spécial (@$!%*?&)
+                </li>
+              </ul>
             </div>
 
             <div class="group">
@@ -162,17 +162,15 @@
     </div>
     <div class="relative hidden flex-1 lg:block">
       <!-- Image floutée -->
-      <img class="absolute inset-0 w-full h-full object-cover" src="@/assets/images/famille.png" alt=""
-        style="filter: blur(2px)" />
+      <img class="absolute inset-0 w-full h-full object-cover" src="@/assets/images/lausanne.jpg"
+        style="filter: blur(0.5px)" alt="" />
 
-      <!-- Overlay léger pour assombrir un peu -->
-      <div class="absolute inset-0 bg-gradient-to-b from-gray-900/20 to-gray-900/40"></div>
 
       <!-- Texte net en bas à gauche -->
-      <div class="absolute bottom-2 left-6 text-white max-w-xl z-10">
-        <h2 class="fluid-title animate-fade-in-up">Bienvenue chez Keylity</h2>
+      <div class="absolute bottom-2 left-6  max-w-xl z-10">
+        <h2 class="fluid-title text-white animate-fade-in-up">Bienvenue sur Keylity</h2>
         <p class="mt-0 fluid-subtitle text-white/90 drop-shadow-sm animate-fade-in-up animation-delay-200">
-          Simplifiez vos démarches administratives
+          La plateforme immobilière qui révolutionne la recherche et la gestion de vos biens en Suisse
         </p>
       </div>
     </div>
