@@ -42,7 +42,7 @@ export const useAuthStore = defineStore("auth", {
         const config = useRuntimeConfig();
         const url = config.public.apiBase + "/user-profile/me";
         
-        const response = await $fetch<ApiResponse>(
+        const response = await $fetch<any>(
           url,
           {
             method: "GET",
@@ -52,7 +52,8 @@ export const useAuthStore = defineStore("auth", {
           },
         );
 
-        this.user = response.user;
+        // Le backend retourne { user: userInfo, roles, profile: filteredProfile }
+        this.user = response.user || response;
         this.isAuthenticated = true;
         return true;
       } catch (error) {
@@ -64,6 +65,60 @@ export const useAuthStore = defineStore("auth", {
       }
     },
 
+    async getUserProfile() {
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        throw new Error("No token found");
+      }
+
+      try {
+        const config = useRuntimeConfig();
+        const url = config.public.apiBase + "/user-profile/me";
+        
+        const response = await $fetch<any>(
+          url,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        // Le backend retourne { user: userInfo, roles, profile: filteredProfile }
+        return response.profile || response.user || response;
+      } catch (error) {
+        console.error("getUserProfile error:", error);
+        throw error;
+      }
+    },
+
+    async getFullUserProfile() {
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        throw new Error("No token found");
+      }
+
+      try {
+        const config = useRuntimeConfig();
+        const url = config.public.apiBase + "/user-profile/me";
+        
+        const response = await $fetch<any>(
+          url,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        return response;
+      } catch (error) {
+        console.error("getFullUserProfile error:", error);
+        throw error;
+      }
+    },
 
     async register(
       email: string,
@@ -171,6 +226,50 @@ export const useAuthStore = defineStore("auth", {
           Authorization: `Bearer ${token}`,
         },
       });
+    },
+
+    // Récupération de mot de passe
+    async forgotPassword(email: string) {
+      try {
+        const config = useRuntimeConfig();
+        const response = await $fetch(`${config.public.apiBase}/auth/forgot-password`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: { email },
+        });
+
+        return { success: true, message: response.message };
+      } catch (error: any) {
+        console.error("Forgot password error:", error);
+        return { 
+          success: false, 
+          error: error.response?._data?.message || "Une erreur est survenue lors de l'envoi de l'email de réinitialisation"
+        };
+      }
+    },
+
+    // Réinitialisation de mot de passe
+    async resetPassword(token: string, newPassword: string) {
+      try {
+        const config = useRuntimeConfig();
+        const response = await $fetch(`${config.public.apiBase}/auth/reset-password`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: { token, newPassword },
+        });
+
+        return { success: true, message: response.message };
+      } catch (error: any) {
+        console.error("Reset password error:", error);
+        return { 
+          success: false, 
+          error: error.response?._data?.message || "Une erreur est survenue lors de la réinitialisation du mot de passe"
+        };
+      }
     },
 
     // Déconnexion

@@ -47,23 +47,31 @@
           </nav>
         </div>
         <div class="flex items-center gap-4">
+          <!-- Bouton pour utilisateurs non connectés -->
           <NuxtLink
+            v-if="!authStore.isAuthenticated"
             to="login"
             class="bg-blue-500 text-white hidden md:block hover:bg-blue-600 cursor-pointer px-4 py-2 rounded-full transition-colors font-medium"
           >
             Publier mon bien gratuitement
           </NuxtLink>
 
-          <!-- User Menu -->
-          <Menu as="div" class="relative">
+          <!-- Menu utilisateur connecté -->
+          <Menu v-if="authStore.isAuthenticated" as="div" class="relative">
             <MenuButton
               class="flex items-center border border-gray-300 rounded-full p-1 hover:shadow-md transition-all cursor-pointer bg-white"
             >
               <Icon name="heroicons:bars-3" class="w-5 h-5 mx-2" />
               <div
-                class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white"
+                class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white overflow-hidden"
               >
-                <Icon name="heroicons:user" class="w-5 h-5" />
+                <img
+                  v-if="userProfile?.avatar_url || userProfile?.profile_photo_url"
+                  :src="userProfile?.avatar_url || userProfile?.profile_photo_url"
+                  alt="Profile"
+                  class="w-full h-full object-cover"
+                />
+                <Icon v-else name="heroicons:user" class="w-5 h-5" />
               </div>
             </MenuButton>
 
@@ -81,7 +89,10 @@
                 <div class="px-4 py-3">
                   <p class="text-sm">Connecté en tant que</p>
                   <p class="text-sm font-medium text-gray-900 truncate">
-                    tom@example.com
+                    {{ userProfile?.first_name || 'Utilisateur' }} {{ userProfile?.last_name || '' }}
+                  </p>
+                  <p class="text-xs text-gray-500 truncate">
+                    {{ userProfile?.email || 'email@example.com' }}
                   </p>
                 </div>
 
@@ -136,6 +147,7 @@
                 <div class="py-1">
                   <MenuItem v-slot="{ active }">
                     <button
+                      @click="logout"
                       :class="[
                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                         'group flex w-full items-center px-4 py-2 text-sm',
@@ -152,6 +164,23 @@
               </MenuItems>
             </transition>
           </Menu>
+
+          <!-- Bouton de connexion pour utilisateurs non connectés -->
+          <div v-if="!authStore.isAuthenticated" class="flex items-center gap-2">
+            <NuxtLink
+              to="/login"
+              class="text-gray-600 hover:text-primary-600 transition-colors font-medium"
+            >
+              Se connecter
+            </NuxtLink>
+            <span class="text-gray-300">|</span>
+            <NuxtLink
+              to="/register"
+              class="text-gray-600 hover:text-primary-600 transition-colors font-medium"
+            >
+              S'inscrire
+            </NuxtLink>
+          </div>
 
           <!-- Mobile Menu Button -->
           <button
@@ -206,11 +235,16 @@
 
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onActivated } from "vue";
+import { useAuthStore } from '~/stores/auth.store';
 
+const authStore = useAuthStore();
 const isScrolled = ref(false);
 const isSearchModalOpen = ref(false);
 const isMobileMenuOpen = ref(false);
+
+// Données du profil utilisateur
+const userProfile = ref(null);
 
 const mobileLinks = [
   { to: "/properties", text: "Acheter" },
@@ -219,16 +253,57 @@ const mobileLinks = [
   { to: "/dashboard/properties", text: "Vendre" },
 ];
 
+// Fonction pour récupérer le profil utilisateur
+const fetchUserProfile = async () => {
+  if (!authStore.isAuthenticated) return;
+  
+  try {
+    const config = useRuntimeConfig()
+    const token = authStore.getAuthToken()
+    
+    if (!token) return
+    
+    const response = await $fetch(`${config.public.apiBase}/user-profile/me`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    
+    // Le backend retourne { user: userInfo, roles, profile: filteredProfile }
+    userProfile.value = response.profile || response
+    
+  } catch (error) {
+    console.error('Erreur lors de la récupération du profil dans le header:', error)
+  }
+}
+
+// Fonction de déconnexion
+const logout = () => {
+  authStore.logout();
+};
+
 onMounted(() => {
   const handleScroll = () => {
     isScrolled.value = window.scrollY > 0;
   };
 
   window.addEventListener("scroll", handleScroll);
+  
+  // Charger le profil si l'utilisateur est connecté
+  if (authStore.isAuthenticated) {
+    fetchUserProfile();
+  }
 
   return () => {
     window.removeEventListener("scroll", handleScroll);
   };
+});
+
+// Rafraîchir le profil quand on revient sur la page
+onActivated(() => {
+  if (authStore.isAuthenticated) {
+    fetchUserProfile();
+  }
 });
 </script>
 

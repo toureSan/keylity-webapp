@@ -21,11 +21,10 @@
             <img src="~/assets/images/logo-complet.png" class="h-8 w-auto" alt="">
           </div>
           <div class="relative hidden md:flex items-center gap-4">
-           
             <!-- Mode Toggle Switch -->
             <div class="flex items-center bg-gray-100 rounded-full p-1">
               <button
-                @click="mode = 'candidat'"
+                @click="switchMode('candidat')"
                 class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
                 :class="
                   mode === 'candidat'
@@ -36,7 +35,7 @@
                 Candidat
               </button>
               <button
-                @click="mode = 'annonceur'"
+                @click="switchMode('annonceur')"
                 class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
                 :class="
                   mode === 'annonceur'
@@ -51,8 +50,9 @@
         </div>
 
         <div class="flex items-center gap-4">
-          <!-- Add Property Button -->
+          <!-- Add Property Button - Visible seulement pour les annonceurs -->
           <button
+            v-if="mode === 'annonceur'"
             class="bg-blue-500 text-white px-4 py-2 rounded-md hidden md:flex items-center gap-2"
           >
             <svg
@@ -154,11 +154,11 @@
               class="flex items-center gap-2 hover:bg-gray-100 rounded-lg p-2"
             >
               <img
-                src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg"
+                :src="userProfile?.avatar_url || userProfile?.profile_photo_url || 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg'"
                 alt="Profile"
                 class="w-8 h-8 rounded-full object-cover"
               />
-              <span class="font-medium hidden md:block">Thibaut</span>
+              <span class="font-medium hidden md:block">{{ userProfile?.first_name || 'Utilisateur' }}</span>
               <Icon
                 name="heroicons:chevron-down"
                 class="h-5 w-5 text-gray-500"
@@ -171,8 +171,8 @@
               class="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg py-2 z-50"
             >
               <div class="px-4 py-2 border-b border-gray-100">
-                <p class="font-medium">Thibaut Languin</p>
-                <p class="text-sm text-gray-500">thibaut@example.com</p>
+                <p class="font-medium">{{ userProfile?.first_name || 'Utilisateur' }} {{ userProfile?.last_name || '' }}</p>
+                <p class="text-sm text-gray-500">{{ userProfile?.email || 'email@example.com' }}</p>
               </div>
 
               <div class="py-2">
@@ -239,23 +239,23 @@
               </div>
 
               <div class="border-t border-gray-100 py-2">
-                <a
-                  href="#"
-                  class="px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2"
+                <button
+                  @click="logout"
+                  class="w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2"
                 >
                   <Icon
                     name="heroicons:arrow-right-on-rectangle"
                     class="h-5 w-5 text-red-500"
                   />
                   Déconnexion
-                </a>
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Mobile Search and Mode Toggle -->
-      <div class="md:hidden px-4 pb-4 space-y-2">
+      <!-- Mobile Search -->
+      <div class="md:hidden px-4 pb-4">
         <div class="relative">
           <input
             type="text"
@@ -267,30 +267,11 @@
             class="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"
           />
         </div>
-        <!-- Mobile Mode Toggle -->
-        <div class="flex bg-gray-100 rounded-full p-1">
-          <button
-            @click="mode = 'candidat'"
-            class="flex-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
-            :class="
-              mode === 'candidat'
-                ? 'bg-white text-blue-600 shadow'
-                : 'text-gray-600 hover:text-gray-800'
-            "
-          >
-            Candidat
-          </button>
-          <button
-            @click="mode = 'annonceur'"
-            class="flex-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
-            :class="
-              mode === 'annonceur'
-                ? 'bg-white text-blue-600 shadow'
-                : 'text-gray-600 hover:text-gray-800'
-            "
-          >
-            Annonceur
-          </button>
+        <!-- Badge du rôle mobile -->
+        <div class="mt-2 flex justify-center">
+          <div class="flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+            {{ mode === 'candidat' ? 'Candidat' : 'Annonceur' }}
+          </div>
         </div>
       </div>
     </header>
@@ -319,7 +300,10 @@
             <Icon name="heroicons:home" class="h-5 w-5" />
             <span v-if="!isCollapsed">Accueil</span>
           </NuxtLink>
+          
+          <!-- Mes biens - Visible seulement pour les annonceurs -->
           <a
+            v-if="mode === 'annonceur'"
             href="#"
             class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
             :class="{ 'justify-center': isCollapsed }"
@@ -327,6 +311,19 @@
             <Icon name="heroicons:building-office-2" class="h-5 w-5" />
             <span v-if="!isCollapsed">Mes biens</span>
           </a>
+          
+          <!-- Candidatures - Visible pour tous mais avec des textes différents -->
+          <a
+            href="#"
+            class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
+            :class="{ 'justify-center': isCollapsed }"
+          >
+            <Icon name="heroicons:document" class="h-5 w-5" />
+            <span v-if="!isCollapsed">
+              {{ mode === 'candidat' ? 'Mes candidatures' : 'Candidatures reçues' }}
+            </span>
+          </a>
+          
           <a
             href="#"
             class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
@@ -335,35 +332,6 @@
             <Icon name="heroicons:calendar" class="h-5 w-5" />
             <span v-if="!isCollapsed">Planifications</span>
           </a>
-          <a
-            href="#"
-            class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
-            :class="{ 'justify-center': isCollapsed }"
-          >
-            <Icon name="heroicons:document" class="h-5 w-5" />
-            <span v-if="!isCollapsed">Candidatures</span>
-          </a>
-          <a
-            href="#"
-            class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
-            :class="{ 'justify-center': isCollapsed }"
-          >
-            <Icon name="heroicons:user-group" class="h-5 w-5" />
-            <span v-if="!isCollapsed">Network</span>
-          </a>
-          <NuxtLink
-            to="/dashboard/messages"
-            class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
-            :class="[
-              { 'justify-center': isCollapsed },
-              $route.path === '/dashboard/messages'
-                ? 'text-blue-600 bg-blue-50'
-                : '',
-            ]"
-          >
-            <Icon name="heroicons:chat-bubble-left-right" class="h-5 w-5" />
-            <span v-if="!isCollapsed">Messages</span>
-          </NuxtLink>
         </nav>
       </aside>
 
@@ -383,14 +351,64 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed, onMounted, onActivated } from "vue";
 import { onClickOutside } from "@vueuse/core";
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '~/stores/auth.store';
 
+const authStore = useAuthStore();
+const router = useRouter();
 const isCollapsed = ref(false);
 const isSidebarOpen = ref(false);
 const isNotificationsOpen = ref(false);
 const isUserMenuOpen = ref(false);
-const mode = ref("candidat");
+
+// Données du profil utilisateur
+const userProfile = ref<any>(null);
+const userRole = ref('candidat');
+
+// Mode basé sur le rôle réel de l'utilisateur
+const mode = computed(() => {
+  return userProfile.value?.role || 'candidat';
+});
+
+// Fonction pour récupérer le profil utilisateur
+const fetchUserProfile = async () => {
+  if (!authStore.isAuthenticated) return;
+  
+  try {
+    const config = useRuntimeConfig()
+    const token = authStore.getAuthToken()
+    
+    if (!token) return
+    
+    const response: any = await $fetch(`${config.public.apiBase}/user-profile/me`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    
+    userProfile.value = response.profile || response
+    userRole.value = response.roles?.[0] || 'candidat'
+    
+  } catch (error) {
+    console.error('Erreur lors de la récupération du profil dans le layout:', error)
+  }
+}
+
+// Fonction pour basculer entre les modes
+const switchMode = (newMode: string) => {
+  if (newMode === 'annonceur' && userRole.value !== 'annonceur') {
+    // Si l'utilisateur n'a pas le rôle annonceur, rediriger vers l'onboarding
+    router.push('/onboarding?mode=annonceur');
+    return;
+  }
+};
+
+// Fonction de déconnexion
+const logout = () => {
+  authStore.logout();
+};
 
 const notifications = [
   {
@@ -427,6 +445,20 @@ const sidebarRef = ref(null);
 onClickOutside(sidebarRef, () => {
   if (window.innerWidth < 768) {
     isSidebarOpen.value = false;
+  }
+});
+
+// Initialiser le profil utilisateur
+onMounted(async () => {
+  if (authStore.isAuthenticated) {
+    await fetchUserProfile()
+  }
+});
+
+// Rafraîchir le profil quand on revient sur la page
+onActivated(async () => {
+  if (authStore.isAuthenticated) {
+    await fetchUserProfile()
   }
 });
 </script>

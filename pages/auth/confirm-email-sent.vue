@@ -69,6 +69,11 @@
 </template>
 
 <script setup>
+// Utiliser le layout auth (sans Header)
+definePageMeta({
+  layout: 'auth'
+});
+
 import logoImage from "~/assets/images/logo-complet.png";
 import { useAuthStore } from "~/stores/auth.store";
 
@@ -76,7 +81,6 @@ const authStore = useAuthStore();
 
 const resendEmail = async () => {
   try {
-    // TODO: Implémenter la fonction de renvoi d'email
     alert("Fonctionnalité de renvoi d'email à implémenter");
   } catch (error) {
     console.error("Error resending email:", error);

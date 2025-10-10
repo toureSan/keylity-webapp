@@ -234,6 +234,11 @@
 </style>
 
 <script setup>
+// Utiliser le layout auth (sans Header)
+definePageMeta({
+  layout: 'auth'
+});
+
 import logoImage from "~/assets/images/logo-complet.png";
 import { useAuthStore } from "~/stores/auth.store";
 import { useRouter } from "vue-router";

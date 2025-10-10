@@ -1,5 +1,4 @@
 <template>
-
   <div class="flex min-h-screen">
     <div
       class="flex flex-1 flex-col justify-center px-0 py-0 sm:px-6 lg:flex-none lg:px-10 xl:px-44"
@@ -71,6 +70,11 @@
 </template>
 
 <script setup>
+// Utiliser le layout auth (sans Header)
+definePageMeta({
+  layout: 'auth'
+});
+
 import logoImage from "~/assets/images/logo-complet.png";
 import { useAuthStore } from "~/stores/auth.store";
 import { useRouter } from "vue-router";

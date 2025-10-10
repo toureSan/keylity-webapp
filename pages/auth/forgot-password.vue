@@ -13,23 +13,16 @@
             />
           </NuxtLink>
           <h2 class="fluid-subtitle font-extrabold tracking-tight">
-            Heureux de vous revoir !
+            Mot de passe oublié ?
           </h2>
           <p class="mt-2 text-sm/6 text-gray-500">
-            Pas encore de compte ?
-            {{ " " }}
-            <NuxtLink
-              to="/register"
-              class="font-semibold text-blue-600 hover:text-blue-500 transition-colors duration-300"
-            >
-              Créer un compte
-            </NuxtLink>
+            Pas de problème ! Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe.
           </p>
         </div>
 
         <div class="mt-10">
           <div>
-            <form @submit.prevent="handleLogin" class="space-y-6">
+            <form @submit.prevent="handleForgotPassword" class="space-y-6">
               <div v-if="serverError" class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
                 <div class="flex">
                   <div class="flex-shrink-0">
@@ -44,6 +37,22 @@
                   </div>
                 </div>
               </div>
+
+              <div v-if="successMessage" class="bg-green-50 border-l-4 border-green-500 p-4 mb-6">
+                <div class="flex">
+                  <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div class="ml-3">
+                    <p class="text-sm font-medium text-green-800">
+                      {{ successMessage }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               <div class="group">
                 <label
                   for="email"
@@ -81,109 +90,6 @@
                 </div>
               </div>
 
-              <div class="group">
-                <label
-                  for="password"
-                  class="block text-sm/6 font-medium text-gray-900 group-focus-within:text-blue-600 transition-colors duration-300"
-                  >Mot de passe</label
-                >
-                <div class="mt-2 relative">
-                  <input
-                    v-model="password"
-                    :type="showPassword ? 'text' : 'password'"
-                    name="password"
-                    id="password"
-                    autocomplete="current-password"
-                    required
-                    class="block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 transition-all duration-300 focus:ring-2 focus:ring-blue-600 focus:shadow-lg hover:ring-gray-400"
-                    placeholder="••••••••"
-                  />
-                  <button
-                    type="button"
-                    @click="showPassword = !showPassword"
-                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 transition-colors duration-300"
-                  >
-                    <svg
-                      v-if="!showPassword"
-                      class="h-5 w-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                      <path
-                        fill-rule="evenodd"
-                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                    <svg
-                      v-else
-                      class="h-5 w-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z"
-                        clip-rule="evenodd"
-                      />
-                      <path
-                        d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              <div class="flex items-center justify-between">
-                <div class="flex gap-3">
-                  <div class="flex h-6 shrink-0 items-center">
-                    <div class="group grid size-4 grid-cols-1">
-                      <input
-                        v-model="rememberMe"
-                        id="remember-me"
-                        name="remember-me"
-                        type="checkbox"
-                        class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-blue-600 checked:bg-blue-600 indeterminate:border-blue-600 indeterminate:bg-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto transition-colors duration-300"
-                      />
-                      <svg
-                        class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25"
-                        viewBox="0 0 14 14"
-                        fill="none"
-                      >
-                        <path
-                          class="opacity-0 group-has-checked:opacity-100"
-                          d="M3 8L6 11L11 3.5"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          class="opacity-0 group-has-indeterminate:opacity-100"
-                          d="M3 7H11"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <label for="remember-me" class="block text-sm/6 text-gray-900"
-                    >Se souvenir de moi</label
-                  >
-                </div>
-
-                <div class="text-sm/6">
-                  <NuxtLink
-                    to="/auth/forgot-password"
-                    class="font-semibold text-blue-600 hover:text-blue-500 transition-colors duration-300"
-                    >Mot de passe oublié ?</NuxtLink
-                  >
-                </div>
-              </div>
-
               <div>
                 <button
                   type="submit"
@@ -197,7 +103,7 @@
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
                     </span>
-                    {{ loading ? "Connexion en cours..." : "Se connecter" }}
+                    {{ loading ? "Envoi en cours..." : "Envoyer le lien de réinitialisation" }}
                     <svg
                       v-if="!loading"
                       class="ml-2 h-5 w-5 transform transition-transform duration-300 group-hover:translate-x-1"
@@ -227,43 +133,32 @@
               </div>
               <div class="relative flex justify-center text-sm/6 font-medium">
                 <span class="bg-white px-6 text-gray-900"
-                  >Ou continuer avec</span
+                  >Retour à la connexion</span
                 >
               </div>
             </div>
 
             <div class="w-full mt-6">
-              <button
-                type="button"
-                @click="handleGoogleLogin"
+              <NuxtLink
+                to="/login"
                 class="group flex w-full items-center justify-center gap-3 rounded-lg bg-white px-4 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-gray-300 transition-all duration-300 hover:bg-gray-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
               >
                 <svg
-                  class="h-5 w-5 transform transition-transform duration-300 group-hover:scale-110"
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
+                  class="h-5 w-5 transform transition-transform duration-300 group-hover:-translate-x-1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
                 >
                   <path
-                    d="M12.0003 4.75C13.7703 4.75 15.3553 5.36002 16.6053 6.54998L20.0303 3.125C17.9502 1.19 15.2353 0 12.0003 0C7.31028 0 3.25527 2.69 1.28027 6.60998L5.27028 9.70498C6.21525 6.86002 8.87028 4.75 12.0003 4.75Z"
-                    fill="#EA4335"
-                  />
-                  <path
-                    d="M23.49 12.275C23.49 11.49 23.415 10.73 23.3 10H12V14.51H18.47C18.18 15.99 17.34 17.25 16.08 18.1L19.945 21.1C22.2 19.01 23.49 15.92 23.49 12.275Z"
-                    fill="#4285F4"
-                  />
-                  <path
-                    d="M5.26498 14.2949C5.02498 13.5699 4.88501 12.7999 4.88501 11.9999C4.88501 11.1999 5.01998 10.4299 5.26498 9.7049L1.275 6.60986C0.46 8.22986 0 10.0599 0 11.9999C0 13.9399 0.46 15.7699 1.28 17.3899L5.26498 14.2949Z"
-                    fill="#FBBC05"
-                  />
-                  <path
-                    d="M12.0004 24.0001C15.2404 24.0001 17.9654 22.935 19.9454 21.095L16.0804 18.095C15.0054 18.82 13.6204 19.245 12.0004 19.245C8.8704 19.245 6.21537 17.135 5.2654 14.29L1.27539 17.385C3.25539 21.31 7.3104 24.0001 12.0004 24.0001Z"
-                    fill="#34A853"
+                    fill-rule="evenodd"
+                    d="M17 10a.75.75 0 01-.75.75H5.612l2.158 1.96a.75.75 0 11-1.04 1.08l-3.5-3.25a.75.75 0 010-1.08l3.5-3.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z"
+                    clip-rule="evenodd"
                   />
                 </svg>
                 <span class="text-sm/6 font-semibold"
-                  >Continuer avec Google</span
+                  >Retour à la connexion</span
                 >
-              </button>
+              </NuxtLink>
             </div>
           </div>
         </div>
@@ -299,12 +194,6 @@
 <style scoped>
 .fluid-title {
   font-size: clamp(2.3rem, 2.5vw, 8rem);
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-weight: 700;
-}
-
-.fluid-title-blur {
-  font-size: clamp(2.3rem, 2vw, 8rem);
   font-family: "Bricolage Grotesque", sans-serif;
   font-weight: 700;
 }
@@ -347,6 +236,7 @@
   }
 }
 </style>
+
 <script setup>
 // Utiliser le layout auth (sans Header)
 definePageMeta({
@@ -355,39 +245,35 @@ definePageMeta({
 
 import logoImage from "~/assets/images/logo-complet.png";
 import { useAuthStore } from '~/stores/auth.store';
-import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
-const router = useRouter();
 const email = ref("");
-const password = ref("");
-const rememberMe = ref(false);
-const showPassword = ref(false);
 const serverError = ref("");
+const successMessage = ref("");
 const loading = ref(false);
 
-const handleLogin = async () => {
+const handleForgotPassword = async () => {
   try {
     loading.value = true;
     serverError.value = "";
+    successMessage.value = "";
     
-    const response = await authStore.login({
-      email: email.value,
-      password: password.value,
-    });
+    const response = await authStore.forgotPassword(email.value);
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    router.push("/dashboard");
+    if (response.success) {
+      successMessage.value = "Un email de réinitialisation a été envoyé à votre adresse email. Veuillez vérifier votre boîte de réception.";
+    } else {
+      serverError.value = response.error || "Une erreur est survenue lors de l'envoi de l'email";
+    }
   } catch (error) {
-    console.error("Login error:", error);
+    console.error("Forgot password error:", error);
     if (error.response?._data?.message) {
       serverError.value = error.response._data.message;
     } else {
-      serverError.value = "Une erreur est survenue lors de la connexion";
+      serverError.value = "Une erreur est survenue lors de l'envoi de l'email de réinitialisation";
     }
   } finally {
     loading.value = false;
   }
 };
-
 </script>
