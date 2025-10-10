@@ -4,9 +4,8 @@ import { useAuthStore } from "../stores/auth.store";
 export default defineNuxtRouteMiddleware(async (to) => {
   const auth = useAuthStore();
 
-  if (!auth.isAuthenticated) {
-    await auth.checkAuth();
-  }
+  // Toujours vérifier l'authentification au chargement de la page
+  await auth.checkAuth();
 
   const isAuthenticated = auth.isAuthenticated;
   const isEmailVerified = Boolean(auth.user?.isEmailVerified || auth.user?.is_email_verified);

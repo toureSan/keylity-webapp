@@ -1,7 +1,18 @@
 <template>
   <div>
-    <!-- Profile Section -->
-    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+    <!-- Skeleton pendant le chargement -->
+    <div v-if="loading" class="space-y-6">
+      <SkeletonLoader type="profile" />
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <SkeletonLoader v-for="i in 4" :key="i" type="card" />
+      </div>
+      <SkeletonLoader type="card" />
+    </div>
+
+    <!-- Contenu principal -->
+    <div v-else>
+      <!-- Profile Section -->
+      <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
       <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
         <div class="relative">
           <img
@@ -442,7 +453,7 @@
         </div>
       </div>
     </div>
-
+    </div>
   </div>
 </template>
 
@@ -461,6 +472,7 @@ const router = useRouter()
 const userProfile = ref(null)
 const userRole = ref('candidat') // Par défaut candidat
 const profileCompletion = ref(0)
+const loading = ref(true)
 
 // État de la modal des documents
 const showDocumentsModal = ref(false)
@@ -777,6 +789,7 @@ const calculateProfileCompletion = (profile) => {
 // Fonction pour récupérer le profil utilisateur
 const fetchUserProfile = async () => {
   try {
+    loading.value = true
     const config = useRuntimeConfig()
     const token = authStore.getAuthToken()
     
@@ -801,6 +814,8 @@ const fetchUserProfile = async () => {
     
   } catch (error) {
     console.error('Erreur lors de la récupération du profil:', error)
+  } finally {
+    loading.value = false
   }
 }
 

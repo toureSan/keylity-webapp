@@ -379,7 +379,6 @@ const handleLogin = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     router.push("/dashboard");
   } catch (error) {
-    console.error("Login error:", error);
     if (error.response?._data?.message) {
       serverError.value = error.response._data.message;
     } else {

@@ -149,7 +149,15 @@
 
           <!-- User Menu -->
           <div class="relative user-menu-dropdown" ref="userMenuRef">
+            <!-- Skeleton pendant le chargement -->
+            <div v-if="!userProfile" class="flex items-center gap-2 p-2">
+              <div class="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
+              <div class="hidden md:block w-20 h-4 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+            
+            <!-- Menu utilisateur -->
             <button
+              v-else
               @click="isUserMenuOpen = !isUserMenuOpen"
               class="flex items-center gap-2 hover:bg-gray-100 rounded-lg p-2"
             >
@@ -392,7 +400,6 @@ const fetchUserProfile = async () => {
     userRole.value = response.roles?.[0] || 'candidat'
     
   } catch (error) {
-    console.error('Erreur lors de la récupération du profil dans le layout:', error)
   }
 }
 

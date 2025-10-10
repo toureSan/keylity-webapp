@@ -3,7 +3,7 @@
     <div class="container mx-auto px-4 py-8">
       <div class="max-w-4xl mx-auto">
         <!-- Header avec logo et bouton de fermeture -->
-        <div class="flex justify-between items-center mb-8">
+        <div class="flex justify-between items-center mt-40 mb-8">
           <div class="text-center flex-1">
             <img src="@/assets/images/logo-complet.png" alt="Keylity" class="h-16 w-auto mx-auto">
           </div>
@@ -38,13 +38,13 @@
                 <Icon name="heroicons:x-circle" class="h-5 w-5 text-red-500" />
               </div>
               <div class="ml-3">
-                <p class="text-sm text-red-700">{{ error }}</p>
+                <p class="text-sm text-red-700 font-medium">{{ error }}</p>
               </div>
             </div>
           </div>
 
           <!-- Onboarding Card -->
-          <div class="bg-white rounded-2xl shadow-xl p-8">
+          <div>
             <!-- Step 1: Welcome & User Type -->
             <div v-if="currentStep === 1" class="text-center">
               <div class="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -56,18 +56,44 @@
                 parfait.
               </p>
 
-              <div class="space-y-4 mb-8">
+
+              <!-- Message spécial si tous les profils sont complétés -->
+              <div v-if="isCandidateCompleted && isAnnonceurCompleted" class="mb-6 p-6 bg-green-50 border border-green-200 rounded-lg text-center">
+                <div class="flex items-center justify-center gap-3 mb-3">
+                  <Icon name="heroicons:check-circle" class="w-8 h-8 text-green-600" />
+                  <h3 class="text-lg font-semibold text-green-900">Onboarding terminé !</h3>
+                </div>
+                <p class="text-green-700 mb-4">
+                  Vous avez déjà complété l'onboarding pour les deux rôles. 
+                  Vous allez être redirigé vers votre tableau de bord.
+                </p>
+                <div class="flex justify-center">
+                  <NuxtLink to="/dashboard" class="btn btn-primary">
+                    Aller au tableau de bord
+                  </NuxtLink>
+                </div>
+              </div>
+
+              <div v-if="!(isCandidateCompleted && isAnnonceurCompleted)" class="space-y-4 mb-8">
                 <h2 class="text-lg font-semibold">Je suis :</h2>
 
                 <div class="grid grid-cols-1 gap-6">
-                  <button @click="selectUserType('tenant')"
-                    class="p-8 border-2 rounded-xl transition-all duration-200 hover:border-primary-300 hover:bg-primary-50 text-left"
-                    :class="formData.userType === 'tenant' ? 'border-primary-500 bg-primary-50' : 'border-gray-200'">
+                  <button 
+                    @click="canSelectCandidate ? selectUserType('tenant') : null"
+                    @mousedown.prevent="!canSelectCandidate"
+                    @keydown.prevent="!canSelectCandidate"
+                    :disabled="!canSelectCandidate"
+                    :tabindex="canSelectCandidate ? 0 : -1"
+                    class="p-8 border-2 rounded-xl transition-all duration-200 text-left relative"
+            :class="[
+                      formData.userType === 'tenant' ? 'border-primary-500 bg-primary-50' : 'border-gray-200',
+                      canSelectCandidate ? 'hover:border-primary-300 hover:bg-primary-50 cursor-pointer' : 'opacity-50 cursor-not-allowed bg-gray-50'
+                    ]">
                     <div class="flex items-center gap-6">
                       <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
                         <Icon name="heroicons:user" class="w-8 h-8 text-blue-600" />
           </div>
-                      <div>
+                      <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-2">Candidat locataire</h3>
                         <p class="text-gray-600">Je recherche un logement à louer</p>
                         <ul class="text-sm text-gray-500 mt-2 space-y-1">
@@ -75,18 +101,30 @@
                           <li>• Dossier de candidature digital</li>
                           <li>• Planification de visites</li>
                         </ul>
+                        <div v-if="isCandidateCompleted" class="mt-3 flex items-center gap-2 text-green-600">
+                          <Icon name="heroicons:check-circle" class="w-5 h-5" />
+                          <span class="text-sm font-medium">Onboarding déjà fait</span>
       </div>
+            </div>
             </div>
                   </button>
 
-                  <button @click="selectUserType('landlord')"
-                    class="p-8 border-2 rounded-xl transition-all duration-200 hover:border-primary-300 hover:bg-primary-50 text-left"
-                    :class="formData.userType === 'landlord' ? 'border-primary-500 bg-primary-50' : 'border-gray-200'">
+                  <button 
+                    @click="canSelectAnnonceur ? selectUserType('landlord') : null"
+                    @mousedown.prevent="!canSelectAnnonceur"
+                    @keydown.prevent="!canSelectAnnonceur"
+                    :disabled="!canSelectAnnonceur"
+                    :tabindex="canSelectAnnonceur ? 0 : -1"
+                    class="p-8 border-2 rounded-xl transition-all duration-200 text-left relative"
+                    :class="[
+                      formData.userType === 'landlord' ? 'border-primary-500 bg-primary-50' : 'border-gray-200',
+                      canSelectAnnonceur ? 'hover:border-primary-300 hover:bg-primary-50 cursor-pointer' : 'opacity-50 cursor-not-allowed bg-gray-50'
+                    ]">
                     <div class="flex items-center gap-6">
                       <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
                         <Icon name="heroicons:building-office-2" class="w-8 h-8 text-green-600" />
             </div>
-                      <div>
+                      <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-2">Propriétaire / Agence</h3>
                         <p class="text-gray-600">Je souhaite louer mon bien ou gérer des propriétés</p>
                         <ul class="text-sm text-gray-500 mt-2 space-y-1">
@@ -94,12 +132,17 @@
                           <li>• Gestion des candidatures</li>
                           <li>• Outils de gestion locative</li>
                         </ul>
+                        <div v-if="isAnnonceurCompleted" class="mt-3 flex items-center gap-2 text-green-600">
+                          <Icon name="heroicons:check-circle" class="w-5 h-5" />
+                          <span class="text-sm font-medium">Onboarding déjà fait</span>
+            </div>
             </div>
             </div>
                   </button>
             </div>
             </div>
-            </div>
+          </div>
+        </div>
 
             <!-- Step 2: Personal Information (TENANT) -->
             <div v-if="currentStep === 2 && formData.userType === 'tenant'">
@@ -121,7 +164,7 @@
             </div>
                   </ClientOnly>
                   <p class="text-sm text-gray-500 mt-2">Ajoutez votre photo de profil</p>
-          </div>
+            </div>
 
                 <div class="grid md:grid-cols-2 gap-6">
                   <div>
@@ -129,21 +172,21 @@
                     <input v-model="formData.firstName" type="text" required
                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       placeholder="Votre prénom">
-        </div>
+            </div>
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Nom *</label>
                     <input v-model="formData.lastName" type="text" required
                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       placeholder="Votre nom">
-            </div>
-            </div>
+          </div>
+        </div>
 
                 <div class="grid md:grid-cols-2 gap-6">
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Date de naissance *</label>
                     <input v-model="formData.birthDate" type="date" required
                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
-            </div>
+        </div>
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Nationalité *</label>
                     <select v-model="formData.nationality" required
@@ -156,7 +199,7 @@
                       <option value="AT">Autriche</option>
                       <option value="OTHER">Autre</option>
                     </select>
-          </div>
+        </div>
         </div>
 
                 <div class="grid md:grid-cols-2 gap-6">
@@ -384,8 +427,8 @@
                     <div class="flex items-center gap-3">
                       <Icon name="heroicons:document" class="w-5 h-5 text-gray-400" />
                       <span class="text-sm font-medium">{{ uploadedDocuments[docType.id].name }}</span>
-          </div>
-        </div>
+                    </div>
+                  </div>
 
                   <input v-if="clientLoaded" :data-ref="`fileInput-${docType.id}`" type="file" :accept="docType.accept"
                     :multiple="docType.multiple || false"
@@ -418,7 +461,7 @@
         </div>
                 </ClientOnly>
                 <p class="text-sm text-gray-500 mt-2">Ajoutez votre photo de profil</p>
-              </div>
+      </div>
 
               <div class="space-y-6">
                 <!-- Type d'annonceur -->
@@ -735,6 +778,9 @@
               </button>
               <div v-else></div>
 
+        
+             
+
               <button @click="currentStep === totalSteps - 1 ? submitOnboarding() : nextStep()"
                 :disabled="!canProceed || loading"
                 class="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed">
@@ -751,7 +797,6 @@
               </button>
             </div>
           </div>
-        </div>
 
       </div>
     </div>
@@ -766,10 +811,61 @@ const props = defineProps({
   mode: {
     type: String,
     default: 'candidat'
+  },
+  userProfile: {
+    type: Object,
+    default: () => ({})
+  },
+  userRoles: {
+    type: Array,
+    default: () => []
   }
 })
 
 // Plus besoin d'emits car on redirige directement
+
+// Computed properties pour vérifier les rôles complétés
+const isCandidateCompleted = computed(() => {
+  if (!props.userProfile || Object.keys(props.userProfile).length === 0) return false
+  
+  // Vérifier si l'utilisateur a déjà fait l'onboarding en tant que candidat
+  const hasCandidateRole = props.userRoles.includes('candidat')
+  
+  // Vérifier si l'onboarding candidat est complété
+  // Utiliser les nouveaux champs si disponibles, sinon fallback sur l'ancien système
+  const isOnboarded = props.userProfile.candidate_onboarding_completed === true || 
+                     (props.userProfile.candidate_onboarding_completed === false && 
+                      props.userProfile.is_onboarded === true && 
+                      hasCandidateRole)
+  
+  
+  return hasCandidateRole && isOnboarded
+})
+
+const isAnnonceurCompleted = computed(() => {
+  if (!props.userProfile || Object.keys(props.userProfile).length === 0) return false
+  
+  // Vérifier si l'utilisateur a déjà fait l'onboarding en tant qu'annonceur
+  const hasAnnonceurRole = props.userRoles.includes('annonceur')
+  
+  // Vérifier si l'onboarding annonceur est complété
+  // Utiliser les nouveaux champs si disponibles, sinon fallback sur l'ancien système
+  const isOnboarded = props.userProfile.annonceur_onboarding_completed === true || 
+                     (props.userProfile.annonceur_onboarding_completed === undefined && 
+                      props.userProfile.is_onboarded === true && 
+                      hasAnnonceurRole)
+  
+  
+  return hasAnnonceurRole && isOnboarded
+})
+
+const canSelectCandidate = computed(() => {
+  return !isCandidateCompleted.value
+})
+
+const canSelectAnnonceur = computed(() => {
+  return !isAnnonceurCompleted.value
+})
 
 // Reactive data
 const currentStep = ref(1)
@@ -932,6 +1028,16 @@ const requiredDocumentsAgency = [
 onMounted(() => {
   clientLoaded.value = true
   
+  
+  // Vérifier si tous les profils sont complétés
+  if (isCandidateCompleted.value && isAnnonceurCompleted.value) {
+    // Rediriger vers le dashboard si tous les profils sont complétés
+    setTimeout(() => {
+      navigateTo('/dashboard')
+    }, 2000)
+    return
+  }
+  
   // Si un mode est spécifié, l'utiliser
   if (props.mode) {
     formData.value.userType = props.mode === 'annonceur' ? 'landlord' : 'tenant'
@@ -941,6 +1047,14 @@ onMounted(() => {
 
 // Computed properties
 const canProceed = computed(() => {
+  // Empêcher de continuer si l'onboarding pour ce rôle est déjà complété
+  if (formData.value.userType === 'tenant' && isCandidateCompleted.value) {
+    return false
+  }
+  if (formData.value.userType === 'landlord' && isAnnonceurCompleted.value) {
+    return false
+  }
+  
   switch (currentStep.value) {
     case 1:
       return formData.value.userType !== ''
@@ -1134,7 +1248,19 @@ const getRequiredDocumentsCount = () => {
 
 // Methods
 const selectUserType = (type) => {
+  // Empêcher de refaire l'onboarding avec le même rôle
+  if (type === 'tenant' && isCandidateCompleted.value) {
+    return // Ne rien faire si déjà complété
+  }
+  
+  if (type === 'landlord' && isAnnonceurCompleted.value) {
+    return // Ne rien faire si déjà complété
+  }
+  
+  // Si on arrive ici, la sélection est autorisée
   formData.value.userType = type
+  error.value = '' // Clear any previous errors
+  
   // Adjust total steps based on user type
   if (type === 'tenant') {
     totalSteps.value = 5 // Welcome, Personal, Professional, Documents, Complete

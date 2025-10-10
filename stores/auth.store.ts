@@ -57,7 +57,6 @@ export const useAuthStore = defineStore("auth", {
         this.isAuthenticated = true;
         return true;
       } catch (error) {
-        console.error("checkAuth error:", error);
         this.user = null;
         this.isAuthenticated = false;
         localStorage.removeItem("access_token");
@@ -86,9 +85,8 @@ export const useAuthStore = defineStore("auth", {
         );
 
         // Le backend retourne { user: userInfo, roles, profile: filteredProfile }
-        return response.profile || response.user || response;
+        return response;
       } catch (error) {
-        console.error("getUserProfile error:", error);
         throw error;
       }
     },
@@ -115,7 +113,6 @@ export const useAuthStore = defineStore("auth", {
 
         return response;
       } catch (error) {
-        console.error("getFullUserProfile error:", error);
         throw error;
       }
     },
@@ -138,7 +135,6 @@ export const useAuthStore = defineStore("auth", {
 
         return response;
       } catch (error: any) {
-        console.error("Registration error:", error);
         throw error;
       }
     },
@@ -166,7 +162,6 @@ export const useAuthStore = defineStore("auth", {
 
         throw new Error("Identifiants invalides ou réponse incomplète");
       } catch (error: any) {
-        console.error("Login error:", error);
         throw error;
       }
     },
@@ -199,7 +194,6 @@ export const useAuthStore = defineStore("auth", {
 
         throw new Error("Vérification échouée ou réponse incomplète");
       } catch (error: any) {
-        console.error("Email verification error:", error);
         this.verificationStatus.error =
           error.message ||
           "Une erreur est survenue lors de la vérification de l'email";
@@ -242,7 +236,6 @@ export const useAuthStore = defineStore("auth", {
 
         return { success: true, message: response.message };
       } catch (error: any) {
-        console.error("Forgot password error:", error);
         return { 
           success: false, 
           error: error.response?._data?.message || "Une erreur est survenue lors de l'envoi de l'email de réinitialisation"
@@ -264,7 +257,6 @@ export const useAuthStore = defineStore("auth", {
 
         return { success: true, message: response.message };
       } catch (error: any) {
-        console.error("Reset password error:", error);
         return { 
           success: false, 
           error: error.response?._data?.message || "Une erreur est survenue lors de la réinitialisation du mot de passe"
