@@ -162,9 +162,10 @@
               class="flex items-center gap-2 hover:bg-gray-100 rounded-lg p-2"
             >
               <img
-                :src="userProfile?.avatar_url || userProfile?.profile_photo_url || 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg'"
+                :src="getProfileImageUrl()"
                 alt="Profile"
                 class="w-8 h-8 rounded-full object-cover"
+                @error="handleImageError"
               />
               <span class="font-medium hidden md:block">{{ userProfile?.first_name || 'Utilisateur' }}</span>
               <Icon
@@ -179,8 +180,18 @@
               class="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg py-2 z-50"
             >
               <div class="px-4 py-2 border-b border-gray-100">
-                <p class="font-medium">{{ userProfile?.first_name || 'Utilisateur' }} {{ userProfile?.last_name || '' }}</p>
-                <p class="text-sm text-gray-500">{{ userProfile?.email || 'email@example.com' }}</p>
+                <div class="flex items-center gap-3">
+                  <img
+                    :src="getProfileImageUrl()"
+                    alt="Profile"
+                    class="w-10 h-10 rounded-full object-cover"
+                    @error="handleImageError"
+                  />
+                  <div>
+                    <p class="font-medium">{{ userProfile?.first_name || 'Utilisateur' }} {{ userProfile?.last_name || '' }}</p>
+                    <p class="text-sm text-gray-500">{{ userProfile?.email || 'email@example.com' }}</p>
+                  </div>
+                </div>
               </div>
 
               <div class="py-2">
@@ -374,6 +385,7 @@ const isUserMenuOpen = ref(false);
 // Données du profil utilisateur
 const userProfile = ref<any>(null);
 const userRole = ref('candidat');
+const profileImageError = ref(false);
 
 // Mode basé sur le rôle réel de l'utilisateur
 const mode = computed(() => {
@@ -399,6 +411,7 @@ const fetchUserProfile = async () => {
     userProfile.value = response.profile || response
     userRole.value = response.roles?.[0] || 'candidat'
     
+    
   } catch (error) {
   }
 }
@@ -410,6 +423,31 @@ const switchMode = (newMode: string) => {
     router.push('/onboarding?mode=annonceur');
     return;
   }
+};
+
+// Fonction pour obtenir l'URL de l'image de profil
+const getProfileImageUrl = () => {
+  if (!userProfile.value) {
+    return 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg';
+  }
+  
+  // Essayer différents champs possibles pour l'image de profil
+  const imageUrl = userProfile.value.avatar_url || 
+                   userProfile.value.profile_photo_url || 
+                   userProfile.value.profile_image_url ||
+                   userProfile.value.photo_url;
+  
+  if (imageUrl && !profileImageError.value) {
+    return imageUrl;
+  }
+  
+  // Image par défaut
+  return 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg';
+};
+
+// Fonction pour gérer les erreurs d'image
+const handleImageError = () => {
+  profileImageError.value = true;
 };
 
 // Fonction de déconnexion

@@ -83,7 +83,6 @@ const resendEmail = async () => {
   try {
     alert("Fonctionnalité de renvoi d'email à implémenter");
   } catch (error) {
-    console.error("Error resending email:", error);
     alert("Une erreur est survenue lors du renvoi de l'email");
   }
 };

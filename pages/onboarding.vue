@@ -44,7 +44,6 @@ onMounted(async () => {
     userRole.value = profile.roles?.[0] || 'candidat'
     
   } catch (error) {
-    console.error('Erreur lors de la récupération du profil:', error)
   } finally {
     loading.value = false
   }

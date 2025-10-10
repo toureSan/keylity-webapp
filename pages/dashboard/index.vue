@@ -691,7 +691,6 @@ const saveDocument = async () => {
     closeEditModal()
     
   } catch (error) {
-    console.error('Erreur lors de l\'upload:', error)
     uploadError.value = error.message || 'Erreur lors de l\'upload'
   } finally {
     uploading.value = false
@@ -813,7 +812,6 @@ const fetchUserProfile = async () => {
     }
     
   } catch (error) {
-    console.error('Erreur lors de la récupération du profil:', error)
   } finally {
     loading.value = false
   }
@@ -849,7 +847,6 @@ const fetchStats = async () => {
     }
     
   } catch (error) {
-    console.error('Erreur lors de la récupération des stats:', error)
   }
 }
 

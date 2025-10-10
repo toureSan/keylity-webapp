@@ -1315,7 +1315,6 @@ const handlePhotoUpload = async (event) => {
       const uploadResult = await uploadAvatar(file)
       formData.value.profilePhoto = uploadResult.url
     } catch (error) {
-      console.error('Erreur lors de l\'upload de la photo:', error)
       error.value = 'Erreur lors de l\'upload de la photo'
     }
   }
@@ -1342,7 +1341,6 @@ const uploadAvatar = async (file) => {
     })
     return response
   } catch (error) {
-    console.error('Avatar upload error:', error)
     throw error
   }
 }
@@ -1400,7 +1398,6 @@ const handleDocumentUpload = async (event, docTypeId) => {
         url: multipleDocuments.value[docTypeId].map(f => f.url)
       }
     } catch (error) {
-      console.error('Erreur lors de l\'upload des documents:', error)
       error.value = 'Erreur lors de l\'upload des fichiers'
     }
   } else {
@@ -1414,7 +1411,6 @@ const handleDocumentUpload = async (event, docTypeId) => {
         url: uploadResult.url
       }
     } catch (error) {
-      console.error('Erreur lors de l\'upload:', error)
       error.value = 'Erreur lors de l\'upload du fichier'
     }
   }
@@ -1441,7 +1437,6 @@ const uploadFile = async (file) => {
     })
     return response
   } catch (error) {
-    console.error('Document upload error:', error)
     throw error
   }
 }
@@ -1579,8 +1574,6 @@ const submitOnboarding = async () => {
            await navigateTo('/dashboard')
     
   } catch (err) {
-    console.error('❌ Erreur lors de la soumission:', err)
-    
     // Gestion spécifique des erreurs
     if (err.message?.includes('Failed to fetch')) {
       error.value = 'Impossible de se connecter au serveur. Vérifiez que le backend est démarré.'

@@ -266,7 +266,6 @@ const handleForgotPassword = async () => {
       serverError.value = response.error || "Une erreur est survenue lors de l'envoi de l'email";
     }
   } catch (error) {
-    console.error("Forgot password error:", error);
     if (error.response?._data?.message) {
       serverError.value = error.response._data.message;
     } else {

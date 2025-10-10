@@ -19,7 +19,6 @@ export const useAuth = () => {
       userProfile.value = response.profile || response.user || response;
       return userProfile.value;
     } catch (error) {
-      console.error('Erreur lors de la récupération du profil:', error);
       userProfile.value = null;
       return null;
     } finally {

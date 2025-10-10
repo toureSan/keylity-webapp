@@ -273,7 +273,6 @@ const fetchUserProfile = async () => {
     userProfile.value = response.profile || response
     
   } catch (error) {
-    console.error('Erreur lors de la récupération du profil dans le header:', error)
   }
 }
 
