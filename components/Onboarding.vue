@@ -1029,10 +1029,10 @@ const requiredDocumentsAgency = [
 onMounted(() => {
   clientLoaded.value = true
   
-
   
   // Vérifier si tous les profils sont complétés
   if (isCandidateCompleted.value && isAnnonceurCompleted.value) {
+    // Rediriger vers le dashboard si tous les profils sont complétés
     setTimeout(() => {
       navigateTo('/dashboard')
     }, 2000)

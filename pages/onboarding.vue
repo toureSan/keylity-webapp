@@ -38,21 +38,12 @@ onMounted(async () => {
   try {
     const profile = await authStore.getUserProfile()
     
-    console.log('Onboarding page - Profile received:', profile)
-    
     // Le backend retourne { user, roles, profile }
     userProfile.value = profile.profile || {}
     userRoles.value = profile.roles || []
     userRole.value = profile.roles?.[0] || 'candidat'
     
-    console.log('Onboarding page - Data set:', {
-      userProfile: userProfile.value,
-      userRoles: userRoles.value,
-      userRole: userRole.value
-    })
-    
   } catch (error) {
-    console.error('Onboarding page - Error fetching profile:', error)
   } finally {
     loading.value = false
   }

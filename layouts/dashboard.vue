@@ -188,7 +188,7 @@
             ? 'translate-x-0'
             : '-translate-x-full md:translate-x-0',
         ]" ref="sidebarRef">
-        <nav class="p-4 space-y-2 mt-[98px] md:mt-4">
+        <nav class="p-4 space-y-2 mt-[98px] md:mt-0">
           <NuxtLink to="/dashboard" class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
             :class="[
               { 'justify-center': isCollapsed },

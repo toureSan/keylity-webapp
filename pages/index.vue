@@ -1,19 +1,20 @@
 <template>
   <div>
     <!-- Loading Overlay - Couvre toute la page -->
-    <div v-if="isLoading" class="loading-overlay fixed inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 backdrop-blur-sm flex items-center justify-center">
+    <div v-if="isLoading"
+      class="loading-overlay fixed inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 backdrop-blur-sm flex items-center justify-center">
       <div class="text-center">
         <!-- Logo Keylity -->
         <div class="mb-8">
           <img src="~/assets/images/logo-complet.png" alt="Keylity" class="h-20 w-auto mx-auto opacity-90">
         </div>
-       
+
         <!-- Texte de chargement -->
         <div class="space-y-2">
           <p class="text-gray-700 text-xl font-semibold">Chargement de Keylity...</p>
           <p class="text-gray-500 text-sm">Préparation de votre expérience immobilière</p>
         </div>
-        
+
         <!-- Barre de progression animée -->
         <div class="mt-8 w-64 mx-auto">
           <div class="h-1 bg-blue-200 rounded-full overflow-hidden">
@@ -64,6 +65,7 @@ onMounted(async () => {
   }
 })
 </script>
+
 
 <style scoped>
 .loading-overlay {
