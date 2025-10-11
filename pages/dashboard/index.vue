@@ -168,155 +168,240 @@
       <!-- Candidat Documents -->
       <div v-if="userRole === 'candidat'" class="space-y-4">
         <!-- Pièce d'identité -->
-        <div v-if="userProfile?.id_document_url" class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
-              <Icon name="heroicons:identification" class="w-5 h-5 text-blue-600" />
+        <div v-if="userProfile?.id_document_url" class="p-3 bg-gray-50 rounded-lg">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                <Icon name="heroicons:identification" class="w-5 h-5 text-blue-600" />
+              </div>
+              <div>
+                <h5 class="font-medium text-gray-900">Pièce d'identité</h5>
+                <p class="text-sm text-gray-500">Document d'identité officiel</p>
+              </div>
             </div>
-            <div>
-              <h5 class="font-medium text-gray-900">Pièce d'identité</h5>
-              <p class="text-sm text-gray-500">Document d'identité officiel</p>
+            <div class="flex items-center gap-2">
+              <div class="hidden sm:flex items-center gap-2">
+                <a :href="userProfile.id_document_url" target="_blank" 
+                   class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                  Voir
+                </a>
+                <button @click="editDocument('identity')" 
+                        class="text-gray-600 hover:text-gray-700 text-sm font-medium">
+                  Modifier
+                </button>
+              </div>
+              <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-500" />
             </div>
           </div>
-          <div class="flex items-center gap-2">
+          <!-- Version mobile -->
+          <div class="mt-3 flex flex-col gap-2 sm:hidden">
             <a :href="userProfile.id_document_url" target="_blank" 
-               class="text-blue-600 hover:text-blue-700 text-sm font-medium">
-              Voir
+               class="text-center px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+              Voir le document
             </a>
             <button @click="editDocument('identity')" 
-                    class="text-gray-600 hover:text-gray-700 text-sm font-medium">
+                    class="px-3 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors">
               Modifier
             </button>
-            <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-500" />
           </div>
         </div>
 
         <!-- Fiches de salaire -->
-        <div v-if="userProfile?.salary_slips_urls?.length" class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
-              <Icon name="heroicons:banknotes" class="w-5 h-5 text-green-600" />
+        <div v-if="userProfile?.salary_slips_urls?.length" class="p-3 bg-gray-50 rounded-lg">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
+                <Icon name="heroicons:banknotes" class="w-5 h-5 text-green-600" />
+              </div>
+              <div>
+                <h5 class="font-medium text-gray-900">Fiches de salaire</h5>
+                <p class="text-sm text-gray-500">{{ userProfile.salary_slips_urls.length }} document(s) uploadé(s)</p>
+              </div>
             </div>
-            <div>
-              <h5 class="font-medium text-gray-900">Fiches de salaire</h5>
-              <p class="text-sm text-gray-500">{{ userProfile.salary_slips_urls.length }} document(s) uploadé(s)</p>
+            <div class="flex items-center gap-2">
+              <div class="hidden sm:flex items-center gap-2">
+                <button @click="showDocuments('salary_slips')" 
+                        class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                  Voir ({{ userProfile.salary_slips_urls.length }})
+                </button>
+                <button @click="editDocument('salary-slips')" 
+                        class="text-gray-600 hover:text-gray-700 text-sm font-medium">
+                  Modifier
+                </button>
+              </div>
+              <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-500" />
             </div>
           </div>
-          <div class="flex items-center gap-2">
+          <!-- Version mobile -->
+          <div class="mt-3 flex flex-col gap-2 sm:hidden">
             <button @click="showDocuments('salary_slips')" 
-                    class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                    class="text-center px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
               Voir ({{ userProfile.salary_slips_urls.length }})
             </button>
             <button @click="editDocument('salary-slips')" 
-                    class="text-gray-600 hover:text-gray-700 text-sm font-medium">
+                    class="px-3 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors">
               Modifier
             </button>
-            <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-500" />
           </div>
         </div>
 
         <!-- Attestation employeur -->
-        <div v-if="userProfile?.employment_certificate_url" class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
-              <Icon name="heroicons:document-text" class="w-5 h-5 text-purple-600" />
+        <div v-if="userProfile?.employment_certificate_url" class="p-3 bg-gray-50 rounded-lg">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
+                <Icon name="heroicons:document-text" class="w-5 h-5 text-purple-600" />
+              </div>
+              <div>
+                <h5 class="font-medium text-gray-900">Attestation de l'employeur</h5>
+                <p class="text-sm text-gray-500">Certificat de travail</p>
+              </div>
             </div>
-            <div>
-              <h5 class="font-medium text-gray-900">Attestation de l'employeur</h5>
-              <p class="text-sm text-gray-500">Certificat de travail</p>
+            <div class="flex items-center gap-2">
+              <div class="hidden sm:flex items-center gap-2">
+                <a :href="userProfile.employment_certificate_url" target="_blank" 
+                   class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                  Voir
+                </a>
+                <button @click="editDocument('employer-certificate')" 
+                        class="text-gray-600 hover:text-gray-700 text-sm font-medium">
+                  Modifier
+                </button>
+              </div>
+              <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-500" />
             </div>
           </div>
-          <div class="flex items-center gap-2">
+          <!-- Version mobile -->
+          <div class="mt-3 flex flex-col gap-2 sm:hidden">
             <a :href="userProfile.employment_certificate_url" target="_blank" 
-               class="text-blue-600 hover:text-blue-700 text-sm font-medium">
-              Voir
+               class="text-center px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+              Voir le document
             </a>
             <button @click="editDocument('employer-certificate')" 
-                    class="text-gray-600 hover:text-gray-700 text-sm font-medium">
+                    class="px-3 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors">
               Modifier
             </button>
-            <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-500" />
           </div>
         </div>
 
         <!-- Relevés bancaires -->
-        <div v-if="userProfile?.bank_statements_urls?.length" class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
-              <Icon name="heroicons:credit-card" class="w-5 h-5 text-orange-600" />
+        <div v-if="userProfile?.bank_statements_urls?.length" class="p-3 bg-gray-50 rounded-lg">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
+                <Icon name="heroicons:credit-card" class="w-5 h-5 text-orange-600" />
+              </div>
+              <div>
+                <h5 class="font-medium text-gray-900">Relevés bancaires</h5>
+                <p class="text-sm text-gray-500">{{ userProfile.bank_statements_urls.length }} document(s) uploadé(s)</p>
+              </div>
             </div>
-            <div>
-              <h5 class="font-medium text-gray-900">Relevés bancaires</h5>
-              <p class="text-sm text-gray-500">{{ userProfile.bank_statements_urls.length }} document(s) uploadé(s)</p>
+            <div class="flex items-center gap-2">
+              <div class="hidden sm:flex items-center gap-2">
+                <button @click="showDocuments('bank_statements')" 
+                        class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                  Voir ({{ userProfile.bank_statements_urls.length }})
+                </button>
+                <button @click="editDocument('bank-statements')" 
+                        class="text-gray-600 hover:text-gray-700 text-sm font-medium">
+                  Modifier
+                </button>
+              </div>
+              <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-500" />
             </div>
           </div>
-          <div class="flex items-center gap-2">
+          <!-- Version mobile -->
+          <div class="mt-3 flex flex-col gap-2 sm:hidden">
             <button @click="showDocuments('bank_statements')" 
-                    class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                    class="text-center px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
               Voir ({{ userProfile.bank_statements_urls.length }})
             </button>
             <button @click="editDocument('bank-statements')" 
-                    class="text-gray-600 hover:text-gray-700 text-sm font-medium">
+                    class="px-3 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors">
               Modifier
             </button>
-            <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-500" />
           </div>
         </div>
 
         <!-- Attestation de non-poursuite -->
-        <div v-if="userProfile?.debt_certificate_url" class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center">
-              <Icon name="heroicons:shield-check" class="w-5 h-5 text-red-600" />
-            </div>
-            <div>
-              <h5 class="font-medium text-gray-900">Attestation de non-poursuite</h5>
-              <p class="text-sm text-gray-500">Office des poursuites</p>
-              <div class="mt-2 p-2 bg-amber-50 border border-amber-200 rounded-md">
-                <div class="flex items-start gap-2">
-                  <Icon name="heroicons:exclamation-triangle" class="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p class="text-xs text-amber-800 font-medium">Renouvellement requis</p>
-                    <p class="text-xs text-amber-700">Ce document doit être renouvelé tous les 3 mois auprès de l'Office des poursuites</p>
-                  </div>
+        <div v-if="userProfile?.debt_certificate_url" class="p-3 bg-gray-50 rounded-lg">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center">
+                <Icon name="heroicons:shield-check" class="w-5 h-5 text-red-600" />
+              </div>
+              <div>
+                <h5 class="font-medium text-gray-900">Attestation de non-poursuite</h5>
+                <p class="text-sm text-gray-500">Office des poursuites</p>
+                <div class="mt-2 inline-flex items-center gap-1 px-2 py-1 bg-amber-100 text-amber-700 rounded-full text-xs">
+                  <Icon name="heroicons:clock" class="w-3 h-3" />
+                  <span>Renouvelable tous les 3 mois</span>
                 </div>
               </div>
             </div>
+            <div class="flex items-center gap-2">
+              <div class="hidden sm:flex items-center gap-2">
+                <a :href="userProfile.debt_certificate_url" target="_blank" 
+                   class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                  Voir
+                </a>
+                <button @click="editDocument('debt-certificate')" 
+                        class="text-gray-600 hover:text-gray-700 text-sm font-medium">
+                  Modifier
+                </button>
+              </div>
+              <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-500" />
+            </div>
           </div>
-          <div class="flex items-center gap-2">
+          <!-- Version mobile -->
+          <div class="mt-3 flex flex-col gap-2 sm:hidden">
             <a :href="userProfile.debt_certificate_url" target="_blank" 
-               class="text-blue-600 hover:text-blue-700 text-sm font-medium">
-              Voir
+               class="text-center px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+              Voir le document
             </a>
             <button @click="editDocument('debt-certificate')" 
-                    class="text-gray-600 hover:text-gray-700 text-sm font-medium">
+                    class="px-3 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors">
               Modifier
             </button>
-            <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-500" />
           </div>
         </div>
 
         <!-- Documents de garant -->
-        <div v-if="userProfile?.guarantor_documents_urls?.length" class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center">
-              <Icon name="heroicons:user-group" class="w-5 h-5 text-indigo-600" />
+        <div v-if="userProfile?.guarantor_documents_urls?.length" class="p-3 bg-gray-50 rounded-lg">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center">
+                <Icon name="heroicons:user-group" class="w-5 h-5 text-indigo-600" />
+              </div>
+              <div>
+                <h5 class="font-medium text-gray-900">Documents de garant</h5>
+                <p class="text-sm text-gray-500">{{ userProfile.guarantor_documents_urls.length }} document(s) uploadé(s)</p>
+              </div>
             </div>
-            <div>
-              <h5 class="font-medium text-gray-900">Documents de garant</h5>
-              <p class="text-sm text-gray-500">{{ userProfile.guarantor_documents_urls.length }} document(s) uploadé(s)</p>
+            <div class="flex items-center gap-2">
+              <div class="hidden sm:flex items-center gap-2">
+                <button @click="showDocuments('guarantor_documents')" 
+                        class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                  Voir ({{ userProfile.guarantor_documents_urls.length }})
+                </button>
+                <button @click="editDocument('guarantor-documents')" 
+                        class="text-gray-600 hover:text-gray-700 text-sm font-medium">
+                  Modifier
+                </button>
+              </div>
+              <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-500" />
             </div>
           </div>
-          <div class="flex items-center gap-2">
+          <!-- Version mobile -->
+          <div class="mt-3 flex flex-col gap-2 sm:hidden">
             <button @click="showDocuments('guarantor_documents')" 
-                    class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                    class="text-center px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
               Voir ({{ userProfile.guarantor_documents_urls.length }})
             </button>
             <button @click="editDocument('guarantor-documents')" 
-                    class="text-gray-600 hover:text-gray-700 text-sm font-medium">
+                    class="px-3 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors">
               Modifier
             </button>
-            <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-500" />
           </div>
         </div>
 

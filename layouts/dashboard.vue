@@ -175,20 +175,7 @@
         </div>
       </div>
       <!-- Mobile Search -->
-      <div class="md:hidden px-4 pb-4">
-        <div class="relative">
-          <input type="text" placeholder="Rechercher..."
-            class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
-          <Icon name="heroicons:magnifying-glass"
-            class="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
-        </div>
-        <!-- Badge du rôle mobile -->
-        <div class="mt-2 flex justify-center">
-          <div class="flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-            {{ mode === 'candidat' ? 'Candidat' : 'Annonceur' }}
-          </div>
-        </div>
-      </div>
+      
     </header>
 
     <div class="flex">
@@ -201,7 +188,7 @@
             ? 'translate-x-0'
             : '-translate-x-full md:translate-x-0',
         ]" ref="sidebarRef">
-        <nav class="p-4 space-y-2">
+        <nav class="p-4 space-y-2 mt-[98px] md:mt-4">
           <NuxtLink to="/dashboard" class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
             :class="[
               { 'justify-center': isCollapsed },
