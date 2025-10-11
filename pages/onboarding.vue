@@ -28,6 +28,7 @@ useHead({
 })
 
 const authStore = useAuthStore()
+const route = useRoute()
 const userRole = ref('candidat')
 const userProfile = ref({})
 const userRoles = ref([])
@@ -41,7 +42,14 @@ onMounted(async () => {
     // Le backend retourne { user, roles, profile }
     userProfile.value = profile.profile || {}
     userRoles.value = profile.roles || []
-    userRole.value = profile.roles?.[0] || 'candidat'
+    
+    // Vérifier si un mode spécifique est demandé dans l'URL
+    const modeParam = route.query.mode
+    if (modeParam === 'annonceur') {
+      userRole.value = 'annonceur'
+    } else {
+      userRole.value = profile.roles?.[0] || 'candidat'
+    }
     
   } catch (error) {
   } finally {

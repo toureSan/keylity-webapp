@@ -146,6 +146,13 @@
                   <Icon name="heroicons:bookmark" class="h-5 w-5 text-gray-500" />
                   Mes favoris
                 </a>
+                <!-- Option pour devenir annonceur si pas déjà annonceur -->
+                <a v-if="!hasAnnonceurRole" 
+                   href="/onboarding?mode=annonceur" 
+                   class="px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 flex items-center gap-2">
+                  <Icon name="heroicons:building-office-2" class="h-5 w-5 text-blue-500" />
+                  Devenir annonceur
+                </a>
               </div>
 
               <div class="border-t border-gray-100 py-2">
@@ -258,6 +265,15 @@ const profileImageError = ref(false);
 // Mode basé sur le rôle réel de l'utilisateur
 const mode = computed(() => {
   return userProfile.value?.role || 'candidat';
+});
+
+// Vérifier si l'utilisateur a le rôle annonceur
+const hasAnnonceurRole = computed(() => {
+  if (!userProfile.value) return false;
+  
+  // Vérifier dans les rôles du profil ou dans userRole
+  const roles = userProfile.value.roles || [];
+  return roles.includes('annonceur') || userRole.value === 'annonceur';
 });
 
 // Fonction pour récupérer le profil utilisateur

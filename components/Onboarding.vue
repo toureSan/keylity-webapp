@@ -1,20 +1,17 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 mt-20">
     <div class="container mx-auto px-4 py-8">
       <div class="max-w-4xl mx-auto">
         <!-- Header avec logo et bouton de fermeture -->
-        <div class="flex justify-between items-center mt-40 mb-8">
           <div class="text-center flex-1">
-            <img src="@/assets/images/logo-complet.png" alt="Keylity" class="h-16 w-auto mx-auto">
+           
           </div>
           <button 
             @click="closeModal"
-            class="p-2 rounded-full bg-white shadow-md hover:shadow-lg transition-shadow"
+            class="p-2 rounded-full bg-white shadow-md hover:shadow-lg transition-shadow mb-4"
           >
             <Icon name="heroicons:x-mark" class="w-6 h-6 text-gray-600" />
           </button>
-      </div>
-        
         <!-- Formulaire d'onboarding -->
         <div class="bg-white rounded-2xl shadow-xl p-8">
 
@@ -24,7 +21,7 @@
               <span class="text-sm font-medium text-gray-700">Étape {{ currentStep }} sur {{ totalSteps }}</span>
               <span
                 class="text-sm font-medium text-primary-600">{{ Math.round((currentStep / totalSteps) * 100) }}%</span>
-            </div>
+      </div>
             <div class="w-full bg-gray-200 rounded-full h-2">
               <div class="bg-blue-600 h-2 rounded-full transition-all duration-300"
                 :style="{ width: (currentStep / totalSteps) * 100 + '%' }"></div>
@@ -47,63 +44,63 @@
           <div>
             <!-- Step 1: Welcome & User Type -->
             <div v-if="currentStep === 1" class="text-center">
-              <div class="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Icon name="heroicons:home" class="w-10 h-10 text-primary-600" />
+              <div>
+              <img src="@/assets/images/logo-complet.png" alt="Keylity" class="h-16 w-auto mx-auto">
               </div>
-              <h1 class="text-2xl font-bold mb-4">Commençons votre parcours</h1>
-              <p class="text-gray-600 mb-8">
+              <h1 class="text-lg sm:text-2xl font-bold mb-3 sm:mb-4">Commençons votre parcours</h1>
+              <p class="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8 px-2">
                 Nous allons configurer votre profil en quelques étapes simples pour vous aider à trouver le bien
-                parfait.
+                parfait ou le candidat idéal.
               </p>
 
 
               <!-- Message spécial si tous les profils sont complétés -->
-              <div v-if="isCandidateCompleted && isAnnonceurCompleted" class="mb-6 p-6 bg-green-50 border border-green-200 rounded-lg text-center">
-                <div class="flex items-center justify-center gap-3 mb-3">
-                  <Icon name="heroicons:check-circle" class="w-8 h-8 text-green-600" />
-                  <h3 class="text-lg font-semibold text-green-900">Onboarding terminé !</h3>
+              <div v-if="isCandidateCompleted && isAnnonceurCompleted" class="mb-6 p-4 sm:p-6 bg-green-50 border border-green-200 rounded-lg text-center">
+                <div class="flex items-center justify-center gap-2 sm:gap-3 mb-3">
+                  <Icon name="heroicons:check-circle" class="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
+                  <h3 class="text-base sm:text-lg font-semibold text-green-900">Onboarding terminé !</h3>
                 </div>
-                <p class="text-green-700 mb-4">
+                <p class="text-sm sm:text-base text-green-700 mb-4">
                   Vous avez déjà complété l'onboarding pour les deux rôles. 
                   Vous allez être redirigé vers votre tableau de bord.
                 </p>
                 <div class="flex justify-center">
-                  <NuxtLink to="/dashboard" class="btn btn-primary">
+                  <NuxtLink to="/dashboard" class="btn btn-primary text-sm sm:text-base">
                     Aller au tableau de bord
                   </NuxtLink>
                 </div>
               </div>
 
-              <div v-if="!(isCandidateCompleted && isAnnonceurCompleted)" class="space-y-4 mb-8">
-                <h2 class="text-lg font-semibold">Je suis :</h2>
+              <div v-if="!(isCandidateCompleted && isAnnonceurCompleted)" class="space-y-4 mb-6 sm:mb-8">
+                <h2 class="text-base sm:text-lg font-semibold">Je suis :</h2>
 
-                <div class="grid grid-cols-1 gap-6">
+                <div class="grid grid-cols-1 gap-4 sm:gap-6">
                   <button 
                     @click="canSelectCandidate ? selectUserType('tenant') : null"
                     @mousedown.prevent="!canSelectCandidate"
                     @keydown.prevent="!canSelectCandidate"
                     :disabled="!canSelectCandidate"
                     :tabindex="canSelectCandidate ? 0 : -1"
-                    class="p-8 border-2 rounded-xl transition-all duration-200 text-left relative"
+                    class="p-4 sm:p-8 border-2 rounded-xl transition-all duration-200 text-left relative"
             :class="[
                       formData.userType === 'tenant' ? 'border-primary-500 bg-primary-50' : 'border-gray-200',
                       canSelectCandidate ? 'hover:border-primary-300 hover:bg-primary-50 cursor-pointer' : 'opacity-50 cursor-not-allowed bg-gray-50'
                     ]">
-                    <div class="flex items-center gap-6">
-                      <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-                        <Icon name="heroicons:user" class="w-8 h-8 text-blue-600" />
+                    <div class="flex items-center gap-4 sm:gap-6">
+                      <div class="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <Icon name="heroicons:user" class="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
           </div>
-                      <div class="flex-1">
-                        <h3 class="text-xl font-semibold mb-2">Candidat locataire</h3>
-                        <p class="text-gray-600">Je recherche un logement à louer</p>
-                        <ul class="text-sm text-gray-500 mt-2 space-y-1">
+                      <div class="flex-1 min-w-0">
+                        <h3 class="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">Candidat locataire</h3>
+                        <p class="text-sm sm:text-base text-gray-600">Je recherche un logement à louer</p>
+                        <ul class="text-xs sm:text-sm text-gray-500 mt-2 space-y-1 hidden sm:block">
                           <li>• Recherche de biens immobiliers</li>
                           <li>• Dossier de candidature digital</li>
                           <li>• Planification de visites</li>
                         </ul>
-                        <div v-if="isCandidateCompleted" class="mt-3 flex items-center gap-2 text-green-600">
-                          <Icon name="heroicons:check-circle" class="w-5 h-5" />
-                          <span class="text-sm font-medium">Onboarding déjà fait</span>
+                        <div v-if="isCandidateCompleted" class="mt-2 sm:mt-3 flex items-center gap-2 text-green-600">
+                          <Icon name="heroicons:check-circle" class="w-4 h-4 sm:w-5 sm:h-5" />
+                          <span class="text-xs sm:text-sm font-medium">Onboarding déjà fait</span>
       </div>
             </div>
             </div>
@@ -115,26 +112,26 @@
                     @keydown.prevent="!canSelectAnnonceur"
                     :disabled="!canSelectAnnonceur"
                     :tabindex="canSelectAnnonceur ? 0 : -1"
-                    class="p-8 border-2 rounded-xl transition-all duration-200 text-left relative"
+                    class="p-4 sm:p-8 border-2 rounded-xl transition-all duration-200 text-left relative"
                     :class="[
                       formData.userType === 'landlord' ? 'border-primary-500 bg-primary-50' : 'border-gray-200',
                       canSelectAnnonceur ? 'hover:border-primary-300 hover:bg-primary-50 cursor-pointer' : 'opacity-50 cursor-not-allowed bg-gray-50'
                     ]">
-                    <div class="flex items-center gap-6">
-                      <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                        <Icon name="heroicons:building-office-2" class="w-8 h-8 text-green-600" />
+                    <div class="flex items-center gap-4 sm:gap-6">
+                      <div class="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <Icon name="heroicons:building-office-2" class="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
             </div>
-                      <div class="flex-1">
-                        <h3 class="text-xl font-semibold mb-2">Propriétaire / Agence</h3>
-                        <p class="text-gray-600">Je souhaite louer mon bien ou gérer des propriétés</p>
-                        <ul class="text-sm text-gray-500 mt-2 space-y-1">
+                      <div class="flex-1 min-w-0">
+                        <h3 class="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">Propriétaire / Agence</h3>
+                        <p class="text-sm sm:text-base text-gray-600">Je souhaite louer mon bien ou gérer des propriétés</p>
+                        <ul class="text-xs sm:text-sm text-gray-500 mt-2 space-y-1 hidden sm:block">
                           <li>• Publication d'annonces immobilières</li>
                           <li>• Gestion des candidatures</li>
                           <li>• Outils de gestion locative</li>
                         </ul>
-                        <div v-if="isAnnonceurCompleted" class="mt-3 flex items-center gap-2 text-green-600">
-                          <Icon name="heroicons:check-circle" class="w-5 h-5" />
-                          <span class="text-sm font-medium">Onboarding déjà fait</span>
+                        <div v-if="isAnnonceurCompleted" class="mt-2 sm:mt-3 flex items-center gap-2 text-green-600">
+                          <Icon name="heroicons:check-circle" class="w-4 h-4 sm:w-5 sm:h-5" />
+                          <span class="text-xs sm:text-sm font-medium">Onboarding déjà fait</span>
             </div>
             </div>
             </div>
@@ -146,7 +143,7 @@
 
             <!-- Step 2: Personal Information (TENANT) -->
             <div v-if="currentStep === 2 && formData.userType === 'tenant'">
-              <h2 class="text-2xl font-bold mb-6">Informations personnelles</h2>
+              <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Informations personnelles</h2>
               <div class="space-y-6">
                 <!-- Photo de profil -->
                 <div class="text-center mb-6">
@@ -281,7 +278,7 @@
 
             <!-- Step 3: Professional Information (TENANT) -->
             <div v-if="currentStep === 3 && formData.userType === 'tenant'">
-              <h2 class="text-2xl font-bold mb-6">Situation professionnelle</h2>
+              <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Situation professionnelle</h2>
               <div class="space-y-6">
                 <div class="grid md:grid-cols-2 gap-6">
                   <div>
@@ -377,8 +374,8 @@
 
             <!-- Step 4: Document Upload (TENANT) -->
             <div v-if="currentStep === 4 && formData.userType === 'tenant'">
-              <h2 class="text-2xl font-bold mb-6">Documents requis</h2>
-              <p class="text-gray-600 mb-6">
+              <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Documents requis</h2>
+              <p class="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
                 Ajoutez vos documents pour créer un dossier de candidature complet.
                 Vous pourrez les modifier plus tard dans votre profil.
               </p>
@@ -443,107 +440,107 @@
 
             <!-- Step 2: Owner/Agency Information -->
             <div v-if="currentStep === 2 && formData.userType === 'landlord'">
-              <h2 class="text-2xl font-bold mb-6">Informations du propriétaire</h2>
+              <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Informations du propriétaire</h2>
 
               <!-- Photo de profil -->
-              <div class="text-center mb-6">
+              <div class="text-center mb-4 sm:mb-6">
                 <ClientOnly>
                   <div class="relative inline-block">
                     <img
                       :src="formData.profilePhoto || 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg'"
-                      alt="Photo de profil" class="w-24 h-24 rounded-full object-cover border-4 border-gray-100">
+                      alt="Photo de profil" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-gray-100">
                     <button @click="triggerPhotoUpload"
-                      class="absolute bottom-0 right-0 bg-primary-600 text-white p-2 rounded-full hover:bg-primary-700 transition-colors">
-                      <Icon name="heroicons:camera" class="w-4 h-4" />
-          </button>
+                      class="absolute bottom-0 right-0 bg-primary-600 text-white p-1.5 sm:p-2 rounded-full hover:bg-primary-700 transition-colors">
+                      <Icon name="heroicons:camera" class="w-3 h-3 sm:w-4 sm:h-4" />
+                    </button>
                     <input v-if="clientLoaded" ref="photoInput" type="file" accept="image/*" @change="handlePhotoUpload"
                       class="hidden">
-        </div>
+                  </div>
                 </ClientOnly>
-                <p class="text-sm text-gray-500 mt-2">Ajoutez votre photo de profil</p>
-      </div>
+                <p class="text-xs sm:text-sm text-gray-500 mt-2">Ajoutez votre photo de profil</p>
+              </div>
 
-              <div class="space-y-6">
+              <div class="space-y-4 sm:space-y-6">
                 <!-- Type d'annonceur -->
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">Type d'annonceur *</label>
-                  <div class="grid grid-cols-2 gap-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <button @click="formData.advertiserType = 'individual'" type="button"
-                      class="p-4 border-2 rounded-lg transition-all duration-200 text-left"
+                      class="p-3 sm:p-4 border-2 rounded-lg transition-all duration-200 text-left"
                       :class="formData.advertiserType === 'individual' ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:border-gray-300'">
-                      <h3 class="font-medium">Particulier</h3>
-                      <p class="text-sm text-gray-500">Propriétaire individuel</p>
+                      <h3 class="text-sm sm:text-base font-medium">Particulier</h3>
+                      <p class="text-xs sm:text-sm text-gray-500">Propriétaire individuel</p>
                     </button>
                     <button @click="formData.advertiserType = 'professional'" type="button"
-                      class="p-4 border-2 rounded-lg transition-all duration-200 text-left"
+                      class="p-3 sm:p-4 border-2 rounded-lg transition-all duration-200 text-left"
                       :class="formData.advertiserType === 'professional' ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:border-gray-300'">
-                      <h3 class="font-medium">Professionnel</h3>
-                      <p class="text-sm text-gray-500">Agence ou régie</p>
+                      <h3 class="text-sm sm:text-base font-medium">Professionnel</h3>
+                      <p class="text-xs sm:text-sm text-gray-500">Agence ou régie</p>
                     </button>
                   </div>
                 </div>
 
                 <!-- Informations générales -->
-                <div class="grid md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                       {{ formData.advertiserType === 'professional' ? 'Raison sociale' : 'Nom' }} *
                     </label>
                     <input v-model="formData.companyName" type="text" required
-                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       :placeholder="formData.advertiserType === 'professional' ? 'Nom de l\'agence' : 'Votre nom'">
                   </div>
                   <div v-if="formData.advertiserType === 'individual'">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Prénom *</label>
                     <input v-model="formData.firstName" type="text" required
-                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       placeholder="Votre prénom">
                   </div>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
                     <input v-model="formData.email" type="email" required
-                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       placeholder="contact@email.com">
                   </div>
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Téléphone *</label>
                     <input v-model="formData.phone" type="tel" required
-                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       placeholder="+41 22 123 45 67">
                   </div>
                 </div>
 
                 <!-- Informations spécifiques aux professionnels -->
-                <div v-if="formData.advertiserType === 'professional'" class="space-y-6">
-                  <div class="grid md:grid-cols-2 gap-6">
+                <div v-if="formData.advertiserType === 'professional'" class="space-y-4 sm:space-y-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                       <label class="block text-sm font-medium text-gray-700 mb-2">N° IDE / TVA</label>
                       <input v-model="formData.ideNumber" type="text"
-                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                        class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                         placeholder="CHE-123.456.789">
                     </div>
                     <div>
                       <label class="block text-sm font-medium text-gray-700 mb-2">Site web (facultatif)</label>
                       <input v-model="formData.website" type="url"
-                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                        class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                         placeholder="https://www.agence.ch">
                     </div>
                   </div>
 
-                  <div class="grid md:grid-cols-2 gap-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                       <label class="block text-sm font-medium text-gray-700 mb-2">Représentant légal *</label>
                       <input v-model="formData.legalRepresentative" type="text" required
-                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                        class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                         placeholder="Nom du représentant">
                     </div>
                     <div>
                       <label class="block text-sm font-medium text-gray-700 mb-2">Rôle du représentant *</label>
                       <select v-model="formData.representativeRole" required
-                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                        class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                         <option value="">Sélectionner</option>
                         <option value="director">Directeur</option>
                         <option value="manager">Gérant</option>
@@ -557,18 +554,18 @@
                     <label class="block text-sm font-medium text-gray-700 mb-2">Nom de l'agent responsable de la
                       location</label>
                     <input v-model="formData.responsibleAgent" type="text"
-                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       placeholder="Nom de l'agent">
                   </div>
                 </div>
 
                 <!-- Informations spécifiques aux particuliers -->
-                <div v-if="formData.advertiserType === 'individual'" class="space-y-6">
-                  <div class="grid md:grid-cols-2 gap-6">
+                <div v-if="formData.advertiserType === 'individual'" class="space-y-4 sm:space-y-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                       <label class="block text-sm font-medium text-gray-700 mb-2">Statut *</label>
                       <select v-model="formData.ownerStatus" required
-                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                        class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                         <option value="">Sélectionner</option>
                         <option value="owner">Propriétaire</option>
                         <option value="subletting">Sous-locataire autorisé</option>
@@ -578,7 +575,7 @@
                       <label class="block text-sm font-medium text-gray-700 mb-2">Nombre de logements loués
                         actuellement</label>
                       <select v-model="formData.numberOfProperties"
-                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                        class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                         <option value="1">1</option>
                         <option value="2-5">2-5</option>
                         <option value="6-10">6-10</option>
@@ -590,7 +587,7 @@
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Lien avec le bien *</label>
                     <select v-model="formData.propertyRelation" required
-                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                      class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                       <option value="">Sélectionner</option>
                       <option value="direct-owner">Propriétaire direct</option>
                       <option value="heir">Héritier</option>
@@ -603,13 +600,13 @@
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">Langue de contact préférée *</label>
                   <select v-model="formData.preferredLanguage" required
-                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                     <option value="">Sélectionner</option>
                     <option value="fr">Français</option>
                     <option value="de">Deutsch</option>
                     <option value="it">Italiano</option>
                     <option value="en">English</option>
-              </select>
+                  </select>
                 </div>
 
                 <div>
@@ -618,17 +615,17 @@
                     <label class="flex items-center">
                       <input v-model="formData.contactMethods" value="email" type="checkbox"
                         class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
-                      <span class="ml-2">Email</span>
+                      <span class="ml-2 text-sm sm:text-base">Email</span>
                     </label>
                     <label class="flex items-center">
                       <input v-model="formData.contactMethods" value="phone" type="checkbox"
                         class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
-                      <span class="ml-2">Téléphone</span>
+                      <span class="ml-2 text-sm sm:text-base">Téléphone</span>
                     </label>
                     <label class="flex items-center">
                       <input v-model="formData.contactMethods" value="sms" type="checkbox"
                         class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
-                      <span class="ml-2">SMS</span>
+                      <span class="ml-2 text-sm sm:text-base">SMS</span>
                     </label>
                   </div>
                 </div>
@@ -636,7 +633,7 @@
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">Adresse de correspondance *</label>
                   <textarea v-model="formData.correspondenceAddress" required rows="3"
-                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     placeholder="Adresse complète..."></textarea>
                 </div>
               </div>
@@ -644,8 +641,8 @@
 
             <!-- Step 3: Document Upload (Owner/Agency) -->
             <div v-if="currentStep === 3 && formData.userType === 'landlord'">
-              <h2 class="text-2xl font-bold mb-6">Documents requis</h2>
-              <p class="text-gray-600 mb-6">
+              <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Documents requis</h2>
+              <p class="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
                 Ajoutez les documents nécessaires pour valider votre profil.
               </p>
               
@@ -736,8 +733,8 @@
                 <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Icon name="heroicons:check" class="w-10 h-10 text-green-600" />
                 </div>
-                <h2 class="text-2xl font-bold mb-4">Félicitations !</h2>
-                <p class="text-gray-600 mb-8">
+                <h2 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Félicitations !</h2>
+                <p class="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
                   Votre profil est maintenant configuré. Vous pouvez commencer à
                   {{ formData.userType === 'tenant' ? 'rechercher des biens' : 'publier vos annonces' }}
                   ou compléter votre dossier dans votre espace personnel.
