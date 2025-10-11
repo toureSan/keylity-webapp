@@ -27,6 +27,11 @@ useHead({
   ]
 })
 
+// Middleware pour s'assurer que l'utilisateur est authentifié
+definePageMeta({
+  middleware: 'auth'
+})
+
 const authStore = useAuthStore()
 const route = useRoute()
 const userRole = ref('candidat')
