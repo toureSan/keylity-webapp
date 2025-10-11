@@ -837,7 +837,7 @@ const isCandidateCompleted = computed(() => {
                      (props.userProfile.candidate_onboarding_completed === false && 
                       props.userProfile.is_onboarded === true && 
                       hasCandidateRole)
-  
+
   
   return hasCandidateRole && isOnboarded
 })
@@ -855,6 +855,7 @@ const isAnnonceurCompleted = computed(() => {
                       props.userProfile.is_onboarded === true && 
                       hasAnnonceurRole)
   
+
   
   return hasAnnonceurRole && isOnboarded
 })
@@ -1028,10 +1029,10 @@ const requiredDocumentsAgency = [
 onMounted(() => {
   clientLoaded.value = true
   
+
   
   // Vérifier si tous les profils sont complétés
   if (isCandidateCompleted.value && isAnnonceurCompleted.value) {
-    // Rediriger vers le dashboard si tous les profils sont complétés
     setTimeout(() => {
       navigateTo('/dashboard')
     }, 2000)

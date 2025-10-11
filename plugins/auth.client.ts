@@ -5,7 +5,14 @@ export default defineNuxtPlugin(async () => {
   if (process.client) {
     const token = localStorage.getItem('access_token');
     if (token) {
-      await authStore.checkAuth();
+      try {
+        await authStore.checkAuth();
+      } catch (error) {
+        // En cas d'erreur, nettoyer le token
+        localStorage.removeItem('access_token');
+        authStore.isAuthenticated = false;
+        authStore.user = null;
+      }
     }
   }
 });

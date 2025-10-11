@@ -173,6 +173,35 @@ export const useAuthStore = defineStore("auth", {
     },
 
     // Déconnexion
+    async getUserProfile() {
+      if (!this.isAuthenticated) {
+        return { user: null, roles: [], profile: {} };
+      }
+
+      try {
+        const config = useRuntimeConfig();
+        const token = this.getAuthToken();
+        
+        if (!token) {
+          return { user: null, roles: [], profile: {} };
+        }
+        
+        const response = await $fetch<ApiResponse>(
+          `${config.public.apiBase}/user-profile/me`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        return response;
+      } catch (error) {
+        return { user: null, roles: [], profile: {} };
+      }
+    },
+
     logout() {
       this.user = null;
       this.isAuthenticated = false;

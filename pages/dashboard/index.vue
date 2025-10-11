@@ -174,7 +174,7 @@
               <Icon name="heroicons:identification" class="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <h3 class="font-medium text-gray-900">Pièce d'identité</h3>
+              <h5 class="font-medium text-gray-900">Pièce d'identité</h5>
               <p class="text-sm text-gray-500">Document d'identité officiel</p>
             </div>
           </div>
@@ -198,7 +198,7 @@
               <Icon name="heroicons:banknotes" class="w-5 h-5 text-green-600" />
             </div>
             <div>
-              <h3 class="font-medium text-gray-900">Fiches de salaire</h3>
+              <h5 class="font-medium text-gray-900">Fiches de salaire</h5>
               <p class="text-sm text-gray-500">{{ userProfile.salary_slips_urls.length }} document(s) uploadé(s)</p>
             </div>
           </div>
@@ -222,7 +222,7 @@
               <Icon name="heroicons:document-text" class="w-5 h-5 text-purple-600" />
             </div>
             <div>
-              <h3 class="font-medium text-gray-900">Attestation de l'employeur</h3>
+              <h5 class="font-medium text-gray-900">Attestation de l'employeur</h5>
               <p class="text-sm text-gray-500">Certificat de travail</p>
             </div>
           </div>
@@ -246,7 +246,7 @@
               <Icon name="heroicons:credit-card" class="w-5 h-5 text-orange-600" />
             </div>
             <div>
-              <h3 class="font-medium text-gray-900">Relevés bancaires</h3>
+              <h5 class="font-medium text-gray-900">Relevés bancaires</h5>
               <p class="text-sm text-gray-500">{{ userProfile.bank_statements_urls.length }} document(s) uploadé(s)</p>
             </div>
           </div>
@@ -270,7 +270,7 @@
               <Icon name="heroicons:shield-check" class="w-5 h-5 text-red-600" />
             </div>
             <div>
-              <h3 class="font-medium text-gray-900">Attestation de non-poursuite</h3>
+              <h5 class="font-medium text-gray-900">Attestation de non-poursuite</h5>
               <p class="text-sm text-gray-500">Office des poursuites</p>
               <div class="mt-2 p-2 bg-amber-50 border border-amber-200 rounded-md">
                 <div class="flex items-start gap-2">
@@ -303,7 +303,7 @@
               <Icon name="heroicons:user-group" class="w-5 h-5 text-indigo-600" />
             </div>
             <div>
-              <h3 class="font-medium text-gray-900">Documents de garant</h3>
+              <h5 class="font-medium text-gray-900">Documents de garant</h5>
               <p class="text-sm text-gray-500">{{ userProfile.guarantor_documents_urls.length }} document(s) uploadé(s)</p>
             </div>
           </div>
@@ -339,7 +339,7 @@
               <Icon name="heroicons:building-office" class="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <h3 class="font-medium text-gray-900">Licence d'agence</h3>
+              <h5 class="font-medium text-gray-900">Licence d'agence</h5>
               <p class="text-sm text-gray-500">Document officiel d'agence</p>
             </div>
           </div>
@@ -368,7 +368,7 @@
       <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto">
         <div class="p-6">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold">{{ modalTitle }}</h3>
+            <h5 class="text-lg font-semibold">{{ modalTitle }}</h5>
             <button @click="closeDocumentsModal" class="text-gray-400 hover:text-gray-600">
               <Icon name="heroicons:x-mark" class="w-6 h-6" />
             </button>
@@ -403,7 +403,7 @@
       <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4">
         <div class="p-6">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold">{{ editModalTitle }}</h3>
+            <h5 class="text-lg font-semibold">{{ editModalTitle }}</h5>
             <button @click="closeEditModal" class="text-gray-400 hover:text-gray-600">
               <Icon name="heroicons:x-mark" class="w-6 h-6" />
             </button>
