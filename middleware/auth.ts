@@ -11,9 +11,11 @@ export default defineNuxtRouteMiddleware(async (to) => {
   const isEmailVerified = Boolean(auth.user?.isEmailVerified || auth.user?.is_email_verified);
   const isAuthPage = ["/login", "/register"].includes(to.path);
   const isDashboardPage = to.path.startsWith("/dashboard");
+  const isOnboardingPage = to.path === "/onboarding";
   const isConfirmEmailPage = to.path === "/auth/confirm-email";
 
-  if (!isAuthenticated && isDashboardPage) {
+  // Protéger les pages privées (dashboard et onboarding)
+  if (!isAuthenticated && (isDashboardPage || isOnboardingPage)) {
     return navigateTo("/login");
   }
 

@@ -42,6 +42,15 @@ const loading = ref(true)
 // Récupérer le profil et les rôles de l'utilisateur
 onMounted(async () => {
   try {
+    // Vérifier l'authentification avant de continuer
+    await authStore.checkAuth()
+    
+    // Si l'utilisateur n'est pas authentifié, rediriger vers login
+    if (!authStore.isAuthenticated) {
+      await navigateTo('/login')
+      return
+    }
+    
     const profile = await authStore.getUserProfile()
     
     // Le backend retourne { user, roles, profile }
@@ -57,6 +66,8 @@ onMounted(async () => {
     }
     
   } catch (error) {
+    // En cas d'erreur, rediriger vers login
+    await navigateTo('/login')
   } finally {
     loading.value = false
   }
