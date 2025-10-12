@@ -29,12 +29,12 @@
             <h1 class="text-3xl font-bold mb-2">{{ property?.title || 'Chargement...' }}</h1>
             <div class="flex items-center text-gray-600 mb-2">
               <Icon name="heroicons:map-pin" class="w-5 h-5 mr-2" />
-              <span>{{ property?.location }}</span>
+              <span>{{ property?.location || property?.city }}</span>
             </div>
             <div class="flex items-center gap-4 text-sm text-gray-500">
-              <span>Publié il y a 3 jours</span>
+              <span>Publié {{ formatDate(property?.created_at) }}</span>
               <span>•</span>
-              <span>Réf: {{ property?.id }}{{ Math.floor(Math.random() * 1000) }}</span>
+              <span>Réf: {{ property?.id?.slice(-8) }}</span>
             </div>
           </div>
           <div class="flex items-center gap-3">
@@ -93,11 +93,7 @@
             <div class="bg-white rounded-xl shadow-sm p-6">
               <h2 class="text-2xl font-semibold mb-6">Description</h2>
               <p class="text-gray-600 mb-8 leading-relaxed">
-                Magnifique {{ getTypeLabel(property.type).toLowerCase() }} lumineux situé dans un quartier calme et
-                résidentiel.
-                Cette propriété offre un cadre de vie exceptionnel avec ses {{ property.size }}m² parfaitement agencés.
-                Proche des commerces, des écoles et des transports en commun. Vue dégagée, excellent état général.
-                Idéal pour une famille ou des professionnels recherchant le confort et la tranquillité.
+                {{ property.description || `Magnifique ${getTypeLabel(property.type).toLowerCase()} lumineux situé dans un quartier calme et résidentiel. Cette propriété offre un cadre de vie exceptionnel avec ses ${property.area || property.size || 'N/A'}m² parfaitement agencés. Proche des commerces, des écoles et des transports en commun. Vue dégagée, excellent état général. Idéal pour une famille ou des professionnels recherchant le confort et la tranquillité.` }}
               </p>
 
               <!-- Key Features Grid -->
@@ -105,46 +101,144 @@
                 <div class="p-4 bg-gray-50 rounded-xl text-center">
                   <Icon name="heroicons:home" class="w-8 h-8 text-primary-600 mx-auto mb-2" />
                   <div class="text-gray-500 text-sm mb-1">Surface</div>
-                  <div class="font-semibold text-lg">{{ property.size }} m²</div>
+                  <div class="font-semibold text-lg">{{ property.area || property.size || 'N/A' }} m²</div>
                 </div>
                 <div class="p-4 bg-gray-50 rounded-xl text-center">
                   <Icon name="heroicons:squares-2x2" class="w-8 h-8 text-primary-600 mx-auto mb-2" />
                   <div class="text-gray-500 text-sm mb-1">Pièces</div>
-                  <div class="font-semibold text-lg">{{ property.rooms }}</div>
+                  <div class="font-semibold text-lg">{{ property.rooms || 'N/A' }}</div>
                 </div>
                 <div class="p-4 bg-gray-50 rounded-xl text-center">
                   <Icon name="heroicons:building-office-2" class="w-8 h-8 text-primary-600 mx-auto mb-2" />
                   <div class="text-gray-500 text-sm mb-1">Étage</div>
-                  <div class="font-semibold text-lg">{{ Math.floor(Math.random() * 8) + 1 }}ème</div>
+                  <div class="font-semibold text-lg">{{ property.floor ? `${property.floor}ème` : 'N/A' }}</div>
                 </div>
                 <div class="p-4 bg-gray-50 rounded-xl text-center">
                   <Icon name="heroicons:calendar" class="w-8 h-8 text-primary-600 mx-auto mb-2" />
                   <div class="text-gray-500 text-sm mb-1">Disponibilité</div>
-                  <div class="font-semibold text-lg">{{ property.availability }}</div>
+                  <div class="font-semibold text-lg">{{ property.availableFrom ? formatDate(property.availableFrom) : 'Immédiate' }}</div>
                 </div>
               </div>
 
-              <!-- Features -->
+              <!-- Detailed Information -->
               <div class="grid md:grid-cols-2 gap-8">
+                <!-- Caractéristiques principales -->
                 <div>
-                  <h3 class="font-semibold text-lg mb-4">Caractéristiques</h3>
+                  <h3 class="font-semibold text-lg mb-4">Caractéristiques principales</h3>
                   <div class="space-y-3">
-                    <div v-for="feature in features" :key="feature" class="flex items-center gap-3">
-                      <Icon name="heroicons:check-circle" class="h-5 w-5 text-green-500 flex-shrink-0" />
-                      <span class="text-gray-700">{{ feature }}</span>
+                    <div v-if="property.bedrooms" class="flex items-center gap-3">
+                      <Icon name="heroicons:home" class="h-5 w-5 text-primary-600 flex-shrink-0" />
+                      <span class="text-gray-700">{{ property.bedrooms }} chambre(s)</span>
+                    </div>
+                    <div v-if="property.bathrooms" class="flex items-center gap-3">
+                      <Icon name="heroicons:home-modern" class="h-5 w-5 text-primary-600 flex-shrink-0" />
+                      <span class="text-gray-700">{{ property.bathrooms }} salle(s) de bain</span>
+                    </div>
+                    <div v-if="property.livingArea" class="flex items-center gap-3">
+                      <Icon name="heroicons:squares-2x2" class="h-5 w-5 text-primary-600 flex-shrink-0" />
+                      <span class="text-gray-700">Surface habitable: {{ property.livingArea }}m²</span>
+                    </div>
+                    <div v-if="property.totalFloors" class="flex items-center gap-3">
+                      <Icon name="heroicons:building-office-2" class="h-5 w-5 text-primary-600 flex-shrink-0" />
+                      <span class="text-gray-700">{{ property.totalFloors }} étages au total</span>
+                    </div>
+                    <div v-if="property.constructionYear" class="flex items-center gap-3">
+                      <Icon name="heroicons:calendar" class="h-5 w-5 text-primary-600 flex-shrink-0" />
+                      <span class="text-gray-700">Construit en {{ property.constructionYear }}</span>
+                    </div>
+                    <div v-if="property.orientation" class="flex items-center gap-3">
+                      <Icon name="heroicons:sun" class="h-5 w-5 text-primary-600 flex-shrink-0" />
+                      <span class="text-gray-700">Orientation: {{ getOrientationLabel(property.orientation) }}</span>
+                    </div>
+                    <div v-if="property.condition" class="flex items-center gap-3">
+                      <Icon name="heroicons:wrench-screwdriver" class="h-5 w-5 text-primary-600 flex-shrink-0" />
+                      <span class="text-gray-700">État: {{ getConditionLabel(property.condition) }}</span>
                     </div>
                   </div>
                 </div>
 
+                <!-- Équipements et services -->
                 <div>
-                  <h3 class="font-semibold text-lg mb-4">Charges incluses</h3>
+                  <h3 class="font-semibold text-lg mb-4">Équipements et services</h3>
                   <div class="space-y-3">
-                    <div v-for="charge in charges" :key="charge" class="flex items-center gap-3">
+                    <div v-if="property.furnished" class="flex items-center gap-3">
                       <Icon name="heroicons:check-circle" class="h-5 w-5 text-green-500 flex-shrink-0" />
-                      <span class="text-gray-700">{{ charge }}</span>
+                      <span class="text-gray-700">Meublé</span>
+                    </div>
+                    <div v-if="property.petsAllowed" class="flex items-center gap-3">
+                      <Icon name="heroicons:check-circle" class="h-5 w-5 text-green-500 flex-shrink-0" />
+                      <span class="text-gray-700">Animaux autorisés</span>
+                    </div>
+                    <div v-if="property.smokingAllowed" class="flex items-center gap-3">
+                      <Icon name="heroicons:check-circle" class="h-5 w-5 text-green-500 flex-shrink-0" />
+                      <span class="text-gray-700">Fumeurs autorisés</span>
+                    </div>
+                    <div v-if="property.studentFriendly" class="flex items-center gap-3">
+                      <Icon name="heroicons:check-circle" class="h-5 w-5 text-green-500 flex-shrink-0" />
+                      <span class="text-gray-700">Adapté aux étudiants</span>
+                    </div>
+                    <div v-if="property.leaseDuration" class="flex items-center gap-3">
+                      <Icon name="heroicons:calendar-days" class="h-5 w-5 text-primary-600 flex-shrink-0" />
+                      <span class="text-gray-700">Durée: {{ getLeaseDurationLabel(property.leaseDuration) }}</span>
+                    </div>
+                    <div v-if="property.visitAvailability" class="flex items-center gap-3">
+                      <Icon name="heroicons:eye" class="h-5 w-5 text-primary-600 flex-shrink-0" />
+                      <span class="text-gray-700">Visites: {{ property.visitAvailability }}</span>
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <!-- Frais et charges détaillés -->
+              <div v-if="property.monthlyCharges || property.deposit || property.agencyFees || property.applicationFees" class="mt-8">
+                <h3 class="font-semibold text-lg mb-4">Frais et charges</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div v-if="property.monthlyCharges" class="flex items-center gap-3 p-4 bg-orange-50 rounded-lg border border-orange-200">
+                    <Icon name="heroicons:currency-franc" class="h-6 w-6 text-orange-600 flex-shrink-0" />
+                    <div>
+                      <p class="font-medium text-orange-900">Charges mensuelles</p>
+                      <p class="text-orange-700">{{ property.monthlyCharges }} CHF/mois</p>
+                    </div>
+                  </div>
+                  <div v-if="property.deposit" class="flex items-center gap-3 p-4 bg-red-50 rounded-lg border border-red-200">
+                    <Icon name="heroicons:shield-check" class="h-6 w-6 text-red-600 flex-shrink-0" />
+                    <div>
+                      <p class="font-medium text-red-900">Caution</p>
+                      <p class="text-red-700">{{ property.deposit }} CHF</p>
+                    </div>
+                  </div>
+                  <div v-if="property.agencyFees" class="flex items-center gap-3 p-4 bg-purple-50 rounded-lg border border-purple-200">
+                    <Icon name="heroicons:building-office" class="h-6 w-6 text-purple-600 flex-shrink-0" />
+                    <div>
+                      <p class="font-medium text-purple-900">Frais d'agence</p>
+                      <p class="text-purple-700">{{ property.agencyFees }} CHF</p>
+                    </div>
+                  </div>
+                  <div v-if="property.applicationFees" class="flex items-center gap-3 p-4 bg-pink-50 rounded-lg border border-pink-200">
+                    <Icon name="heroicons:document-text" class="h-6 w-6 text-pink-600 flex-shrink-0" />
+                    <div>
+                      <p class="font-medium text-pink-900">Frais de dossier</p>
+                      <p class="text-pink-700">{{ property.applicationFees }} CHF</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Équipements détaillés -->
+              <div v-if="property.equipments && property.equipments.length > 0" class="mt-8">
+                <h3 class="font-semibold text-lg mb-4">Équipements inclus</h3>
+                <div class="flex flex-wrap gap-2">
+                  <span v-for="equipment in property.equipments" :key="equipment" 
+                        class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                    {{ getEquipmentLabel(equipment) }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Informations supplémentaires -->
+              <div v-if="property.additionalInfo" class="mt-8">
+                <h3 class="font-semibold text-lg mb-4">Informations supplémentaires</h3>
+                <p class="text-gray-600 leading-relaxed">{{ property.additionalInfo }}</p>
               </div>
             </div>
 
@@ -159,28 +253,40 @@
               </div>
               <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h4 class="font-medium mb-3">Adresse</h4>
+                  <h4 class="font-medium mb-3">Adresse complète</h4>
                   <div class="space-y-2 text-gray-600">
                     <div class="flex items-center gap-2">
                       <Icon name="heroicons:map-pin" class="h-5 w-5 text-gray-400" />
-                      <span>{{ property.location }}</span>
+                      <span>{{ property.address }}</span>
                     </div>
                     <div class="flex items-center gap-2">
                       <Icon name="heroicons:building-office-2" class="h-5 w-5 text-gray-400" />
-                      <span>Quartier résidentiel</span>
+                      <span>{{ property.postalCode }} {{ property.city }}</span>
+                    </div>
+                    <div v-if="property.location" class="flex items-center gap-2">
+                      <Icon name="heroicons:location-marker" class="h-5 w-5 text-gray-400" />
+                      <span>{{ property.location }}</span>
+                    </div>
+                    <div v-if="property.latitude && property.longitude" class="flex items-center gap-2">
+                      <Icon name="heroicons:globe-alt" class="h-5 w-5 text-gray-400" />
+                      <span>Coordonnées: {{ property.latitude }}, {{ property.longitude }}</span>
                     </div>
                   </div>
                 </div>
                 <div>
-                  <h4 class="font-medium mb-3">Transports</h4>
+                  <h4 class="font-medium mb-3">Informations de contact</h4>
                   <div class="space-y-2 text-gray-600">
-                    <div class="flex items-center gap-2">
-                      <Icon name="heroicons:truck" class="h-5 w-5 text-gray-400" />
-                      <span>Arrêt de bus à 2 min</span>
+                    <div v-if="property.contactMethods && property.contactMethods.length > 0" class="flex items-center gap-2">
+                      <Icon name="heroicons:phone" class="h-5 w-5 text-gray-400" />
+                      <span>Contact: {{ property.contactMethods.join(', ') }}</span>
+                    </div>
+                    <div v-if="property.visitAvailability" class="flex items-center gap-2">
+                      <Icon name="heroicons:calendar" class="h-5 w-5 text-gray-400" />
+                      <span>{{ property.visitAvailability }}</span>
                     </div>
                     <div class="flex items-center gap-2">
-                      <Icon name="heroicons:building-library" class="h-5 w-5 text-gray-400" />
-                      <span>Gare à 10 min</span>
+                      <Icon name="heroicons:information-circle" class="h-5 w-5 text-gray-400" />
+                      <span>Publié le {{ formatDate(property.created_at) }}</span>
                     </div>
                   </div>
                 </div>
@@ -196,7 +302,36 @@
                 <div class="text-4xl font-bold text-primary-600 mb-2">
                   CHF {{ formatPrice(property.price) }}
                 </div>
-                <p class="text-gray-500">par mois</p>
+                <p class="text-gray-500">{{ property.transaction_type === 'location' ? 'Prix de location / mois' : 'Prix de vente' }}</p>
+              </div>
+
+              <!-- Détail des frais -->
+              <div v-if="property.transaction_type === 'location'" class="mb-6 p-4 bg-gray-50 rounded-lg">
+                <h4 class="font-medium text-sm text-gray-700 mb-3">Détail des frais</h4>
+                <div class="space-y-2 text-sm">
+                  <div v-if="property.monthlyCharges" class="flex justify-between">
+                    <span class="text-gray-600">Charges mensuelles</span>
+                    <span class="font-medium">CHF {{ formatPrice(property.monthlyCharges) }}</span>
+                  </div>
+                  <div v-if="property.deposit" class="flex justify-between">
+                    <span class="text-gray-600">Caution</span>
+                    <span class="font-medium">CHF {{ formatPrice(property.deposit) }}</span>
+                  </div>
+                  <div v-if="property.agencyFees" class="flex justify-between">
+                    <span class="text-gray-600">Frais d'agence</span>
+                    <span class="font-medium">CHF {{ formatPrice(property.agencyFees) }}</span>
+                  </div>
+                  <div v-if="property.applicationFees" class="flex justify-between">
+                    <span class="text-gray-600">Frais de dossier</span>
+                    <span class="font-medium">CHF {{ formatPrice(property.applicationFees) }}</span>
+                  </div>
+                  <div class="border-t pt-2 mt-2">
+                    <div class="flex justify-between font-semibold">
+                      <span>Total mensuel</span>
+                      <span>CHF {{ formatPrice(property.price + (property.monthlyCharges || 0)) }}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <!-- Apply Button -->
@@ -348,7 +483,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import {
   TransitionRoot,
@@ -358,134 +493,49 @@ import {
 } from '@headlessui/vue'
 
 const route = useRoute()
-const id = parseInt(route.params.id)
+const id = route.params.id
+
+// Composables
+const { fetchPropertyById, loading, error } = useProperties()
+
+// Données réactives
+const property = ref(null)
 
 // Image gallery state
 const currentImageIndex = ref(0)
 const isImageModalOpen = ref(false)
 const modalImageIndex = ref(0)
 
-// Static listings data (same as in search page)
-const allProperties = [
-  {
-    id: 1,
-    type: 'penthouse',
-    title: 'Modern home in city center',
-    location: 'Cologny - Route de la Capite',
-    city: 'geneve',
-    size: 250,
-    rooms: 4,
-    price: 1400,
-    availability: 'Disponible',
-    image: 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg'
-  },
-  {
-    id: 2,
-    type: 'villa',
-    title: 'Isolated house outside of...',
-    location: 'Vandœuvres - Route de Vandœuvres',
-    city: 'geneve',
-    size: 400,
-    rooms: 6,
-    price: 1950,
-    availability: 'Disponible',
-    image: 'https://images.pexels.com/photos/32870/pexels-photo.jpg'
-  },
-  {
-    id: 3,
-    type: 'apartment',
-    title: 'Large dream home with...',
-    location: 'Genève - Quai du Mont-Blanc',
-    city: 'geneve',
-    size: 180,
-    rooms: 5,
-    price: 1300,
-    availability: 'Sur demande',
-    image: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg'
-  },
-  {
-    id: 4,
-    type: 'penthouse',
-    title: 'Modern home in city center',
-    location: 'Genève - Rue du Rhône',
-    city: 'geneve',
-    size: 300,
-    rooms: 2,
-    price: 396,
-    availability: 'Disponible',
-    image: 'https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg'
-  },
-  {
-    id: 5,
-    type: 'apartment',
-    title: 'Entire house • 2 BEDS',
-    location: 'Lausanne - Avenue de la Gare',
-    city: 'lausanne',
-    size: 120,
-    rooms: 3,
-    price: 450,
-    availability: 'Disponible',
-    image: 'https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg'
-  },
-  {
-    id: 6,
-    type: 'studio',
-    title: 'Modern home in city center',
-    location: 'Zurich - Bahnhofstrasse',
-    city: 'zurich',
-    size: 45,
-    rooms: 1,
-    price: 600,
-    availability: 'Disponible',
-    image: 'https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg'
-  },
-  {
-    id: 7,
-    type: 'house',
-    title: 'Family house with garden',
-    location: 'Berne - Kirchenfeldstrasse',
-    city: 'bern',
-    size: 200,
-    rooms: 4,
-    price: 800,
-    availability: 'Disponible',
-    image: 'https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg'
-  },
-  {
-    id: 8,
-    type: 'loft',
-    title: 'Industrial loft downtown',
-    location: 'Bâle - Steinenvorstadt',
-    city: 'basel',
-    size: 150,
-    rooms: 3,
-    price: 1200,
-    availability: 'Disponible',
-    image: 'https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg'
+// Charger la propriété au montage
+onMounted(async () => {
+  try {
+    const propertyData = await fetchPropertyById(id)
+    property.value = propertyData
+  } catch (err) {
+    console.error('Erreur lors du chargement de la propriété:', err)
   }
-]
-
-const property = computed(() => {
-  return allProperties.find(listing => listing.id === id)
 })
 
-// Generate multiple images for the gallery (simulating different photos of the same property)
+// Générer les images de la galerie
 const propertyImages = computed(() => {
   if (!property.value) return []
 
-  // Base images for variety
-  const baseImages = [
-    property.value.image,
-    'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg',
-    'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg',
-    'https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg',
-    'https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg',
-    'https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg',
-    'https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg',
-    'https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg'
-  ]
+  // Si la propriété a des photos, les utiliser
+  if (property.value.photos && property.value.photos.length > 0) {
+    return property.value.photos
+  }
 
-  return baseImages
+  // Sinon, utiliser une image par défaut basée sur le type
+  const defaultImages = {
+    'appartement': 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg',
+    'maison': 'https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg',
+    'studio': 'https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg',
+    'duplex': 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg',
+    'loft': 'https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg',
+    'penthouse': 'https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg'
+  }
+
+  return [defaultImages[property.value.type] || 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg']
 })
 
 // Image navigation methods
@@ -531,6 +581,81 @@ const nextModalImage = () => {
   }
 }
 
+// Fonctions de formatage
+const formatPrice = (price) => {
+  if (!price) return '0'
+  return new Intl.NumberFormat('fr-CH').format(price)
+}
+
+const formatDate = (dateString) => {
+  if (!dateString) return 'Date inconnue'
+  
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffTime = Math.abs(now - date)
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  
+  if (diffDays === 1) return 'hier'
+  if (diffDays < 7) return `il y a ${diffDays} jours`
+  if (diffDays < 30) return `il y a ${Math.ceil(diffDays / 7)} semaine${Math.ceil(diffDays / 7) > 1 ? 's' : ''}`
+  if (diffDays < 365) return `il y a ${Math.ceil(diffDays / 30)} mois`
+  return `il y a ${Math.ceil(diffDays / 365)} an${Math.ceil(diffDays / 365) > 1 ? 's' : ''}`
+}
+
+const getTypeLabel = (type) => {
+  const typeMap = {
+    'appartement': 'Appartement',
+    'maison': 'Maison',
+    'studio': 'Studio',
+    'duplex': 'Duplex',
+    'loft': 'Loft',
+    'penthouse': 'Penthouse'
+  }
+  return typeMap[type] || type
+}
+
+const getOrientationLabel = (orientation) => {
+  const orientationMap = {
+    'nord': 'Nord',
+    'sud': 'Sud',
+    'est': 'Est',
+    'ouest': 'Ouest',
+    'nord-est': 'Nord-Est',
+    'nord-ouest': 'Nord-Ouest',
+    'sud-est': 'Sud-Est',
+    'sud-ouest': 'Sud-Ouest'
+  }
+  return orientationMap[orientation] || orientation
+}
+
+const getConditionLabel = (condition) => {
+  const conditionMap = {
+    'excellent': 'Excellent',
+    'bon': 'Bon',
+    'moyen': 'Moyen',
+    'mauvais': 'Mauvais',
+    'à rénover': 'À rénover'
+  }
+  return conditionMap[condition] || condition
+}
+
+const getLeaseDurationLabel = (duration) => {
+  const durationMap = {
+    'mensuel': 'Mensuel',
+    'trimestriel': 'Trimestriel',
+    'annuel': 'Annuel',
+    'long terme': 'Long terme'
+  }
+  return durationMap[duration] || duration
+}
+
+const getAgentName = () => {
+  if (property.value?.advertiser_name) {
+    return property.value.advertiser_name
+  }
+  return 'Agent immobilier'
+}
+
 // Keyboard navigation for modal
 const handleKeydown = (event) => {
   if (!isImageModalOpen.value) return
@@ -557,26 +682,6 @@ onUnmounted(() => {
   document.removeEventListener('keydown', handleKeydown)
 })
 
-const formatPrice = (price) => {
-  return price.toLocaleString('fr-CH')
-}
-
-const getTypeLabel = (type) => {
-  const typeMap = {
-    'apartment': 'Appartement',
-    'house': 'Maison',
-    'villa': 'Villa',
-    'penthouse': 'Penthouse',
-    'loft': 'Loft',
-    'studio': 'Studio'
-  }
-  return typeMap[type] || type
-}
-
-const getAgentName = () => {
-  const names = ['Sophie Martin', 'Jean Dupont', 'Marie Dubois', 'Pierre Leroy', 'Claire Bernard']
-  return names[Math.floor(Math.random() * names.length)]
-}
 
 const features = [
   'Cuisine équipée moderne',
@@ -606,8 +711,35 @@ useHead({
   meta: [
     {
       name: 'description',
-      content: computed(() => property.value ? `${getTypeLabel(property.value.type)} de ${property.value.size}m² à ${property.value.location} pour CHF ${formatPrice(property.value.price)}/mois` : 'Découvrez ce bien immobilier')
+      content: computed(() => property.value ? `${getTypeLabel(property.value.type)} de ${property.value.size}m² à ${property.value.location} pour CHF ${formatPrice(property.value.price)}${property.value.transaction_type === 'location' ? '/mois' : ''}` : 'Découvrez ce bien immobilier')
     }
   ]
 })
+
+// Fonction de mapping des équipements (anglais → français)
+const getEquipmentLabel = (equipment) => {
+  const equipmentMap = {
+    'balcony': 'Balcon',
+    'terrace': 'Terrasse',
+    'garden': 'Jardin',
+    'parking': 'Parking',
+    'basement': 'Cave',
+    'garage': 'Garage',
+    'elevator': 'Ascenseur',
+    'concierge': 'Concierge',
+    'pool': 'Piscine',
+    'gym': 'Salle de sport',
+    'laundry': 'Buanderie',
+    'dishwasher': 'Lave-vaisselle',
+    'washing_machine': 'Machine à laver',
+    'dryer': 'Sèche-linge',
+    'air_conditioning': 'Climatisation',
+    'heating': 'Chauffage',
+    'fireplace': 'Cheminée',
+    'furnished': 'Meublé',
+    'pets_allowed': 'Animaux acceptés',
+    'smoking_allowed': 'Fumeur accepté'
+  };
+  return equipmentMap[equipment] || equipment;
+};
 </script>

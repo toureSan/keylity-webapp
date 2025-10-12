@@ -238,6 +238,14 @@
             <span v-if="!isCollapsed">Mes biens</span>
           </NuxtLink>
 
+          <!-- Ajouter un bien - Visible seulement pour les annonceurs -->
+          <NuxtLink v-if="mode === 'annonceur'" to="/dashboard/add-property"
+            class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
+            :class="{ 'justify-center': isCollapsed, 'text-blue-600 bg-blue-50': $route.path === '/dashboard/add-property' }">
+            <Icon name="heroicons:plus-circle" class="h-5 w-5" />
+            <span v-if="!isCollapsed">Ajouter un bien</span>
+          </NuxtLink>
+
           <!-- Candidatures - Visible pour tous mais avec des textes différents -->
           <NuxtLink to="/dashboard/applications" class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
             :class="{ 'justify-center': isCollapsed, 'text-blue-600 bg-blue-50': $route.path === '/dashboard/applications' }">

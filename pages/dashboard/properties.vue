@@ -8,6 +8,23 @@
     <SkeletonLoader type="list" :items="3" />
   </div>
 
+  <!-- Message d'erreur -->
+  <div v-else-if="error" class="p-4 md:p-6">
+    <div class="bg-red-50 border border-red-200 rounded-xl p-4 md:p-6">
+      <div class="flex items-center">
+        <Icon name="heroicons:exclamation-triangle" class="w-5 h-5 text-red-600 mr-3" />
+        <div>
+          <h3 class="text-sm font-medium text-red-800">Erreur de chargement</h3>
+          <p class="text-sm text-red-600 mt-1">{{ error }}</p>
+        </div>
+      </div>
+      <button @click="fetchMyProperties" 
+              class="mt-3 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm">
+        Réessayer
+      </button>
+    </div>
+  </div>
+
   <!-- Contenu principal -->
   <div v-else class="p-4 md:p-6 space-y-4 md:space-y-6">
                   <!-- Header -->
@@ -16,7 +33,7 @@
                                     <h1 class="text-xl md:text-2xl font-bold text-gray-900">Mes biens</h1>
                                     <p class="text-sm md:text-base text-gray-600">Gérez vos propriétés et annonces</p>
                            </div>
-                           <button @click="showAddPropertyModal = true"
+                                     <button @click="goToAddProperty"
                                     class="bg-blue-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-xl hover:bg-blue-700 transition-all duration-200 flex items-center justify-center gap-2 shadow-sm hover:shadow-md text-sm md:text-base">
                                     <Icon name="heroicons:plus" class="w-4 h-4 md:w-5 md:h-5" />
                                     <span class="hidden sm:inline">Ajouter un bien</span>
@@ -37,7 +54,7 @@
                                                       <p class="text-xs md:text-sm font-medium text-gray-600">Total des
                                                                biens</p>
                                                       <p class="text-lg md:text-2xl font-bold text-gray-900">
-                                                               {{ properties.length }}</p>
+                                                               {{ myProperties.length }}</p>
                                              </div>
                                     </div>
                            </div>
@@ -103,16 +120,20 @@
                                              <select v-model="statusFilter"
                                                       class="flex-1 sm:flex-none px-3 md:px-4 py-2 md:py-3 text-sm md:text-base border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 bg-gray-50/50 focus:bg-white">
                                                       <option value="">Tous les statuts</option>
-                                                      <option value="published">En ligne</option>
-                                                      <option value="pending">En attente</option>
-                                                      <option value="draft">Brouillon</option>
+                                                      <option value="available">Disponible</option>
+                                                      <option value="unavailable">Indisponible</option>
+                                                      <option value="rented">Loué</option>
+                                                      <option value="sold">Vendu</option>
                                              </select>
                                              <select v-model="typeFilter"
                                                       class="flex-1 sm:flex-none px-3 md:px-4 py-2 md:py-3 text-sm md:text-base border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 bg-gray-50/50 focus:bg-white">
                                                       <option value="">Tous les types</option>
-                                                      <option value="apartment">Appartement</option>
-                                                      <option value="house">Maison</option>
+                                                      <option value="appartement">Appartement</option>
+                                                      <option value="maison">Maison</option>
                                                       <option value="studio">Studio</option>
+                                                      <option value="duplex">Duplex</option>
+                                                      <option value="loft">Loft</option>
+                                                      <option value="penthouse">Penthouse</option>
                                              </select>
                                     </div>
                            </div>
@@ -131,7 +152,7 @@
                                     </h3>
                                     <p class="text-sm md:text-base text-gray-600 mb-4">Commencez par ajouter votre
                                              premier bien immobilier</p>
-                                    <button @click="showAddPropertyModal = true"
+                                    <button @click="goToAddProperty"
                                              class="bg-blue-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-xl hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md text-sm md:text-base">
                                              Ajouter un bien
                                     </button>
@@ -160,7 +181,7 @@
                                                                                  <Icon name="heroicons:map-pin"
                                                                                           class="w-4 h-4" />
                                                                                  <span
-                                                                                          class="truncate">{{ property.location }}</span>
+                                                                                          class="truncate">{{ property.location || property.city }}</span>
                                                                         </div>
                                                                         <div class="flex items-center gap-1">
                                                                                  <Icon name="heroicons:home"
@@ -168,9 +189,9 @@
                                                                                  {{ property.type }}
                                                                         </div>
                                                                         <div class="flex items-center gap-1">
-                                                                                 <Icon name="heroicons:currency-euro"
+                                                                                 <Icon name="heroicons:banknotes"
                                                                                           class="w-4 h-4" />
-                                                                                 {{ property.price }} CHF/mois
+                                                                                 {{ formatPrice(property.price, property.transactionType) }}
                                                                         </div>
                                                                </div>
 
@@ -179,18 +200,18 @@
                                                                         <div class="flex items-center gap-1">
                                                                                  <Icon name="heroicons:eye"
                                                                                           class="w-4 h-4" />
-                                                                                 {{ property.views }} vues
+                                                                                 {{ property.views_count || 0 }} vues
                                                                         </div>
                                                                         <div class="flex items-center gap-1">
-                                                                                 <Icon name="heroicons:users"
+                                                                                 <Icon name="heroicons:heart"
                                                                                           class="w-4 h-4" />
-                                                                                 {{ property.applications }}
-                                                                                 candidatures
+                                                                                 {{ property.favorites_count || 0 }}
+                                                                                 favoris
                                                                         </div>
                                                                         <div class="flex items-center gap-1">
                                                                                  <Icon name="heroicons:calendar"
                                                                                           class="w-4 h-4" />
-                                                                                 {{ formatDate(property.createdAt) }}
+                                                                                 {{ formatDate(property.created_at) }}
                                                                         </div>
                                                                </div>
                                                       </div>
@@ -320,74 +341,48 @@ definePageMeta({
   layout: 'dashboard'
 })
 
-// Données réactives
-const loading = ref(false)
-const properties = ref([
-  {
-    id: 1,
-    title: 'Appartement 3.5 pièces',
-    location: 'Rue de la Paix 123, 1200 Genève',
-    type: 'Appartement',
-    price: 1500,
-    rooms: 3.5,
-    area: 85,
-    status: 'published',
-    views: 245,
-    applications: 12,
-    createdAt: '2024-01-15',
-    description: 'Magnifique appartement en centre-ville...'
-  },
-  {
-    id: 2,
-    title: 'Studio moderne',
-    location: 'Avenue de France 45, 1000 Lausanne',
-    type: 'Studio',
-    price: 1200,
-    rooms: 1,
-    area: 35,
-    status: 'pending',
-    views: 89,
-    applications: 5,
-    createdAt: '2024-01-20',
-    description: 'Studio récemment rénové...'
-  }
-])
+// Router
+const router = useRouter()
 
-const showAddPropertyModal = ref(false)
+// Composables
+const { myProperties, loading, error, fetchMyProperties } = useProperties()
+
+// Données réactives
 const searchQuery = ref('')
 const statusFilter = ref('')
 const typeFilter = ref('')
 
-const newProperty = ref({
-  title: '',
-  type: '',
-  location: '',
-  price: '',
-  rooms: '',
-  area: '',
-  description: ''
+// Charger les propriétés au montage
+onMounted(async () => {
+  try {
+    await fetchMyProperties()
+  } catch (err) {
+    console.error('Erreur lors du chargement des propriétés:', err)
+  }
 })
+
 
 // Computed properties
 const publishedProperties = computed(() => 
-  properties.value.filter(p => p.status === 'published').length
+  myProperties.value.filter(p => p.status === 'available').length
 )
 
 const pendingProperties = computed(() => 
-  properties.value.filter(p => p.status === 'pending').length
+  myProperties.value.filter(p => p.status === 'unavailable').length
 )
 
 const totalApplications = computed(() => 
-  properties.value.reduce((sum, p) => sum + p.applications, 0)
+  myProperties.value.reduce((sum, p) => sum + (p.favorites_count || 0), 0)
 )
 
 const filteredProperties = computed(() => {
-  let filtered = properties.value
+  let filtered = myProperties.value
 
   if (searchQuery.value) {
     filtered = filtered.filter(p => 
       p.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      p.location.toLowerCase().includes(searchQuery.value.toLowerCase())
+      (p.location && p.location.toLowerCase().includes(searchQuery.value.toLowerCase())) ||
+      p.address.toLowerCase().includes(searchQuery.value.toLowerCase())
     )
   }
 
@@ -402,14 +397,19 @@ const filteredProperties = computed(() => {
   return filtered
 })
 
+// Composables pour les actions
+const { deleteProperty: deletePropertyAction } = useProperties()
+
 // Méthodes
 const getStatusClass = (status) => {
   switch (status) {
-    case 'published':
+    case 'available':
       return 'bg-green-100 text-green-800'
-    case 'pending':
+    case 'unavailable':
       return 'bg-yellow-100 text-yellow-800'
-    case 'draft':
+    case 'rented':
+      return 'bg-blue-100 text-blue-800'
+    case 'sold':
       return 'bg-gray-100 text-gray-800'
     default:
       return 'bg-gray-100 text-gray-800'
@@ -418,12 +418,14 @@ const getStatusClass = (status) => {
 
 const getStatusText = (status) => {
   switch (status) {
-    case 'published':
-      return 'En ligne'
-    case 'pending':
-      return 'En attente'
-    case 'draft':
-      return 'Brouillon'
+    case 'available':
+      return 'Disponible'
+    case 'unavailable':
+      return 'Indisponible'
+    case 'rented':
+      return 'Loué'
+    case 'sold':
+      return 'Vendu'
     default:
       return 'Inconnu'
   }
@@ -433,46 +435,39 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('fr-FR')
 }
 
-const addProperty = () => {
-  const property = {
-    id: Date.now(),
-    ...newProperty.value,
-    status: 'draft',
-    views: 0,
-    applications: 0,
-    createdAt: new Date().toISOString().split('T')[0]
+const formatPrice = (price, transactionType) => {
+  if (transactionType === 'vente') {
+    return `${price.toLocaleString('fr-CH')} CHF`
+  } else {
+    return `${price.toLocaleString('fr-CH')} CHF/mois`
   }
-  
-  properties.value.push(property)
-  showAddPropertyModal.value = false
-  
-  // Reset form
-  newProperty.value = {
-    title: '',
-    type: '',
-    location: '',
-    price: '',
-    rooms: '',
-    area: '',
-    description: ''
-  }
+}
+
+// Navigation vers la page d'ajout
+const goToAddProperty = () => {
+  router.push('/dashboard/add-property')
 }
 
 const editProperty = (property) => {
   console.log('Éditer:', property)
   // TODO: Implémenter l'édition
+  router.push(`/dashboard/edit-property/${property.id}`)
 }
 
 const viewProperty = (property) => {
   console.log('Voir:', property)
   // TODO: Implémenter la vue détaillée
+  router.push(`/properties/${property.id}`)
 }
 
-const deleteProperty = (property) => {
+const deleteProperty = async (property) => {
   if (confirm('Êtes-vous sûr de vouloir supprimer ce bien ?')) {
-    const index = properties.value.findIndex(p => p.id === property.id)
-    if (index > -1) {
-      properties.value.splice(index, 1)
+    try {
+      await deletePropertyAction(property.id)
+      // La propriété sera automatiquement supprimée du store
+    } catch (err) {
+      console.error('Erreur lors de la suppression:', err)
+      alert('Erreur lors de la suppression du bien')
     }
   }
 }

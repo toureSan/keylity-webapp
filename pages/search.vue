@@ -163,7 +163,7 @@
 
               <div class="flex items-center gap-4">
                 <span class="text-sm text-gray-600">View all</span>
-                <Listbox v-model="sortBy" as="div" class="relative">
+                <Listbox v-model="sortBy" @update:model-value="handleSortChange" as="div" class="relative">
                   <ListboxButton
                     class="relative w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left border focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   >
@@ -222,8 +222,28 @@
               </div>
             </div>
 
+            <!-- Loading State -->
+            <div v-if="loading" class="text-center py-12">
+              <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+              <p class="text-gray-500">Chargement des propriétés...</p>
+            </div>
+
+            <!-- Error State -->
+            <div v-else-if="error" class="text-center py-12">
+              <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Icon name="heroicons:exclamation-triangle" class="h-8 w-8 text-red-600" />
+              </div>
+              <h3 class="text-lg font-medium text-gray-900 mb-2">Erreur de chargement</h3>
+              <p class="text-gray-500 mb-4">{{ error }}</p>
+              <button @click="fetchProperties(1, 50)" 
+                      class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors">
+                Réessayer
+              </button>
+            </div>
+
             <!-- Properties Grid - 4 columns on desktop -->
             <div
+              v-else
               class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-8"
             >
               <PropertiesCard
@@ -235,7 +255,7 @@
 
             <!-- No Results -->
             <div
-              v-if="filteredProperties.length === 0"
+              v-if="!loading && !error && filteredProperties.length === 0"
               class="text-center py-12"
             >
               <div
@@ -257,13 +277,25 @@
               </button>
             </div>
 
-            <!-- Load More -->
-            <div v-else class="text-center mt-12 pb-8">
-              <button
-                class="bg-white border-2 border-gray-900 text-gray-900 px-8 py-3 rounded-xl hover:bg-gray-900 hover:text-white transition-colors"
-              >
-                Voir plus
-              </button>
+            <!-- Load More / Pagination -->
+            <div v-if="!loading && !error && filteredProperties.length > 0" class="text-center mt-12 pb-8">
+              <div v-if="pagination.totalPages > currentPage" class="space-y-4">
+                <button
+                  @click="loadProperties(currentPage + 1)"
+                  :disabled="loading"
+                  class="bg-white border-2 border-gray-900 text-gray-900 px-8 py-3 rounded-xl hover:bg-gray-900 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <span v-if="loading">Chargement...</span>
+                  <span v-else>Voir plus</span>
+                </button>
+                <div class="text-sm text-gray-500">
+                  Page {{ currentPage }} sur {{ pagination.totalPages }} 
+                  ({{ pagination.total }} propriétés au total)
+                </div>
+              </div>
+              <div v-else class="text-sm text-gray-500">
+                Toutes les propriétés ont été chargées ({{ pagination.total }} au total)
+              </div>
             </div>
           </div>
         </div>
@@ -274,7 +306,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import {
   TransitionRoot,
   TransitionChild,
@@ -287,7 +319,12 @@ import {
   ListboxOption,
 } from "@headlessui/vue";
 
+// Composables
+const { properties, loading, error, fetchProperties, pagination } = useProperties()
+
 const isFilterOpen = ref(false);
+const currentPage = ref(1);
+const itemsPerPage = ref(20);
 
 const currentFilters = ref({
   priceMin: 500,
@@ -306,155 +343,96 @@ const sortOptions = [
   { id: 4, name: "Plus récent" },
 ];
 
-const allProperties = [
-  {
-    id: 1,
-    type: "penthouse",
-    title: "Modern home in city center",
-    location: "Cologny - Route de la Capite",
-    city: "geneve",
-    size: 250,
-    rooms: 4,
-    price: 1400,
-    availability: "Disponible",
-    image: "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg",
-  },
-  {
-    id: 2,
-    type: "villa",
-    title: "Isolated house outside of...",
-    location: "Vandœuvres - Route de Vandœuvres",
-    city: "geneve",
-    size: 400,
-    rooms: 6,
-    price: 1950,
-    availability: "Disponible",
-    image: "https://images.pexels.com/photos/32870/pexels-photo.jpg",
-  },
-  {
-    id: 3,
-    type: "apartment",
-    title: "Large dream home with...",
-    location: "Genève - Quai du Mont-Blanc",
-    city: "geneve",
-    size: 180,
-    rooms: 5,
-    price: 1300,
-    availability: "Sur demande",
-    image: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg",
-  },
-  {
-    id: 4,
-    type: "penthouse",
-    title: "Modern home in city center",
-    location: "Genève - Rue du Rhône",
-    city: "geneve",
-    size: 300,
-    rooms: 2,
-    price: 396,
-    availability: "Disponible",
-    image: "https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg",
-  },
-  {
-    id: 5,
-    type: "apartment",
-    title: "Entire house • 2 BEDS",
-    location: "Lausanne - Avenue de la Gare",
-    city: "lausanne",
-    size: 120,
-    rooms: 3,
-    price: 450,
-    availability: "Disponible",
-    image: "https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg",
-  },
-  {
-    id: 6,
-    type: "studio",
-    title: "Modern home in city center",
-    location: "Zurich - Bahnhofstrasse",
-    city: "zurich",
-    size: 45,
-    rooms: 1,
-    price: 600,
-    availability: "Disponible",
-    image: "https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg",
-  },
-  {
-    id: 7,
-    type: "house",
-    title: "Family house with garden",
-    location: "Berne - Kirchenfeldstrasse",
-    city: "bern",
-    size: 200,
-    rooms: 4,
-    price: 800,
-    availability: "Disponible",
-    image: "https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg",
-  },
-  {
-    id: 8,
-    type: "loft",
-    title: "Industrial loft downtown",
-    location: "Bâle - Steinenvorstadt",
-    city: "basel",
-    size: 150,
-    rooms: 3,
-    price: 1200,
-    availability: "Disponible",
-    image: "https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg",
-  },
-];
+// Fonction pour charger les propriétés avec filtres
+const loadProperties = async (page = 1, filters = {}) => {
+  try {
+    const serverFilters = {
+      minPrice: currentFilters.value.priceMin,
+      maxPrice: currentFilters.value.priceMax,
+      type: currentFilters.value.selectedTypes.length > 0 ? currentFilters.value.selectedTypes[0] : undefined,
+      city: currentFilters.value.selectedCities.length > 0 ? currentFilters.value.selectedCities[0] : undefined,
+      minArea: currentFilters.value.roomsMin ? parseInt(currentFilters.value.roomsMin) * 20 : undefined, // Estimation: 20m² par pièce
+      maxArea: currentFilters.value.roomsMax ? parseInt(currentFilters.value.roomsMax) * 30 : undefined, // Estimation: 30m² par pièce
+    }
+    
+    // Supprimer les filtres undefined
+    Object.keys(serverFilters).forEach(key => {
+      if (serverFilters[key] === undefined) {
+        delete serverFilters[key]
+      }
+    })
+    
+    await fetchProperties(page, itemsPerPage.value, serverFilters)
+    currentPage.value = page
+  } catch (err) {
+    console.error('Erreur lors du chargement des propriétés:', err)
+  }
+}
 
-// Convert price strings to numbers for filtering
-const properties = computed(() => {
-  return allProperties.map((property) => ({
-    ...property,
+// Charger les propriétés au montage
+onMounted(async () => {
+  await loadProperties(1)
+})
+
+// Adapter les données de l'API au format attendu par le template
+const adaptedProperties = computed(() => {
+  return properties.value.map((property) => ({
+    id: property.id,
+    type: property.type,
+    title: property.title,
+    location: property.location || property.city,
+    city: property.city,
+    size: property.area || 0,
+    area: property.area,
+    rooms: property.rooms || 0,
+    price: property.price,
+    availability: property.status === 'available' ? 'Disponible' : 'Indisponible',
+    image: property.photos && property.photos.length > 0 
+      ? property.photos[0] 
+      : getDefaultImageByType(property.type),
     displayPrice: property.price.toLocaleString("fr-CH"),
+    transactionType: property.transaction_type,
+    bedrooms: property.bedrooms,
+    bathrooms: property.bathrooms,
+    furnished: property.furnished,
+    petsAllowed: property.petsAllowed,
+    smokingAllowed: property.smokingAllowed,
+    studentFriendly: property.studentFriendly,
+    floor: property.floor,
+    totalFloors: property.totalFloors,
+    constructionYear: property.constructionYear,
+    livingArea: property.livingArea,
+    orientation: property.orientation,
+    condition: property.condition,
+    leaseDuration: property.leaseDuration,
+    availableFrom: property.availableFrom,
+    monthlyCharges: property.monthlyCharges,
+    deposit: property.deposit,
+    agencyFees: property.agencyFees,
+    applicationFees: property.applicationFees,
+    equipments: property.equipments,
+    contactMethods: property.contactMethods,
+    visitAvailability: property.visitAvailability,
+    additionalInfo: property.additionalInfo,
   }));
 });
 
+// Fonction pour obtenir une image par défaut selon le type
+const getDefaultImageByType = (type) => {
+  const defaultImages = {
+    'appartement': 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg',
+    'maison': 'https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg',
+    'studio': 'https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg',
+    'duplex': 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg',
+    'loft': 'https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg',
+    'penthouse': 'https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg'
+  }
+  return defaultImages[type] || 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg'
+}
+
+// Utiliser directement les propriétés adaptées (filtrage côté serveur)
 const filteredProperties = computed(() => {
-  return properties.value.filter((property) => {
-    // Price filter
-    if (
-      property.price < currentFilters.value.priceMin ||
-      property.price > currentFilters.value.priceMax
-    ) {
-      return false;
-    }
-
-    // Type filter
-    if (
-      currentFilters.value.selectedTypes.length > 0 &&
-      !currentFilters.value.selectedTypes.includes(property.type)
-    ) {
-      return false;
-    }
-
-    // City filter
-    if (
-      currentFilters.value.selectedCities.length > 0 &&
-      !currentFilters.value.selectedCities.includes(property.city)
-    ) {
-      return false;
-    }
-
-    // Rooms filter
-    if (
-      currentFilters.value.roomsMin &&
-      property.rooms < parseInt(currentFilters.value.roomsMin)
-    ) {
-      return false;
-    }
-    if (
-      currentFilters.value.roomsMax &&
-      property.rooms > parseInt(currentFilters.value.roomsMax)
-    ) {
-      return false;
-    }
-
-    return true;
-  });
+  return adaptedProperties.value;
 });
 
 const sortedProperties = computed(() => {
@@ -466,13 +444,20 @@ const sortedProperties = computed(() => {
     case 2: // Prix décroissant
       return sorted.sort((a, b) => b.price - a.price);
     case 3: // Surface
-      return sorted.sort((a, b) => b.size - a.size);
+      return sorted.sort((a, b) => (b.size || 0) - (a.size || 0));
     case 4: // Plus récent
-      return sorted.sort((a, b) => b.id - a.id);
+      return sorted.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
     default:
       return sorted;
   }
 });
+
+// Fonction pour gérer le changement de tri
+const handleSortChange = async (newSort) => {
+  sortBy.value = newSort;
+  // Recharger avec le nouveau tri (pour l'instant, on trie côté client)
+  // TODO: Implémenter le tri côté serveur si nécessaire
+};
 
 const activeFiltersCount = computed(() => {
   let count = 0;
@@ -495,7 +480,7 @@ const activeFiltersCount = computed(() => {
   return count;
 });
 
-const handleFiltersChanged = (filters) => {
+const handleFiltersChanged = async (filters) => {
   currentFilters.value = {
     priceMin: filters.priceMin || 500,
     priceMax: filters.priceMax || 5000,
@@ -504,16 +489,19 @@ const handleFiltersChanged = (filters) => {
     roomsMin: filters.roomsMin || "",
     roomsMax: filters.roomsMax || "",
   };
+  
+  // Recharger les propriétés avec les nouveaux filtres
+  await loadProperties(1);
 };
 
 const getTypeName = (typeId) => {
   const typeMap = {
-    apartment: "Appartement",
-    house: "Maison",
-    villa: "Villa",
-    penthouse: "Penthouse",
-    loft: "Loft",
+    appartement: "Appartement",
+    maison: "Maison",
     studio: "Studio",
+    duplex: "Duplex",
+    loft: "Loft",
+    penthouse: "Penthouse",
   };
   return typeMap[typeId] || typeId;
 };
@@ -543,27 +531,31 @@ const getRoomsFilterText = () => {
   return "";
 };
 
-const removeTypeFilter = (type) => {
+const removeTypeFilter = async (type) => {
   currentFilters.value.selectedTypes =
     currentFilters.value.selectedTypes.filter((t) => t !== type);
+  await loadProperties(1);
 };
 
-const removeCityFilter = (city) => {
+const removeCityFilter = async (city) => {
   currentFilters.value.selectedCities =
     currentFilters.value.selectedCities.filter((c) => c !== city);
+  await loadProperties(1);
 };
 
-const resetPriceFilter = () => {
+const resetPriceFilter = async () => {
   currentFilters.value.priceMin = 500;
   currentFilters.value.priceMax = 5000;
+  await loadProperties(1);
 };
 
-const resetRoomsFilter = () => {
+const resetRoomsFilter = async () => {
   currentFilters.value.roomsMin = "";
   currentFilters.value.roomsMax = "";
+  await loadProperties(1);
 };
 
-const resetAllFilters = () => {
+const resetAllFilters = async () => {
   currentFilters.value = {
     priceMin: 500,
     priceMax: 5000,
@@ -572,5 +564,6 @@ const resetAllFilters = () => {
     roomsMin: "",
     roomsMax: "",
   };
+  await loadProperties(1);
 };
 </script>
