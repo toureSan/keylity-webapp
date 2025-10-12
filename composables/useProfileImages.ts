@@ -3,31 +3,7 @@ import { computed } from 'vue';
 export const useProfileImages = (userProfile: any, mode: any) => {
   // Fonction pour obtenir l'URL de l'image de profil par défaut selon le type d'utilisateur
   const getDefaultProfileImage = () => {
-    // Vérifier les rôles de l'utilisateur
-    const userRoles = userProfile.value?.roles || [];
-    const hasCandidatRole = userRoles.includes('candidat');
-    const hasAnnonceurRole = userRoles.includes('annonceur');
-    
-    // Si l'utilisateur a les deux rôles, utiliser une image par défaut neutre
-    if (hasCandidatRole && hasAnnonceurRole) {
-      // Image par défaut neutre pour les utilisateurs avec les deux rôles
-      return 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400';
-    }
-    
-    // Si l'utilisateur n'a qu'un seul rôle, utiliser l'image appropriée
-    if (hasAnnonceurRole && !hasCandidatRole) {
-      // Pour les annonceurs uniquement, différencier selon le type
-      if (userProfile.value?.advertiser_type === 'professional') {
-        // Image par défaut pour les entreprises/agences
-        return 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400';
-      } else {
-        // Image par défaut pour les propriétaires indépendants
-        return 'https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=400';
-      }
-    } else {
-      // Image par défaut pour les candidats uniquement
-      return 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400';
-    }
+    return null; // Retourner null pour afficher l'icône par défaut
   };
 
   // Fonction pour obtenir l'URL de l'image de profil
@@ -72,8 +48,8 @@ export const useProfileImages = (userProfile: any, mode: any) => {
       return imageUrl;
     }
     
-    // Image par défaut selon le type d'utilisateur
-    return getDefaultProfileImage();
+    // Retourner null pour afficher l'icône par défaut
+    return null;
   };
 
   // Computed property pour l'image par défaut (pour l'onboarding)

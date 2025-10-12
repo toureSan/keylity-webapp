@@ -907,7 +907,7 @@ definePageMeta({
 
 // Router
 const router = useRouter()
-const { createProperty, uploadPropertyImage } = useProperties()
+const { createProperty } = useProperties()
 
 // Clé pour le localStorage
 const FORM_STORAGE_KEY = 'add-property-form-data'
@@ -1132,17 +1132,17 @@ const swissCities = [
   { name: 'Grenchen', canton: 'SO', postalCode: '2540' }
 ]
 
-// Équipements disponibles (valeurs en anglais pour la base, labels en français pour l'affichage)
+// Équipements disponibles
 const availableEquipments = [
-  { value: 'balcony', label: 'Balcon' },
-  { value: 'terrace', label: 'Terrasse' },
-  { value: 'garden', label: 'Jardin' },
+  { value: 'balcon', label: 'Balcon' },
+  { value: 'terrasse', label: 'Terrasse' },
+  { value: 'jardin', label: 'Jardin' },
   { value: 'parking', label: 'Parking' },
-  { value: 'basement', label: 'Cave' },
+  { value: 'cave', label: 'Cave' },
   { value: 'garage', label: 'Garage' },
-  { value: 'elevator', label: 'Ascenseur' },
+  { value: 'ascenseur', label: 'Ascenseur' },
   { value: 'concierge', label: 'Concierge' },
-  { value: 'pool', label: 'Piscine' },
+  { value: 'piscine', label: 'Piscine' },
   { value: 'gym', label: 'Salle de sport' },
   { value: 'laundry', label: 'Buanderie' },
   { value: 'dishwasher', label: 'Lave-vaisselle' },
@@ -1481,43 +1481,13 @@ const publishProperty = async () => {
       applicationFees: form.value.applicationFees ? parseFloat(form.value.applicationFees) : undefined, // Corrigé: applicationFees au lieu de application_fees
       furnished: form.value.furnished || false,
       petsAllowed: form.value.petsAllowed || false, // Corrigé: petsAllowed au lieu de pets_allowed
-      smokingAllowed: form.value.smokingAllowed || false,
       studentFriendly: form.value.studentFriendly || false, // Corrigé: studentFriendly au lieu de student_friendly
-      constructionYear: form.value.constructionYear ? parseInt(form.value.constructionYear) : undefined,
-      livingArea: form.value.livingArea ? parseFloat(form.value.livingArea) : undefined,
-      orientation: form.value.orientation || undefined,
-      condition: form.value.condition || undefined,
-      leaseDuration: form.value.leaseDuration || undefined,
-      availableFrom: form.value.availableFrom || undefined, // Corrigé: availableFrom au lieu de available_from
-      contactMethods: form.value.contactMethods || [],
-      visitAvailability: form.value.visitAvailability || undefined,
-      additionalInfo: form.value.additionalInfo || undefined,
-      equipments: form.value.equipments || [],
-      latitude: form.value.latitude ? parseFloat(form.value.latitude) : undefined,
-      longitude: form.value.longitude ? parseFloat(form.value.longitude) : undefined
+      availableFrom: form.value.availableFrom || undefined // Corrigé: availableFrom au lieu de available_from
       // Note: Les images seront uploadées séparément après la création de la propriété
     }
     
-    console.log('Données à envoyer:', propertyData)
-    
     // Créer la propriété via le store
-    const newProperty = await createProperty(propertyData)
-    
-    // Uploader les images si il y en a
-    if (form.value.photos && form.value.photos.length > 0) {
-      console.log('Upload des images...')
-      for (const photo of form.value.photos) {
-        if (photo.file) {
-          try {
-            await uploadPropertyImage(newProperty.id, photo.file)
-            console.log('Image uploadée:', photo.name)
-          } catch (error) {
-            console.error('Erreur upload image:', error)
-            // Continuer même si une image échoue
-          }
-        }
-      }
-    }
+    await createProperty(propertyData)
     
     // Nettoyer le localStorage après publication réussie
     clearFormStorage()

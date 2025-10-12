@@ -19,11 +19,21 @@
           
           <!-- Image de profil normale -->
           <div v-else class="relative">
+            <!-- Image de profil si disponible -->
             <img
+              v-if="profileImageUrl"
               :key="`profile-${mode}-${imageKey}`"
               :src="profileImageUrl"
               alt="Profile" class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover"
               @error="handleImageError" />
+            
+            <!-- Icône de profil par défaut si pas d'image -->
+            <div
+              v-else
+              class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gray-200 flex items-center justify-center">
+              <Icon name="heroicons:user-circle" class="w-12 h-12 md:w-16 md:h-16 text-gray-400" />
+            </div>
+            
             <button @click="editProfilePhoto" 
                 class="absolute bottom-0 right-0 bg-blue-600 text-white p-1.5 md:p-2 rounded-full hover:bg-blue-700 transition-colors">
                 <Icon name="heroicons:camera" class="w-3 h-3 md:w-4 md:h-4" />
@@ -162,11 +172,11 @@
                 <Icon name="heroicons:document-text" class="w-5 h-5 text-blue-600" />
                 <span class="text-blue-700 font-medium">Voir mes candidatures</span>
               </NuxtLink>
-              <a href="#"
+              <NuxtLink to="/search"
                 class="flex items-center gap-3 p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
                 <Icon name="heroicons:magnifying-glass" class="w-5 h-5 text-green-600" />
                 <span class="text-green-700 font-medium">Rechercher un bien</span>
-              </a>
+              </NuxtLink>
               <a href="#"
                 class="flex items-center gap-3 p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
                 <Icon name="heroicons:heart" class="w-5 h-5 text-purple-600" />
@@ -252,6 +262,11 @@
                 <Icon name="heroicons:plus" class="w-5 h-5 text-purple-600" />
                 <span class="text-purple-700 font-medium">Ajouter un bien</span>
               </a>
+              <NuxtLink to="/search"
+                class="flex items-center gap-3 p-3 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors">
+                <Icon name="heroicons:magnifying-glass" class="w-5 h-5 text-orange-600" />
+                <span class="text-orange-700 font-medium">Rechercher des biens</span>
+              </NuxtLink>
             </div>
           </div>
 
