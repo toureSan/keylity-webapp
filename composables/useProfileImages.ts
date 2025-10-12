@@ -36,16 +36,26 @@ export const useProfileImages = (userProfile: any, mode: any) => {
           return `${annonceurImage}?t=${timestamp}&mode=annonceur`;
         }
       }
-    }
-    
-    // Fallback : essayer les champs génériques
-    const imageUrl = userProfile.value.avatar_url || 
-                     userProfile.value.profile_photo_url || 
-                     userProfile.value.profile_image_url ||
-                     userProfile.value.photo_url;
-    
-    if (imageUrl) {
-      return imageUrl;
+      
+      // Si pas d'image spécifique au mode, essayer les images génériques
+      const genericImageUrl = userProfile.value.avatar_url || 
+                             userProfile.value.profile_photo_url || 
+                             userProfile.value.profile_image_url ||
+                             userProfile.value.photo_url;
+      
+      if (genericImageUrl) {
+        return genericImageUrl;
+      }
+    } else {
+      // Si l'utilisateur n'a qu'un seul rôle, utiliser les images génériques
+      const imageUrl = userProfile.value.avatar_url || 
+                       userProfile.value.profile_photo_url || 
+                       userProfile.value.profile_image_url ||
+                       userProfile.value.photo_url;
+      
+      if (imageUrl) {
+        return imageUrl;
+      }
     }
     
     // Retourner null pour afficher l'icône par défaut

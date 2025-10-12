@@ -1,12 +1,13 @@
 <template>
   <div>
     <!-- Skeleton pendant le chargement -->
-    <div v-if="loading" class="space-y-6">
-      <SkeletonLoader type="profile" />
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <SkeletonLoader v-for="i in 4" :key="i" type="card" />
-      </div>
-      <SkeletonLoader type="card" />
+    <div v-if="loading">
+      <SkeletonMode type="page" />
+    </div>
+
+    <!-- Skeleton pendant le changement de mode -->
+    <div v-else-if="isModeChanging">
+      <SkeletonMode type="page" />
     </div>
 
     <!-- Contenu principal -->
@@ -14,11 +15,8 @@
       <!-- Profile Section -->
       <div class="bg-white rounded-xl shadow-sm p-4 md:p-6 mb-4 md:mb-6">
         <div class="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
-          <!-- Skeleton pour changement de mode -->
-          <SkeletonMode v-if="isModeChanging" type="profile-image-large" />
-          
-          <!-- Image de profil normale -->
-          <div v-else class="relative">
+          <!-- Image de profil -->
+          <div class="relative">
             <!-- Image de profil si disponible -->
             <img
               v-if="profileImageUrl"
@@ -41,11 +39,8 @@
           </div>
           
           <div class="flex-1 min-w-0">
-            <!-- Skeleton pour les informations du profil -->
-            <SkeletonMode v-if="isModeChanging" type="profile-info" />
-            
-            <!-- Informations du profil normales -->
-            <div v-else>
+            <!-- Informations du profil -->
+            <div>
               <h1 class="text-xl md:text-2xl font-bold mb-2">
                 {{ userProfile?.first_name || 'Utilisateur' }} {{ userProfile?.last_name || '' }}
               </h1>
@@ -70,11 +65,8 @@
     <!-- Stats Grid - Différent selon le rôle -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-4 md:mb-6">
       
-      <!-- Skeleton pour changement de mode -->
-      <SkeletonMode v-if="isModeChanging" type="stats" />
-      
       <!-- Candidat -->
-        <template v-else-if="mode === 'candidat'">
+        <template v-if="mode === 'candidat'">
           <div class="bg-white rounded-xl shadow-sm p-4 md:p-6">
             <div class="flex items-center justify-between mb-3 md:mb-4">
               <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-100 rounded-full flex items-center justify-center">

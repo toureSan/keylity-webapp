@@ -102,16 +102,64 @@ const authStore = useAuthStore()
 // État du modal
 const showModal = ref(false)
 
+// État du profil utilisateur
+const userProfile = ref(null)
+
+// Fonction pour récupérer le profil utilisateur
+const fetchUserProfile = async () => {
+  if (!authStore.isAuthenticated) return;
+  
+  try {
+    const config = useRuntimeConfig()
+    const token = authStore.getAuthToken()
+    
+    if (!token) return
+    
+    const response = await $fetch(`${config.public.apiBase}/user-profile/me`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    
+    userProfile.value = response.profile || response
+    // S'assurer que les rôles sont bien assignés au profil
+    if (response.roles) {
+      userProfile.value.roles = response.roles
+    }
+  } catch (error) {
+    console.error('Erreur lors de la récupération du profil:', error)
+  }
+}
+
 // Computed pour vérifier si l'utilisateur est onboardé
 const isOnboarded = computed(() => {
-  return authStore.userProfile?.is_onboarded || false
+  const profile = userProfile.value
+  
+  if (!profile) {
+    return false
+  }
+  
+  // Vérifier les rôles de l'utilisateur
+  const userRoles = profile.roles || []
+  const hasCandidatRole = userRoles.includes('candidat')
+  const hasAnnonceurRole = userRoles.includes('annonceur')
+  
+  // Si l'utilisateur a au moins un rôle, considérer qu'il est onboardé
+  if (hasCandidatRole || hasAnnonceurRole) {
+    return true
+  }
+  
+  // Si l'utilisateur n'a aucun rôle, utiliser is_onboarded
+  return profile.is_onboarded || false
 })
 
 // Computed pour calculer le pourcentage de progression
 const progressPercentage = computed(() => {
-  if (!authStore.userProfile) return 0
+  if (!userProfile.value) return 0
   
-  const profile = authStore.userProfile
+  const profile = userProfile.value
   let completed = 0
   let total = 0
   
@@ -176,19 +224,26 @@ const playNotificationSound = () => {
 }
 
 // Lifecycle
-onMounted(() => {
-  // Afficher le modal après un délai si l'utilisateur n'est pas onboardé
-  setTimeout(() => {
+onMounted(async () => {
+  // Attendre que le profil soit chargé avant de décider d'afficher le modal
+  const checkAndShowModal = () => {
     if (!isOnboarded.value) {
       showModal.value = true
     }
-  }, 2000) // Délai de 2 secondes
+  }
+  
+  // Récupérer le profil utilisateur
+  await fetchUserProfile()
+  
+  // Vérifier si le modal doit s'afficher
+  checkAndShowModal()
 })
 
 // Watcher pour réinitialiser le modal si l'utilisateur se déconnecte
-watch(() => authStore.userProfile, (newProfile) => {
-  if (!newProfile) {
+watch(() => authStore.isAuthenticated, (isAuth) => {
+  if (!isAuth) {
     // Utilisateur déconnecté, réinitialiser
+    userProfile.value = null
     showModal.value = false
   }
 })
