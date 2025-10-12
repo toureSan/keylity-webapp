@@ -12,23 +12,26 @@
     <template v-else>
       <!-- Top Navigation -->
       <header class="bg-white shadow-sm sticky top-0 z-40">
-      <div class="flex items-center justify-between px-4 py-4">
-        <div class="flex items-center gap-4">
+      <div class="flex items-center justify-between px-3 md:px-4 py-3 md:py-4">
+        <div class="flex items-center gap-2 md:gap-4">
           <!-- Toggle Sidebar -->
-          <button @click="isSidebarOpen = !isSidebarOpen" class="p-2 rounded-lg hover:bg-gray-100 md:hidden">
-            <Icon name="heroicons:bars-3" class="h-6 w-6 text-gray-600" />
+          <button @click="isSidebarOpen = !isSidebarOpen" class="p-1.5 md:p-2 rounded-lg hover:bg-gray-100 md:hidden">
+            <Icon name="heroicons:bars-3" class="h-5 w-5 md:h-6 md:w-6 text-gray-600" />
           </button>
-          <button @click="isCollapsed = !isCollapsed" class="p-2 rounded-lg hover:bg-gray-100 hidden md:block">
-            <Icon name="heroicons:bars-3" class="h-6 w-6 text-gray-600" />
+          <button @click="isCollapsed = !isCollapsed" class="p-1.5 md:p-2 rounded-lg hover:bg-gray-100 hidden md:block">
+            <Icon name="heroicons:bars-3" class="h-5 w-5 md:h-6 md:w-6 text-gray-600" />
           </button>
           <div class="flex items-center">
-            <img src="~/assets/images/logo-complet.png" class="h-8 w-auto" alt="">
+            <img src="~/assets/images/logo-complet.png" class="h-6 md:h-8 w-auto" alt="">
           </div>
           <div class="relative hidden md:flex items-center gap-4">
-            <!-- Mode Toggle Switch -->
-            <div class="flex items-center bg-gray-100 rounded-full p-1">
+            <!-- Skeleton pour le toggle pendant le chargement -->
+            <SkeletonMode v-if="isModeChanging" type="toggle" />
+            
+            <!-- Mode Toggle Switch - Visible seulement si l'utilisateur a les deux rôles -->
+            <div v-else-if="hasCandidatRole && hasAnnonceurRole" class="flex items-center bg-gray-100 rounded-full p-0.5 md:p-1">
               <button @click="switchMode('candidat')"
-                class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200" :class="
+                class="px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-200" :class="
                   mode === 'candidat'
                     ? 'bg-white text-blue-600 shadow'
                     : 'text-gray-600 hover:text-gray-800'
@@ -36,7 +39,7 @@
                 Candidat
               </button>
               <button @click="switchMode('annonceur')"
-                class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200" :class="
+                class="px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-200" :class="
                   mode === 'annonceur'
                     ? 'bg-white text-blue-600 shadow'
                     : 'text-gray-600 hover:text-gray-800'
@@ -44,26 +47,22 @@
                 Annonceur
               </button>
             </div>
+            
+            <!-- Indicateur de mode unique -->
+            <div v-else class="flex items-center">
+              <span class="px-2 md:px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs md:text-sm font-medium">
+                {{ hasAnnonceurRole ? 'Annonceur' : 'Candidat' }}
+              </span>
+            </div>
           </div>
         </div>
 
         <div class="flex items-center gap-4">
-          <!-- Add Property Button - Visible seulement pour les annonceurs -->
-          <button v-if="mode === 'annonceur'"
-            class="bg-blue-500 text-white px-4 py-2 rounded-md hidden md:flex items-center gap-2">
-            <svg class="text-white color-white" width="22" height="22" viewBox="0 0 22 22" fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 11H21" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M11 1V21" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-
-            Ajouter un bien
-          </button>
 
           <!-- Notifications Dropdown -->
           <div class="relative notifications-dropdown" ref="notificationsRef">
             <button @click="isNotificationsOpen = !isNotificationsOpen"
-              class="p-2 rounded-lg hover:bg-gray-100 relative">
+              class="p-1.5 md:p-2 rounded-lg hover:bg-gray-100 relative">
               <svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M17.0486 17.5077C16.9839 17.4658 16.4972 17.1248 16.0099 16.0933C15.1149 14.1992 14.927 11.5309 14.927 9.62607C14.927 9.61778 14.9268 9.60957 14.9265 9.60132C14.9168 7.08383 13.4093 4.91365 11.2521 3.93993V2.45077C11.2521 1.0994 10.1545 0 8.80537 0H8.6026C7.25346 0 6.15587 1.0994 6.15587 2.45077V3.93985C3.99145 4.9167 2.48097 7.09796 2.48097 9.62607C2.48097 11.5309 2.29311 14.1992 1.39811 16.0933C0.910802 17.1248 0.424095 17.4657 0.359384 17.5077C0.0868765 17.6339 -0.0474868 17.9252 0.0152046 18.2204C0.0784976 18.5186 0.357193 18.7241 0.661541 18.7241H5.38583C5.41221 20.5349 6.89008 22 8.704 22C10.5179 22 11.9958 20.5349 12.0222 18.7241H16.7465C17.0508 18.7241 17.3295 18.5186 17.3928 18.2204C17.4554 17.9252 17.3211 17.6338 17.0486 17.5077ZM7.44498 2.45077C7.44498 1.81135 7.9643 1.29117 8.60264 1.29117H8.80541C9.44375 1.29117 9.96307 1.81135 9.96307 2.45077V3.52142C9.55624 3.43733 9.13511 3.39307 8.70383 3.39307C8.27268 3.39307 7.85167 3.43728 7.44502 3.52129L7.44498 2.45077ZM8.704 20.7088C7.60087 20.7088 6.70106 19.8229 6.67489 18.7242H10.7331C10.7069 19.8229 9.80714 20.7088 8.704 20.7088ZM11.2993 17.4329H2.13043C2.24193 17.2592 2.35541 17.0624 2.4682 16.8401C3.33205 15.1366 3.77007 12.7095 3.77007 9.62607C3.77007 6.90112 5.98335 4.68424 8.70379 4.68424C11.4242 4.68424 13.6375 6.90112 13.6375 9.62822C13.6375 9.63617 13.6376 9.64408 13.6379 9.65198C13.6404 12.723 14.0784 15.1415 14.9398 16.8401C15.0526 17.0625 15.1661 17.2592 15.2776 17.4329H11.2993Z"
@@ -75,7 +74,7 @@
             </button>
 
             <!-- Notifications Panel -->
-            <div v-if="isNotificationsOpen" class="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg py-2 z-50">
+            <div v-if="isNotificationsOpen" class="absolute right-0 mt-2 w-72 md:w-80 bg-white rounded-lg shadow-lg py-2 z-50">
               <div class="px-4 py-2 border-b border-gray-100">
                 <h3 class="font-semibold">Notifications</h3>
               </div>
@@ -110,70 +109,96 @@
               <div class="hidden md:block w-20 h-4 bg-gray-200 rounded animate-pulse"></div>
             </div>
 
+            <!-- Skeleton pour changement de mode -->
+            <SkeletonMode v-else-if="isModeChanging" type="user-menu" />
+
             <!-- Menu utilisateur -->
             <button v-else @click="isUserMenuOpen = !isUserMenuOpen"
-              class="flex items-center gap-2 hover:bg-gray-100 rounded-lg p-2">
-              <img :src="getProfileImageUrl()" alt="Profile" class="w-8 h-8 rounded-full object-cover"
+              class="flex items-center gap-1 md:gap-2 hover:bg-gray-100 rounded-lg p-1.5 md:p-2">
+              <img :src="profileImageUrl" alt="Profile" class="w-7 h-7 md:w-8 md:h-8 rounded-full object-cover"
                 @error="handleImageError" />
-              <span class="font-medium hidden md:block">{{ userProfile?.first_name || 'Utilisateur' }}</span>
-              <Icon name="heroicons:chevron-down" class="h-5 w-5 text-gray-500" />
+              <span class="font-medium hidden md:block text-sm md:text-base">{{ userProfile?.first_name || 'Utilisateur' }}</span>
+              <Icon name="heroicons:chevron-down" class="h-4 w-4 md:h-5 md:w-5 text-gray-500" />
             </button>
 
             <!-- User Menu Panel -->
-            <div v-if="isUserMenuOpen" class="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg py-2 z-50">
+            <div v-if="isUserMenuOpen" class="absolute right-0 mt-2 w-56 md:w-64 bg-white rounded-lg shadow-lg py-2 z-50">
               <div class="px-4 py-2 border-b border-gray-100">
-                <div class="flex items-center gap-3">
-                  <img :src="getProfileImageUrl()" alt="Profile" class="w-10 h-10 rounded-full object-cover"
+                <div class="flex items-center gap-2 md:gap-3">
+                  <img :src="profileImageUrl" alt="Profile" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover"
                     @error="handleImageError" />
-                  <div>
-                    <p class="font-medium">{{ userProfile?.first_name || 'Utilisateur' }}
+                  <div class="min-w-0 flex-1">
+                    <p class="font-medium text-sm md:text-base truncate">{{ userProfile?.first_name || 'Utilisateur' }}
                       {{ userProfile?.last_name || '' }}</p>
-                    <p class="text-sm text-gray-500">{{ userProfile?.email || 'email@example.com' }}</p>
+                    <p class="text-xs md:text-sm text-gray-500 truncate">{{ userProfile?.email || 'email@example.com' }}</p>
                   </div>
                 </div>
               </div>
 
               <div class="py-2">
-                <a href="#" class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-                  <Icon name="heroicons:user" class="h-5 w-5 text-gray-500" />
+                <!-- Toggle de mode mobile -->
+                <div v-if="hasCandidatRole && hasAnnonceurRole" class="px-3 md:px-4 py-2 border-b border-gray-100">
+                  <p class="text-xs font-medium text-gray-500 mb-2">Mode actuel</p>
+                  <div class="flex items-center gap-1 md:gap-2">
+                    <button @click="switchMode('candidat')"
+                      class="px-2 md:px-3 py-1 rounded-full text-xs font-medium transition-all duration-200" :class="
+                        mode === 'candidat'
+                          ? 'bg-blue-100 text-blue-600'
+                          : 'bg-gray-100 text-gray-600'
+                      ">
+                      Candidat
+                    </button>
+                    <button @click="switchMode('annonceur')"
+                      class="px-2 md:px-3 py-1 rounded-full text-xs font-medium transition-all duration-200" :class="
+                        mode === 'annonceur'
+                          ? 'bg-blue-100 text-blue-600'
+                          : 'bg-gray-100 text-gray-600'
+                      ">
+                      Annonceur
+                    </button>
+                  </div>
+                </div>
+                
+                <a href="#" class="px-3 md:px-4 py-2 text-xs md:text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                  <Icon name="heroicons:user" class="h-4 w-4 md:h-5 md:w-5 text-gray-500" />
                   Mon profil
                 </a>
-                <a href="#" class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-                  <Icon name="heroicons:arrow-down" class="h-5 w-5 text-gray-500" />
+                <a href="#" class="px-3 md:px-4 py-2 text-xs md:text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                  <Icon name="heroicons:arrow-down" class="h-4 w-4 md:h-5 md:w-5 text-gray-500" />
                   Mes téléchargements
                 </a>
-                <a href="#" class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-                  <Icon name="heroicons:bookmark" class="h-5 w-5 text-gray-500" />
+                <a href="#" class="px-3 md:px-4 py-2 text-xs md:text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                  <Icon name="heroicons:bookmark" class="h-4 w-4 md:h-5 md:w-5 text-gray-500" />
                   Mes favoris
                 </a>
                 <!-- Option pour devenir annonceur si pas déjà annonceur -->
-                <a v-if="!hasAnnonceurRole" 
-                   href="/onboarding?mode=annonceur" 
-                   class="px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 flex items-center gap-2">
-                  <Icon name="heroicons:building-office-2" class="h-5 w-5 text-blue-500" />
+                <button v-if="!hasAnnonceurRole" 
+                   @click="goToOnboarding('annonceur')"
+                   class="w-full text-left px-3 md:px-4 py-2 text-xs md:text-sm text-blue-600 hover:bg-blue-50 flex items-center gap-2">
+                  <Icon name="heroicons:building-office-2" class="h-4 w-4 md:h-5 md:w-5 text-blue-500" />
                   Devenir annonceur
-                </a>
+                </button>
               </div>
 
               <div class="border-t border-gray-100 py-2">
-                <a href="#" class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-                  <Icon name="heroicons:cog-6-tooth" class="h-5 w-5 text-gray-500" />
+                <a href="#" class="px-3 md:px-4 py-2 text-xs md:text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                  <Icon name="heroicons:cog-6-tooth" class="h-4 w-4 md:h-5 md:w-5 text-gray-500" />
                   Paramètres du compte
                 </a>
-                <a href="#" class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-                  <Icon name="heroicons:calendar" class="h-5 w-5 text-gray-500" />
+                <a href="#" class="px-3 md:px-4 py-2 text-xs md:text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                  <Icon name="heroicons:calendar" class="h-4 w-4 md:h-5 md:w-5 text-gray-500" />
                   Abonnement
                 </a>
-                <a href="#" class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-                  <Icon name="heroicons:lifebuoy" class="h-5 w-5 text-gray-500" />
+                <a href="#" class="px-3 md:px-4 py-2 text-xs md:text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                  <Icon name="heroicons:lifebuoy" class="h-4 w-4 md:h-5 md:w-5 text-gray-500" />
                   Support
                 </a>
               </div>
 
               <div class="border-t border-gray-100 py-2">
                 <button @click="logout"
-                  class="w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2">
-                  <Icon name="heroicons:arrow-right-on-rectangle" class="h-5 w-5 text-red-500" />
+                  class="w-full px-3 md:px-4 py-2 text-xs md:text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2">
+                  <Icon name="heroicons:arrow-right-on-rectangle" class="h-4 w-4 md:h-5 md:w-5 text-red-500" />
                   Déconnexion
                 </button>
               </div>
@@ -206,21 +231,21 @@
           </NuxtLink>
 
           <!-- Mes biens - Visible seulement pour les annonceurs -->
-          <a v-if="mode === 'annonceur'" href="#"
+          <NuxtLink v-if="mode === 'annonceur'" to="/dashboard/properties"
             class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
-            :class="{ 'justify-center': isCollapsed }">
+            :class="{ 'justify-center': isCollapsed, 'text-blue-600 bg-blue-50': $route.path === '/dashboard/properties' }">
             <Icon name="heroicons:building-office-2" class="h-5 w-5" />
             <span v-if="!isCollapsed">Mes biens</span>
-          </a>
+          </NuxtLink>
 
           <!-- Candidatures - Visible pour tous mais avec des textes différents -->
-          <a href="#" class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
-            :class="{ 'justify-center': isCollapsed }">
+          <NuxtLink to="/dashboard/applications" class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
+            :class="{ 'justify-center': isCollapsed, 'text-blue-600 bg-blue-50': $route.path === '/dashboard/applications' }">
             <Icon name="heroicons:document" class="h-5 w-5" />
             <span v-if="!isCollapsed">
               {{ mode === 'candidat' ? 'Mes candidatures' : 'Candidatures reçues' }}
             </span>
-          </a>
+          </NuxtLink>
 
           <a href="#" class="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
             :class="{ 'justify-center': isCollapsed }">
@@ -235,7 +260,7 @@
         class="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"></div>
 
       <!-- Main Content -->
-      <main class="flex-1 p-6">
+      <main class="flex-1 p-2">
         <slot />
       </main>
     </div>
@@ -262,18 +287,28 @@ const userProfile = ref<any>(null);
 const userRole = ref('candidat');
 const profileImageError = ref(false);
 
-// Mode basé sur le rôle réel de l'utilisateur
-const mode = computed(() => {
-  return userProfile.value?.role || 'candidat';
-});
+// Utiliser le composable global pour le mode
+const { mode, isModeChanging, switchMode: globalSwitchMode, initializeMode: globalInitializeMode } = useUserMode()
+
+// Utiliser le composable pour les images de profil
+const { getProfileImageUrl, profileImageUrl } = useProfileImages(userProfile, mode)
 
 // Vérifier si l'utilisateur a le rôle annonceur
 const hasAnnonceurRole = computed(() => {
   if (!userProfile.value) return false;
   
-  // Vérifier dans les rôles du profil ou dans userRole
+  // Vérifier dans les rôles du profil
   const roles = userProfile.value.roles || [];
-  return roles.includes('annonceur') || userRole.value === 'annonceur';
+  return roles.includes('annonceur');
+});
+
+// Vérifier si l'utilisateur a le rôle candidat
+const hasCandidatRole = computed(() => {
+  if (!userProfile.value) return false;
+  
+  // Vérifier dans les rôles du profil
+  const roles = userProfile.value.roles || [];
+  return roles.includes('candidat');
 });
 
 // Fonction pour récupérer le profil utilisateur
@@ -293,41 +328,50 @@ const fetchUserProfile = async () => {
     })
     
     userProfile.value = response.profile || response
+    // S'assurer que les rôles sont bien assignés au profil
+    if (response.roles) {
+      userProfile.value.roles = response.roles
+    }
     userRole.value = response.roles?.[0] || 'candidat'
+    
+    // Initialiser le mode basé sur les rôles disponibles et le mode sauvegardé
+    initializeMode();
     
     
   } catch (error) {
   }
 }
 
+// Fonction pour initialiser le mode (utilise le composable global)
+const initializeMode = () => {
+  if (!userProfile.value) return;
+  globalInitializeMode(null, userProfile.value);
+};
+
 // Fonction pour basculer entre les modes
 const switchMode = (newMode: string) => {
-  if (newMode === 'annonceur' && userRole.value !== 'annonceur') {
+  if (newMode === 'annonceur' && !hasAnnonceurRole.value) {
     // Si l'utilisateur n'a pas le rôle annonceur, rediriger vers l'onboarding
     router.push('/onboarding?mode=annonceur');
     return;
   }
+  
+  if (newMode === 'candidat' && !hasCandidatRole.value) {
+    // Si l'utilisateur n'a pas le rôle candidat, rediriger vers l'onboarding
+    router.push('/onboarding?mode=candidat');
+    return;
+  }
+  
+  // Utiliser la fonction globale pour changer le mode (gère déjà le skeleton)
+  globalSwitchMode(newMode);
 };
 
-// Fonction pour obtenir l'URL de l'image de profil
-const getProfileImageUrl = () => {
-  if (!userProfile.value) {
-    return 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg';
-  }
-  
-  // Essayer différents champs possibles pour l'image de profil
-  const imageUrl = userProfile.value.avatar_url || 
-                   userProfile.value.profile_photo_url || 
-                   userProfile.value.profile_image_url ||
-                   userProfile.value.photo_url;
-  
-  if (imageUrl && !profileImageError.value) {
-    return imageUrl;
-  }
-  
-  // Image par défaut
-  return 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg';
+// Fonction pour rediriger vers l'onboarding
+const goToOnboarding = (mode: string) => {
+  router.push(`/onboarding?mode=${mode}`);
 };
+
+// Les fonctions getProfileImageUrl et getDefaultProfileImage sont maintenant fournies par le composable useProfileImages
 
 // Fonction pour gérer les erreurs d'image
 const handleImageError = () => {

@@ -10,90 +10,104 @@
     </div>
 
     <!-- Contenu principal -->
-    <div v-else>
+    <div v-else class="p-4 md:p-6">
       <!-- Profile Section -->
-      <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
-      <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
-        <div class="relative">
-          <img
-            :src="userProfile?.avatar_url || userProfile?.profile_photo_url || 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg'"
-            alt="Profile"
-            class="w-24 h-24 rounded-full object-cover"
-          />
-          <button @click="editProfilePhoto" 
-                  class="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors">
-            <Icon name="heroicons:camera" class="w-4 h-4" />
-          </button>
-        </div>
-        <div>
-          <h1 class="text-2xl font-bold mb-2">
-            {{ userProfile?.first_name || 'Utilisateur' }} {{ userProfile?.last_name || '' }}
-          </h1>
-          <p class="text-gray-600 mb-4">
-            {{ userRole === 'candidat' ? 'Candidat' : 'Annonceur' }} • {{ userProfile?.city || userProfile?.current_address || 'Non renseigné' }}
-          </p>
-          <button 
-            v-if="profileCompletion < 100"
-            @click="goToOnboarding"
-            class="text-blue-600 hover:text-blue-700 font-medium"
-          >
-            Compléter mon profil
-          </button>
-          <div v-else class="flex items-center text-green-600">
-            <Icon name="heroicons:check-circle" class="w-5 h-5 mr-2" />
-            <span class="font-medium">Profil complet</span>
+      <div class="bg-white rounded-xl shadow-sm p-4 md:p-6 mb-4 md:mb-6">
+        <div class="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
+          <!-- Skeleton pour changement de mode -->
+          <SkeletonMode v-if="isModeChanging" type="profile-image-large" />
+          
+          <!-- Image de profil normale -->
+          <div v-else class="relative">
+            <img
+              :key="`profile-${mode}-${imageKey}`"
+              :src="profileImageUrl"
+              alt="Profile" class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover"
+              @error="handleImageError" />
+            <button @click="editProfilePhoto" 
+                class="absolute bottom-0 right-0 bg-blue-600 text-white p-1.5 md:p-2 rounded-full hover:bg-blue-700 transition-colors">
+                <Icon name="heroicons:camera" class="w-3 h-3 md:w-4 md:h-4" />
+            </button>
+          </div>
+          
+          <div class="flex-1 min-w-0">
+            <!-- Skeleton pour les informations du profil -->
+            <SkeletonMode v-if="isModeChanging" type="profile-info" />
+            
+            <!-- Informations du profil normales -->
+            <div v-else>
+              <h1 class="text-xl md:text-2xl font-bold mb-2">
+                {{ userProfile?.first_name || 'Utilisateur' }} {{ userProfile?.last_name || '' }}
+              </h1>
+              <p class="text-sm md:text-base text-gray-600 mb-3 md:mb-4">
+                {{ mode === 'candidat' ? 'Candidat' : 'Annonceur' }} •
+                {{ userProfile?.city || userProfile?.current_address || 'Non renseigné' }}
+              </p>
+              <button v-if="profileCompletion < 100" @click="goToOnboarding"
+                class="text-sm md:text-base text-blue-600 hover:text-blue-700 font-medium">
+                Compléter mon profil
+              </button>
+              <div v-else class="flex items-center text-green-600">
+                <Icon name="heroicons:check-circle" class="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                <span class="text-sm md:text-base font-medium">Profil complet</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
 
     <!-- Stats Grid - Différent selon le rôle -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-4 md:mb-6">
+      
+      <!-- Skeleton pour changement de mode -->
+      <SkeletonMode v-if="isModeChanging" type="stats" />
+      
       <!-- Candidat -->
-      <template v-if="userRole === 'candidat'">
-        <div class="bg-white rounded-xl shadow-sm p-6">
-          <div class="flex items-center justify-between mb-4">
-            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-              <Icon name="heroicons:eye" class="h-6 w-6 text-blue-600" />
+        <template v-else-if="mode === 'candidat'">
+          <div class="bg-white rounded-xl shadow-sm p-4 md:p-6">
+            <div class="flex items-center justify-between mb-3 md:mb-4">
+              <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                <Icon name="heroicons:eye" class="h-5 w-5 md:h-6 md:w-6 text-blue-600" />
             </div>
-            <span class="text-3xl font-bold">{{ stats.candidat.profileViews || 0 }}</span>
+              <span class="text-xl md:text-3xl font-bold">{{ stats.candidat.profileViews || 0 }}</span>
           </div>
-          <p class="text-gray-600">Personnes qui ont vu mon profil</p>
+            <p class="text-xs md:text-sm text-gray-600">Personnes qui ont vu mon profil</p>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm p-6">
-          <div class="flex items-center justify-between mb-4">
-            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-              <Icon name="heroicons:document" class="h-6 w-6 text-green-600" />
+          <div class="bg-white rounded-xl shadow-sm p-4 md:p-6">
+            <div class="flex items-center justify-between mb-3 md:mb-4">
+              <div class="w-10 h-10 md:w-12 md:h-12 bg-green-100 rounded-full flex items-center justify-center">
+                <Icon name="heroicons:document" class="h-5 w-5 md:h-6 md:w-6 text-green-600" />
             </div>
-            <span class="text-3xl font-bold">{{ stats.candidat.applications || 0 }}</span>
+              <span class="text-xl md:text-3xl font-bold">{{ stats.candidat.applications || 0 }}</span>
           </div>
-          <p class="text-gray-600">Candidatures envoyées</p>
+            <p class="text-xs md:text-sm text-gray-600">Candidatures envoyées</p>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm p-6">
-          <div class="flex items-center justify-between mb-4">
-            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-              <Icon name="heroicons:magnifying-glass" class="h-6 w-6 text-purple-600" />
+          <div class="bg-white rounded-xl shadow-sm p-4 md:p-6">
+            <div class="flex items-center justify-between mb-3 md:mb-4">
+              <div class="w-10 h-10 md:w-12 md:h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                <Icon name="heroicons:magnifying-glass" class="h-5 w-5 md:h-6 md:w-6 text-purple-600" />
             </div>
-            <span class="text-3xl font-bold">{{ stats.candidat.searches || 0 }}</span>
+              <span class="text-xl md:text-3xl font-bold">{{ stats.candidat.searches || 0 }}</span>
           </div>
-          <p class="text-gray-600">Recherches effectuées</p>
+            <p class="text-xs md:text-sm text-gray-600">Recherches effectuées</p>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm p-6">
-          <div class="flex items-center justify-between mb-4">
-            <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-              <Icon name="heroicons:heart" class="h-6 w-6 text-orange-600" />
+          <div class="bg-white rounded-xl shadow-sm p-4 md:p-6">
+            <div class="flex items-center justify-between mb-3 md:mb-4">
+              <div class="w-10 h-10 md:w-12 md:h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                <Icon name="heroicons:heart" class="h-5 w-5 md:h-6 md:w-6 text-orange-600" />
             </div>
-            <span class="text-3xl font-bold">{{ stats.candidat.favorites || 0 }}</span>
+              <span class="text-xl md:text-3xl font-bold">{{ stats.candidat.favorites || 0 }}</span>
           </div>
-          <p class="text-gray-600">Biens favoris</p>
+            <p class="text-xs md:text-sm text-gray-600">Biens favoris</p>
         </div>
       </template>
 
       <!-- Annonceur -->
-      <template v-else-if="userRole === 'annonceur'">
+        <template v-else-if="mode === 'annonceur'">
         <div class="bg-white rounded-xl shadow-sm p-6">
           <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
@@ -136,6 +150,176 @@
       </template>
     </div>
 
+      <!-- Actions rapides selon le mode -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Actions pour candidat -->
+        <template v-if="mode === 'candidat'">
+          <div class="bg-white rounded-xl shadow-sm p-6">
+            <h2 class="text-lg font-semibold mb-4">Actions rapides</h2>
+            <div class="space-y-3">
+              <NuxtLink to="/dashboard/applications"
+                class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                <Icon name="heroicons:document-text" class="w-5 h-5 text-blue-600" />
+                <span class="text-blue-700 font-medium">Voir mes candidatures</span>
+              </NuxtLink>
+              <a href="#"
+                class="flex items-center gap-3 p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
+                <Icon name="heroicons:magnifying-glass" class="w-5 h-5 text-green-600" />
+                <span class="text-green-700 font-medium">Rechercher un bien</span>
+              </a>
+              <a href="#"
+                class="flex items-center gap-3 p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
+                <Icon name="heroicons:heart" class="w-5 h-5 text-purple-600" />
+                <span class="text-purple-700 font-medium">Mes favoris</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl shadow-sm p-6">
+            <h2 class="text-lg font-semibold mb-4">Dernières activités</h2>
+            <div
+              class="max-h-80 overflow-y-auto space-y-3 pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-600" />
+                <div>
+                  <p class="text-sm font-medium">Candidature acceptée</p>
+                  <p class="text-xs text-gray-500">Appartement 3.5 pièces - Genève</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <Icon name="heroicons:clock" class="w-5 h-5 text-yellow-600" />
+                <div>
+                  <p class="text-sm font-medium">Candidature en attente</p>
+                  <p class="text-xs text-gray-500">Studio moderne - Lausanne</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <Icon name="heroicons:x-circle" class="w-5 h-5 text-red-600" />
+                <div>
+                  <p class="text-sm font-medium">Candidature refusée</p>
+                  <p class="text-xs text-gray-500">Maison 4 pièces - Nyon</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-600" />
+                <div>
+                  <p class="text-sm font-medium">Candidature acceptée</p>
+                  <p class="text-xs text-gray-500">Appartement 2 pièces - Carouge</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <Icon name="heroicons:clock" class="w-5 h-5 text-yellow-600" />
+                <div>
+                  <p class="text-sm font-medium">Candidature en attente</p>
+                  <p class="text-xs text-gray-500">Loft moderne - Vernier</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <Icon name="heroicons:eye" class="w-5 h-5 text-blue-600" />
+                <div>
+                  <p class="text-sm font-medium">Nouveau bien ajouté</p>
+                  <p class="text-xs text-gray-500">Appartement 3 pièces - Meyrin</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <Icon name="heroicons:heart" class="w-5 h-5 text-pink-600" />
+                <div>
+                  <p class="text-sm font-medium">Bien ajouté aux favoris</p>
+                  <p class="text-xs text-gray-500">Studio cosy - Chêne-Bougeries</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+
+        <!-- Actions pour annonceur -->
+        <template v-else-if="mode === 'annonceur'">
+          <div class="bg-white rounded-xl shadow-sm p-6">
+            <h2 class="text-lg font-semibold mb-4">Actions rapides</h2>
+            <div class="space-y-3">
+              <NuxtLink to="/dashboard/properties"
+                class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                <Icon name="heroicons:building-office-2" class="w-5 h-5 text-blue-600" />
+                <span class="text-blue-700 font-medium">Gérer mes biens</span>
+              </NuxtLink>
+              <NuxtLink to="/dashboard/applications"
+                class="flex items-center gap-3 p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
+                <Icon name="heroicons:users" class="w-5 h-5 text-green-600" />
+                <span class="text-green-700 font-medium">Candidatures reçues</span>
+              </NuxtLink>
+              <a href="#"
+                class="flex items-center gap-3 p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
+                <Icon name="heroicons:plus" class="w-5 h-5 text-purple-600" />
+                <span class="text-purple-700 font-medium">Ajouter un bien</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl shadow-sm p-6">
+            <h2 class="text-lg font-semibold mb-4">Activité récente</h2>
+            <div
+              class="max-h-80 overflow-y-auto space-y-3 pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <Icon name="heroicons:users" class="w-5 h-5 text-blue-600" />
+                <div>
+                  <p class="text-sm font-medium">3 nouvelles candidatures</p>
+                  <p class="text-xs text-gray-500">Appartement 3.5 pièces</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <Icon name="heroicons:eye" class="w-5 h-5 text-green-600" />
+                <div>
+                  <p class="text-sm font-medium">45 vues aujourd'hui</p>
+                  <p class="text-xs text-gray-500">Studio moderne</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-600" />
+                <div>
+                  <p class="text-sm font-medium">Candidature acceptée</p>
+                  <p class="text-xs text-gray-500">Maison 4 pièces - Nyon</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <Icon name="heroicons:x-circle" class="w-5 h-5 text-red-600" />
+                <div>
+                  <p class="text-sm font-medium">Candidature refusée</p>
+                  <p class="text-xs text-gray-500">Appartement 2 pièces - Carouge</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <Icon name="heroicons:building-office-2" class="w-5 h-5 text-purple-600" />
+                <div>
+                  <p class="text-sm font-medium">Nouveau bien publié</p>
+                  <p class="text-xs text-gray-500">Loft moderne - Vernier</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <Icon name="heroicons:eye" class="w-5 h-5 text-blue-600" />
+                <div>
+                  <p class="text-sm font-medium">78 vues cette semaine</p>
+                  <p class="text-xs text-gray-500">Appartement 3 pièces - Meyrin</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <Icon name="heroicons:users" class="w-5 h-5 text-blue-600" />
+                <div>
+                  <p class="text-sm font-medium">5 nouvelles candidatures</p>
+                  <p class="text-xs text-gray-500">Studio cosy - Chêne-Bougeries</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <Icon name="heroicons:calendar" class="w-5 h-5 text-orange-600" />
+                <div>
+                  <p class="text-sm font-medium">Visite programmée</p>
+                  <p class="text-xs text-gray-500">Appartement 3.5 pièces - Genève</p>
+                </div>
+              </div>
+            </div>
+        </div>
+      </template>
+    </div>
+
     <!-- Profile Completion -->
     <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
       <h2 class="text-lg font-semibold mb-4">Statut du compte</h2>
@@ -148,11 +332,8 @@
           <div class="bg-blue-600 h-2 rounded-full" :style="`width: ${profileCompletion}%`"></div>
         </div>
       </div>
-      <button 
-        v-if="profileCompletion < 100"
-        @click="goToOnboarding"
-        class="text-blue-600 hover:text-blue-700 font-medium"
-      >
+        <button v-if="profileCompletion < 100" @click="goToOnboarding"
+          class="text-blue-600 hover:text-blue-700 font-medium">
         Compléter mon profil
       </button>
       <div v-else class="flex items-center text-green-600">
@@ -161,12 +342,13 @@
       </div>
     </div>
 
-    <!-- Documents Uploadés -->
-    <div class="bg-white rounded-xl shadow-sm p-6">
+      <!-- Documents Uploadés - Visible seulement pour les candidats -->
+      <div v-if="mode === 'candidat'" class="bg-white rounded-xl shadow-sm p-6">
       <h2 class="text-lg font-semibold mb-4">Documents uploadés</h2>
-      <p class="text-sm text-gray-500 mb-4">Ces documents serons transmis à la regie ou au propriétaire lors de la soumission de votre candidature à une a une annonce</p>
+        <p class="text-sm text-gray-500 mb-4">Ces documents serons transmis à la regie ou au propriétaire lors de la
+          soumission de votre candidature à une a une annonce</p>
       <!-- Candidat Documents -->
-      <div v-if="userRole === 'candidat'" class="space-y-4">
+        <div v-if="mode === 'candidat'" class="space-y-4">
         <!-- Pièce d'identité -->
         <div v-if="userProfile?.id_document_url" class="p-3 bg-gray-50 rounded-lg">
           <div class="flex items-center justify-between">
@@ -293,7 +475,8 @@
               </div>
               <div>
                 <h5 class="font-medium text-gray-900">Relevés bancaires</h5>
-                <p class="text-sm text-gray-500">{{ userProfile.bank_statements_urls.length }} document(s) uploadé(s)</p>
+                  <p class="text-sm text-gray-500">{{ userProfile.bank_statements_urls.length }} document(s) uploadé(s)
+                  </p>
               </div>
             </div>
             <div class="flex items-center gap-2">
@@ -333,7 +516,8 @@
               <div>
                 <h5 class="font-medium text-gray-900">Attestation de non-poursuite</h5>
                 <p class="text-sm text-gray-500">Office des poursuites</p>
-                <div class="mt-2 inline-flex items-center gap-1 px-2 py-1 bg-amber-100 text-amber-700 rounded-full text-xs">
+                  <div
+                    class="mt-2 inline-flex items-center gap-1 px-2 py-1 bg-amber-100 text-amber-700 rounded-full text-xs">
                   <Icon name="heroicons:clock" class="w-3 h-3" />
                   <span>Renouvelable tous les 3 mois</span>
                 </div>
@@ -375,7 +559,8 @@
               </div>
               <div>
                 <h5 class="font-medium text-gray-900">Documents de garant</h5>
-                <p class="text-sm text-gray-500">{{ userProfile.guarantor_documents_urls.length }} document(s) uploadé(s)</p>
+                  <p class="text-sm text-gray-500">{{ userProfile.guarantor_documents_urls.length }} document(s)
+                    uploadé(s)</p>
               </div>
             </div>
             <div class="flex items-center gap-2">
@@ -415,34 +600,127 @@
         </div>
       </div>
 
-      <!-- Annonceur Documents -->
-      <div v-else-if="userRole === 'annonceur'" class="space-y-4">
-        <!-- Documents d'agence -->
-        <div v-if="userProfile?.agency_license" class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
-              <Icon name="heroicons:building-office" class="w-5 h-5 text-blue-600" />
+      </div>
+
+      <!-- Section spécifique pour les annonceurs -->
+      <div v-if="mode === 'annonceur'" class="bg-white rounded-xl shadow-sm p-6 mb-6">
+        <h2 class="text-lg font-semibold mb-4">Mes biens récents</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <Icon name="heroicons:building-office-2" class="w-6 h-6 text-blue-600" />
             </div>
             <div>
-              <h5 class="font-medium text-gray-900">Licence d'agence</h5>
-              <p class="text-sm text-gray-500">Document officiel d'agence</p>
+                <h3 class="font-medium text-gray-900">Appartement 3.5 pièces</h3>
+                <p class="text-sm text-gray-500">Rue de la Paix 123, Genève</p>
             </div>
           </div>
-          <div class="flex items-center gap-2">
-            <a :href="userProfile.agency_license" target="_blank" 
-               class="text-blue-600 hover:text-blue-700 text-sm font-medium">
-              Voir
-            </a>
-            <Icon name="heroicons:check-circle" class="w-5 h-5 text-green-500" />
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-gray-600">1,500 CHF/mois</span>
+              <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">En ligne</span>
+            </div>
+            <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
+              <span>12 candidatures</span>
+              <span>245 vues</span>
           </div>
         </div>
 
-        <!-- Message si aucun document -->
-        <div v-if="!userProfile?.agency_license" class="text-center py-8 text-gray-500">
-          <Icon name="heroicons:document" class="w-12 h-12 mx-auto mb-3 text-gray-300" />
-          <p>Aucun document uploadé</p>
-          <button @click="goToOnboarding" class="text-blue-600 hover:text-blue-700 font-medium mt-2">
-            Ajouter des documents
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <Icon name="heroicons:home" class="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <h3 class="font-medium text-gray-900">Studio moderne</h3>
+                <p class="text-sm text-gray-500">Avenue de France 45, Lausanne</p>
+              </div>
+            </div>
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-gray-600">1,200 CHF/mois</span>
+              <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">En attente</span>
+            </div>
+            <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
+              <span>5 candidatures</span>
+              <span>89 vues</span>
+            </div>
+          </div>
+
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <Icon name="heroicons:plus" class="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <h3 class="font-medium text-gray-900">Ajouter un bien</h3>
+                <p class="text-sm text-gray-500">Publiez votre prochaine propriété</p>
+              </div>
+            </div>
+            <button
+              class="w-full mt-3 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm">
+              Nouveau bien
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section spécifique pour les candidats -->
+      <div v-if="mode === 'candidat'" class="bg-white rounded-xl shadow-sm p-6 mb-6">
+        <h2 class="text-lg font-semibold mb-4">Biens recommandés</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <Icon name="heroicons:building-office-2" class="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <h3 class="font-medium text-gray-900">Appartement 2.5 pièces</h3>
+                <p class="text-sm text-gray-500">Rue du Rhône 12, Genève</p>
+              </div>
+            </div>
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-gray-600">1,800 CHF/mois</span>
+              <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Disponible</span>
+            </div>
+            <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
+              <span>3 candidatures</span>
+              <span>156 vues</span>
+            </div>
+          </div>
+
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <Icon name="heroicons:home" class="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <h3 class="font-medium text-gray-900">Maison 4 pièces</h3>
+                <p class="text-sm text-gray-500">Chemin des Vignes 8, Nyon</p>
+              </div>
+            </div>
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-gray-600">2,200 CHF/mois</span>
+              <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Disponible</span>
+            </div>
+            <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
+              <span>7 candidatures</span>
+              <span>312 vues</span>
+            </div>
+          </div>
+
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <Icon name="heroicons:magnifying-glass" class="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <h3 class="font-medium text-gray-900">Rechercher</h3>
+                <p class="text-sm text-gray-500">Trouvez votre prochain logement</p>
+              </div>
+            </div>
+            <button
+              class="w-full mt-3 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm">
+              Nouvelle recherche
           </button>
         </div>
       </div>
@@ -466,8 +744,7 @@
                 <Icon name="heroicons:document" class="w-5 h-5 text-gray-400" />
                 <span class="text-sm font-medium">Document {{ index + 1 }}</span>
               </div>
-              <a :href="url" target="_blank" 
-                 class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                <a :href="url" target="_blank" class="text-blue-600 hover:text-blue-700 text-sm font-medium">
                 Ouvrir
               </a>
             </div>
@@ -496,18 +773,13 @@
           
           <div class="space-y-4">
             <div class="text-center">
-              <input 
-                ref="fileInput" 
-                type="file" 
-                :accept="editModalAccept"
-                :multiple="editModalMultiple"
-                @change="handleFileUpload"
-                class="hidden"
-              />
+                <input ref="fileInput" type="file" :accept="editModalAccept" :multiple="editModalMultiple"
+                  @change="handleFileUpload" class="hidden" />
               <button @click="triggerFileInput" 
                       class="w-full border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-blue-500 transition-colors">
                 <Icon name="heroicons:cloud-arrow-up" class="w-8 h-8 mx-auto mb-2 text-gray-400" />
-                <p class="text-sm text-gray-600">Cliquez pour sélectionner {{ editModalMultiple ? 'des fichiers' : 'un fichier' }}</p>
+                  <p class="text-sm text-gray-600">Cliquez pour sélectionner
+                    {{ editModalMultiple ? 'des fichiers' : 'un fichier' }}</p>
                 <p class="text-xs text-gray-400 mt-1">{{ editModalAccept }}</p>
               </button>
             </div>
@@ -525,12 +797,10 @@
           </div>
           
           <div class="mt-6 flex justify-end gap-3">
-            <button @click="closeEditModal" 
-                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+              <button @click="closeEditModal" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
               Annuler
             </button>
-            <button @click="saveDocument" 
-                    :disabled="!selectedFile || uploading"
+              <button @click="saveDocument" :disabled="!selectedFile || uploading"
                     class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50">
               Sauvegarder
             </button>
@@ -543,6 +813,7 @@
 </template>
 
 <script setup>
+import { watch } from 'vue'
 import { useAuthStore } from '~/stores/auth.store'
 
 definePageMeta({
@@ -553,11 +824,38 @@ definePageMeta({
 const authStore = useAuthStore()
 const router = useRouter()
 
+// Utiliser le composable global pour le mode
+const { mode, isModeChanging, initializeMode: globalInitializeMode } = useUserMode()
+
 // État réactif
 const userProfile = ref(null)
 const userRole = ref('candidat') // Par défaut candidat
 const profileCompletion = ref(0)
 const loading = ref(true)
+
+// Utiliser le composable pour les images de profil (après la définition de userProfile)
+const { getProfileImageUrl, profileImageUrl } = useProfileImages(userProfile, mode)
+
+// Le composable useProfileImages gère maintenant la réactivité automatiquement
+
+// Compteur pour forcer le re-render de l'image lors du changement de mode
+const imageKey = ref(0)
+
+// Surveiller les changements de mode pour forcer le re-render
+watch(mode, (newMode, oldMode) => {
+  imageKey.value++
+})
+
+// Gestionnaire d'erreur pour les images
+const handleImageError = (event) => {
+  // Optionnel: définir une image de fallback
+  // event.target.src = '/default-avatar.png';
+};
+
+// Fonction pour initialiser le mode (utilise le composable global)
+const initializeMode = (response = null) => {
+  globalInitializeMode(response, userProfile.value)
+}
 
 // État de la modal des documents
 const showDocumentsModal = ref(false)
@@ -579,16 +877,16 @@ const fileInput = ref(null)
 // Stats par défaut
 const stats = ref({
   candidat: {
-    profileViews: 0,
-    applications: 0,
-    searches: 0,
-    favorites: 0
+    profileViews: 12,
+    applications: 3,
+    searches: 8,
+    favorites: 5
   },
   annonceur: {
-    properties: 0,
-    applications: 0,
-    views: 0,
-    performance: 0
+    properties: 2,
+    applications: 17,
+    views: 334,
+    performance: 85
   }
 })
 
@@ -601,7 +899,7 @@ const goToOnboarding = async () => {
 const hasAnyDocuments = computed(() => {
   if (!userProfile.value) return false
   
-  if (userRole.value === 'candidat') {
+  if (mode.value === 'candidat') {
     return userProfile.value.id_document_url ||
            userProfile.value.salary_slips_urls?.length ||
            userProfile.value.employment_certificate_url ||
@@ -744,8 +1042,17 @@ const saveDocument = async () => {
         body: formData
       })
       
-      // Mettre à jour le profil avec la nouvelle photo
-      await updateProfile({ avatar_url: response.url, profile_photo_url: response.url })
+      // Mettre à jour le profil avec la nouvelle photo selon le mode actuel
+      const updateData = { avatar_url: response.url, profile_photo_url: response.url }
+      
+      // Ajouter l'image dans le champ spécifique au rôle actuel
+      if (mode.value === 'candidat') {
+        updateData.candidate_profile_image_url = response.url
+      } else if (mode.value === 'annonceur') {
+        updateData.annonceur_profile_image_url = response.url
+      }
+      
+      await updateProfile(updateData)
       
     } else {
       // Upload de documents
@@ -770,7 +1077,9 @@ const saveDocument = async () => {
     }
     
     // Rafraîchir le profil
+    console.log('🔄 Rafraîchissement du profil après upload...')
     await fetchUserProfile()
+    console.log('✅ Profil rafraîchi:', userProfile.value)
     
     // Fermer la modal
     closeEditModal()
@@ -889,6 +1198,9 @@ const fetchUserProfile = async () => {
     userRole.value = response.roles?.[0] || 'candidat'
     profileCompletion.value = calculateProfileCompletion(response.profile || response)
     
+    // Initialiser le mode basé sur les rôles disponibles
+    initializeMode(response)
+    
     // Si c'est un candidat et que le profil n'est pas complet, afficher la modal après 3 secondes
     if (userRole.value === 'candidat' && profileCompletion.value < 50) {
       // setTimeout(() => {
@@ -946,3 +1258,4 @@ onActivated(async () => {
   await fetchUserProfile()
 })
 </script>
+

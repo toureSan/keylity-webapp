@@ -106,15 +106,15 @@
             </div>
                   </button>
 
-                  <button 
-                    @click="canSelectAnnonceur ? selectUserType('landlord') : null"
+                    <button 
+                      @click="canSelectAnnonceur ? selectUserType('landlord') : null"
                     @mousedown.prevent="!canSelectAnnonceur"
                     @keydown.prevent="!canSelectAnnonceur"
                     :disabled="!canSelectAnnonceur"
                     :tabindex="canSelectAnnonceur ? 0 : -1"
                     class="p-4 sm:p-8 border-2 rounded-xl transition-all duration-200 text-left relative"
-                    :class="[
-                      formData.userType === 'landlord' ? 'border-primary-500 bg-primary-50' : 'border-gray-200',
+                      :class="[
+                        formData.userType === 'landlord' ? 'border-primary-500 bg-primary-50' : 'border-gray-200',
                       canSelectAnnonceur ? 'hover:border-primary-300 hover:bg-primary-50 cursor-pointer' : 'opacity-50 cursor-not-allowed bg-gray-50'
                     ]">
                     <div class="flex items-center gap-4 sm:gap-6">
@@ -150,7 +150,7 @@
                   <ClientOnly>
                     <div class="relative inline-block">
                       <img
-                        :src="formData.profilePhoto || 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg'"
+                        :src="formData.profilePhoto || defaultProfileImage"
                         alt="Photo de profil" class="w-24 h-24 rounded-full object-cover border-4 border-gray-100">
                       <button @click="triggerPhotoUpload"
                         class="absolute bottom-0 right-0 bg-primary-600 text-white p-2 rounded-full hover:bg-primary-700 transition-colors">
@@ -160,7 +160,7 @@
                         @change="handlePhotoUpload" class="hidden">
             </div>
                   </ClientOnly>
-                  <p class="text-sm text-gray-500 mt-2">Ajoutez votre photo de profil</p>
+                  <p class="text-sm text-gray-500 mt-2">{{ profilePhotoText }}</p>
             </div>
 
                 <div class="grid md:grid-cols-2 gap-6">
@@ -439,108 +439,115 @@
             </div>
 
             <!-- Step 2: Owner/Agency Information -->
-            <div v-if="currentStep === 2 && formData.userType === 'landlord'">
+             <div v-if="currentStep === 2 && formData.userType === 'landlord'">
               <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Informations du propriétaire</h2>
 
               <!-- Photo de profil -->
-              <div class="text-center mb-4 sm:mb-6">
+              <div class="text-center mb-6">
                 <ClientOnly>
                   <div class="relative inline-block">
                     <img
-                      :src="formData.profilePhoto || 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg'"
-                      alt="Photo de profil" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-gray-100">
+                      :src="formData.profilePhoto || defaultProfileImage"
+                      alt="Photo de profil" class="w-24 h-24 rounded-full object-cover border-4 border-gray-100">
                     <button @click="triggerPhotoUpload"
-                      class="absolute bottom-0 right-0 bg-primary-600 text-white p-1.5 sm:p-2 rounded-full hover:bg-primary-700 transition-colors">
-                      <Icon name="heroicons:camera" class="w-3 h-3 sm:w-4 sm:h-4" />
-                    </button>
+                      class="absolute bottom-0 right-0 bg-primary-600 text-white p-2 rounded-full hover:bg-primary-700 transition-colors">
+                      <Icon name="heroicons:camera" class="w-4 h-4" />
+          </button>
                     <input v-if="clientLoaded" ref="photoInput" type="file" accept="image/*" @change="handlePhotoUpload"
                       class="hidden">
-                  </div>
+        </div>
                 </ClientOnly>
-                <p class="text-xs sm:text-sm text-gray-500 mt-2">Ajoutez votre photo de profil</p>
-              </div>
+                <p class="text-sm text-gray-500 mt-2">{{ profilePhotoText }}</p>
+      </div>
 
-              <div class="space-y-4 sm:space-y-6">
+              <div class="space-y-6">
                 <!-- Type d'annonceur -->
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">Type d'annonceur *</label>
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                  <div class="grid grid-cols-2 gap-4">
                     <button @click="formData.advertiserType = 'individual'" type="button"
-                      class="p-3 sm:p-4 border-2 rounded-lg transition-all duration-200 text-left"
+                      class="p-4 border-2 rounded-lg transition-all duration-200 text-left"
                       :class="formData.advertiserType === 'individual' ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:border-gray-300'">
-                      <h3 class="text-sm sm:text-base font-medium">Particulier</h3>
-                      <p class="text-xs sm:text-sm text-gray-500">Propriétaire individuel</p>
+                      <h3 class="font-medium">Particulier</h3>
+                      <p class="text-sm text-gray-500">Propriétaire individuel</p>
                     </button>
                     <button @click="formData.advertiserType = 'professional'" type="button"
-                      class="p-3 sm:p-4 border-2 rounded-lg transition-all duration-200 text-left"
+                      class="p-4 border-2 rounded-lg transition-all duration-200 text-left"
                       :class="formData.advertiserType === 'professional' ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:border-gray-300'">
-                      <h3 class="text-sm sm:text-base font-medium">Professionnel</h3>
-                      <p class="text-xs sm:text-sm text-gray-500">Agence ou régie</p>
+                      <h3 class="font-medium">Professionnel</h3>
+                      <p class="text-sm text-gray-500">Agence ou régie</p>
                     </button>
                   </div>
                 </div>
 
-                <!-- Informations générales -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                      {{ formData.advertiserType === 'professional' ? 'Raison sociale' : 'Nom' }} *
-                    </label>
-                    <input v-model="formData.companyName" type="text" required
-                      class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                      :placeholder="formData.advertiserType === 'professional' ? 'Nom de l\'agence' : 'Votre nom'">
-                  </div>
-                  <div v-if="formData.advertiserType === 'individual'">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Prénom *</label>
-                    <input v-model="formData.firstName" type="text" required
-                      class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                      placeholder="Votre prénom">
-                  </div>
-                </div>
+                 <!-- Informations générales -->
+                 <div class="grid md:grid-cols-2 gap-6">
+                   <!-- Toujours afficher les champs de base -->
+                   <div>
+                     <label class="block text-sm font-medium text-gray-700 mb-2">Prénom *</label>
+                     <input v-model="formData.firstName" type="text" required
+                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                       placeholder="Votre prénom">
+                   </div>
+                   <div>
+                     <label class="block text-sm font-medium text-gray-700 mb-2">Nom *</label>
+                     <input v-model="formData.lastName" type="text" required
+                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                       placeholder="Votre nom">
+                   </div>
+                   
+                   <!-- Champ raison sociale pour les professionnels -->
+                   <div v-if="formData.advertiserType === 'professional'" class="md:col-span-2">
+                     <label class="block text-sm font-medium text-gray-700 mb-2">Raison sociale *</label>
+                     <input v-model="formData.companyName" type="text" required
+                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                       placeholder="Nom de l'agence">
+                   </div>
+                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                <div class="grid md:grid-cols-2 gap-6">
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
                     <input v-model="formData.email" type="email" required
-                      class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       placeholder="contact@email.com">
                   </div>
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Téléphone *</label>
                     <input v-model="formData.phone" type="tel" required
-                      class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       placeholder="+41 22 123 45 67">
                   </div>
                 </div>
 
                 <!-- Informations spécifiques aux professionnels -->
-                <div v-if="formData.advertiserType === 'professional'" class="space-y-4 sm:space-y-6">
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                <div v-if="formData.advertiserType === 'professional'" class="space-y-6">
+                  <div class="grid md:grid-cols-2 gap-6">
                     <div>
                       <label class="block text-sm font-medium text-gray-700 mb-2">N° IDE / TVA</label>
                       <input v-model="formData.ideNumber" type="text"
-                        class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                         placeholder="CHE-123.456.789">
                     </div>
                     <div>
                       <label class="block text-sm font-medium text-gray-700 mb-2">Site web (facultatif)</label>
                       <input v-model="formData.website" type="url"
-                        class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                         placeholder="https://www.agence.ch">
                     </div>
                   </div>
 
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                  <div class="grid md:grid-cols-2 gap-6">
                     <div>
                       <label class="block text-sm font-medium text-gray-700 mb-2">Représentant légal *</label>
                       <input v-model="formData.legalRepresentative" type="text" required
-                        class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                         placeholder="Nom du représentant">
                     </div>
                     <div>
                       <label class="block text-sm font-medium text-gray-700 mb-2">Rôle du représentant *</label>
                       <select v-model="formData.representativeRole" required
-                        class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                         <option value="">Sélectionner</option>
                         <option value="director">Directeur</option>
                         <option value="manager">Gérant</option>
@@ -554,18 +561,18 @@
                     <label class="block text-sm font-medium text-gray-700 mb-2">Nom de l'agent responsable de la
                       location</label>
                     <input v-model="formData.responsibleAgent" type="text"
-                      class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       placeholder="Nom de l'agent">
                   </div>
                 </div>
 
                 <!-- Informations spécifiques aux particuliers -->
-                <div v-if="formData.advertiserType === 'individual'" class="space-y-4 sm:space-y-6">
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                <div v-if="formData.advertiserType === 'individual'" class="space-y-6">
+                  <div class="grid md:grid-cols-2 gap-6">
                     <div>
                       <label class="block text-sm font-medium text-gray-700 mb-2">Statut *</label>
                       <select v-model="formData.ownerStatus" required
-                        class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                         <option value="">Sélectionner</option>
                         <option value="owner">Propriétaire</option>
                         <option value="subletting">Sous-locataire autorisé</option>
@@ -575,7 +582,7 @@
                       <label class="block text-sm font-medium text-gray-700 mb-2">Nombre de logements loués
                         actuellement</label>
                       <select v-model="formData.numberOfProperties"
-                        class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                         <option value="1">1</option>
                         <option value="2-5">2-5</option>
                         <option value="6-10">6-10</option>
@@ -587,7 +594,7 @@
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Lien avec le bien *</label>
                     <select v-model="formData.propertyRelation" required
-                      class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                       <option value="">Sélectionner</option>
                       <option value="direct-owner">Propriétaire direct</option>
                       <option value="heir">Héritier</option>
@@ -600,13 +607,13 @@
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">Langue de contact préférée *</label>
                   <select v-model="formData.preferredLanguage" required
-                    class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                     <option value="">Sélectionner</option>
                     <option value="fr">Français</option>
                     <option value="de">Deutsch</option>
                     <option value="it">Italiano</option>
                     <option value="en">English</option>
-                  </select>
+              </select>
                 </div>
 
                 <div>
@@ -615,17 +622,17 @@
                     <label class="flex items-center">
                       <input v-model="formData.contactMethods" value="email" type="checkbox"
                         class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
-                      <span class="ml-2 text-sm sm:text-base">Email</span>
+                      <span class="ml-2">Email</span>
                     </label>
                     <label class="flex items-center">
                       <input v-model="formData.contactMethods" value="phone" type="checkbox"
                         class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
-                      <span class="ml-2 text-sm sm:text-base">Téléphone</span>
+                      <span class="ml-2">Téléphone</span>
                     </label>
                     <label class="flex items-center">
                       <input v-model="formData.contactMethods" value="sms" type="checkbox"
                         class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
-                      <span class="ml-2 text-sm sm:text-base">SMS</span>
+                      <span class="ml-2">SMS</span>
                     </label>
                   </div>
                 </div>
@@ -633,14 +640,14 @@
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">Adresse de correspondance *</label>
                   <textarea v-model="formData.correspondenceAddress" required rows="3"
-                    class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     placeholder="Adresse complète..."></textarea>
                 </div>
               </div>
             </div>
 
             <!-- Step 3: Document Upload (Owner/Agency) -->
-            <div v-if="currentStep === 3 && formData.userType === 'landlord'">
+             <div v-if="currentStep === 3 && formData.userType === 'landlord'">
               <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Documents requis</h2>
               <p class="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
                 Ajoutez les documents nécessaires pour valider votre profil.
@@ -865,7 +872,44 @@ const canSelectAnnonceur = computed(() => {
   return !isAnnonceurCompleted.value
 })
 
-// Reactive data
+ // Computed property pour le texte de la photo de profil
+ const profilePhotoText = computed(() => {
+   if (formData.value.userType === 'landlord') {
+    // Pour les annonceurs, différencier selon le type
+    if (formData.value.advertiserType === 'professional') {
+      return 'Ajoutez une photo de votre entreprise'
+    } else if (formData.value.advertiserType === 'individual') {
+      return 'Ajoutez votre photo de profil (propriétaire indépendant)'
+    } else {
+      return 'Ajoutez votre photo de profil'
+    }
+  } else {
+    // Pour les candidats
+    return 'Ajoutez votre photo de profil'
+  }
+})
+
+ // Computed property pour l'image par défaut
+ const defaultProfileImage = computed(() => {
+   if (formData.value.userType === 'landlord') {
+    // Pour les annonceurs, différencier selon le type
+    if (formData.value.advertiserType === 'professional') {
+      // Image par défaut pour les entreprises/agences
+      return 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400'
+    } else if (formData.value.advertiserType === 'individual') {
+      // Image par défaut pour les propriétaires indépendants
+      return 'https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=400'
+    } else {
+      // Image par défaut générique pour annonceurs
+      return 'https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=400'
+    }
+  } else {
+    // Image par défaut pour les candidats
+    return 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400'
+  }
+})
+
+// Reactive datae
 const currentStep = ref(1)
 const totalSteps = ref(5)
 const photoInput = ref(null)
@@ -1038,7 +1082,7 @@ onMounted(() => {
   
   // Si un mode est spécifié, l'utiliser
   if (props.mode) {
-    formData.value.userType = props.mode === 'annonceur' ? 'landlord' : 'tenant'
+     formData.value.userType = props.mode === 'annonceur' ? 'landlord' : 'tenant'
     selectUserType(formData.value.userType)
   }
 })
@@ -1049,7 +1093,7 @@ const canProceed = computed(() => {
   if (formData.value.userType === 'tenant' && isCandidateCompleted.value) {
     return false
   }
-  if (formData.value.userType === 'landlord' && isAnnonceurCompleted.value) {
+   if (formData.value.userType === 'landlord' && isAnnonceurCompleted.value) {
     return false
   }
   
@@ -1062,11 +1106,20 @@ const canProceed = computed(() => {
           formData.value.phone && formData.value.birthDate && formData.value.nationality &&
           formData.value.maritalStatus && formData.value.currentAddress && formData.value.zipCode &&
           formData.value.city && formData.value.addressSince && formData.value.movingReason
-      } else {
-        return formData.value.email && formData.value.phone && formData.value.advertiserType &&
-          (formData.value.companyName || formData.value.firstName) && formData.value.preferredLanguage &&
-          formData.value.contactMethods.length > 0 && formData.value.correspondenceAddress
-      }
+       } else {
+         // Validation pour les propriétaires (champs de base toujours requis)
+         const baseFields = formData.value.firstName && formData.value.lastName && 
+                           formData.value.email && formData.value.phone && 
+                           formData.value.advertiserType && formData.value.preferredLanguage &&
+                           formData.value.contactMethods.length > 0 && formData.value.correspondenceAddress
+         
+         // Validation spécifique selon le type d'annonceur
+         if (formData.value.advertiserType === 'professional') {
+           return baseFields && formData.value.companyName
+         } else {
+           return baseFields
+         }
+       }
     case 3:
       if (formData.value.userType === 'tenant') {
         return formData.value.professionalStatus && formData.value.employer && formData.value.position &&
@@ -1105,9 +1158,16 @@ const canProceed = computed(() => {
 
 // Validation complète pour la soumission finale
 const isFormComplete = computed(() => {
-  // Champs obligatoires de base
-  const basicFields = formData.value.firstName && formData.value.lastName && 
-                     formData.value.email && formData.value.phone
+  // Champs obligatoires de base selon le type d'utilisateur
+  let basicFields
+  if (formData.value.userType === 'tenant') {
+    basicFields = formData.value.firstName && formData.value.lastName && 
+                 formData.value.email && formData.value.phone
+  } else {
+    // Pour les propriétaires, champs de base toujours requis
+    basicFields = formData.value.firstName && formData.value.lastName && 
+                 formData.value.email && formData.value.phone
+  }
   
   if (!basicFields) return false
   
@@ -1138,15 +1198,20 @@ const isFormComplete = computed(() => {
     
     return personalFields && professionalFields && documentsUploaded
   } else {
-    // Validation pour les propriétaires
-    const ownerFields = formData.value.advertiserType && formData.value.preferredLanguage &&
+    // Validation pour les propriétaires (champs de base toujours requis)
+    const ownerFields = formData.value.advertiserType && formData.value.preferredLanguage && 
                        formData.value.contactMethods.length > 0 && formData.value.correspondenceAddress
+    
+    // Validation spécifique selon le type d'annonceur
+    const specificFields = formData.value.advertiserType === 'professional' 
+      ? formData.value.companyName 
+      : true // Pour les particuliers, pas de champ spécifique supplémentaire
     
     // Documents obligatoires selon le type
     const requiredDocs = getRequiredDocumentsForOwner().map(doc => doc.id)
     const documentsUploaded = requiredDocs.every(docId => uploadedDocuments.value[docId]?.url)
     
-    return ownerFields && documentsUploaded
+    return ownerFields && specificFields && documentsUploaded
   }
 })
 
@@ -1179,12 +1244,13 @@ const getMissingDocuments = () => {
 const getMissingFields = () => {
   const missing = []
   
-  if (!formData.value.firstName) missing.push('Prénom')
-  if (!formData.value.lastName) missing.push('Nom')
+  
   if (!formData.value.email) missing.push('Email')
   if (!formData.value.phone) missing.push('Téléphone')
   
   if (formData.value.userType === 'tenant') {
+    if (!formData.value.firstName) missing.push('Prénom')
+    if (!formData.value.lastName) missing.push('Nom')
     if (!formData.value.birthDate) missing.push('Date de naissance')
     if (!formData.value.nationality) missing.push('Nationalité')
     if (!formData.value.maritalStatus) missing.push('Statut marital')
@@ -1205,6 +1271,15 @@ const getMissingFields = () => {
     if (!formData.value.preferredLanguage) missing.push('Langue préférée')
     if (!formData.value.contactMethods.length) missing.push('Méthodes de contact')
     if (!formData.value.correspondenceAddress) missing.push('Adresse de correspondance')
+    
+    // Champs de base toujours requis pour les propriétaires
+    if (!formData.value.firstName) missing.push('Prénom')
+    if (!formData.value.lastName) missing.push('Nom')
+    
+    // Validation spécifique selon le type d'annonceur
+    if (formData.value.advertiserType === 'professional') {
+      if (!formData.value.companyName) missing.push('Raison sociale')
+    }
   }
   
   return missing
@@ -1457,6 +1532,16 @@ const submitOnboarding = async () => {
       throw new Error('Token d\'authentification manquant')
     }
 
+    // Vérifier que l'utilisateur est bien authentifié avant de continuer
+    const auth = useAuthStore()
+    if (!auth.isAuthenticated) {
+      // Essayer de vérifier l'authentification
+      const isAuth = await auth.checkAuth()
+      if (!isAuth) {
+        throw new Error('Session expirée. Veuillez vous reconnecter.')
+      }
+    }
+
     // Validation complète du formulaire
     if (!isFormComplete.value) {
       const missingFields = getMissingFields()
@@ -1490,9 +1575,16 @@ const submitOnboarding = async () => {
 
     // Préparer les données pour l'API en mappant les champs
     const payload = {
-      // Champs communs obligatoires
-      first_name: formData.value.firstName,
-      last_name: formData.value.lastName,
+      // Champ obligatoire pour le DTO
+      userType: formData.value.userType,
+      
+      // Champs communs obligatoires - mapping différent selon le type d'annonceur
+      first_name: formData.value.userType === 'landlord' && formData.value.advertiserType === 'professional' 
+        ? formData.value.companyName 
+        : formData.value.firstName,
+      last_name: formData.value.userType === 'landlord' && formData.value.advertiserType === 'professional' 
+        ? 'Agence' 
+        : formData.value.lastName,
       email: formData.value.email,
       phone: formData.value.phone,
       preferred_language: formData.value.preferredLanguage || 'fr',
@@ -1530,6 +1622,7 @@ const submitOnboarding = async () => {
       
       // Champs annonceur
       ...(formData.value.userType === 'landlord' && {
+        advertiser_type: formData.value.advertiserType,
         agency_name: cleanValue(formData.value.companyName),
         agency_license: cleanValue(formData.value.ideNumber),
         agency_address: cleanValue(formData.value.correspondenceAddress),
@@ -1545,7 +1638,13 @@ const submitOnboarding = async () => {
         correspondence_address: cleanValue(formData.value.correspondenceAddress),
       }),
       
-      // Photo de profil
+      // Photo de profil - sauvegarder dans le champ spécifique au rôle
+      ...(formData.value.userType === 'tenant' 
+        ? { candidate_profile_image_url: formData.value.profilePhoto || null }
+        : { annonceur_profile_image_url: formData.value.profilePhoto || null }
+      ),
+      
+      // Garder les champs génériques pour la compatibilité
       profile_photo_url: formData.value.profilePhoto || null,
       avatar_url: formData.value.profilePhoto || null,
       
